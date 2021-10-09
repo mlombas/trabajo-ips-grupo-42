@@ -1,4 +1,4 @@
-package giis.bank_mockup.exceptions;
+package bank_mockup.exceptions;
 
 public class BankCodeNotFoundException extends RuntimeException {
 	public BankCodeNotFoundException(String message) {
