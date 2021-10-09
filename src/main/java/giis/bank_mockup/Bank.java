@@ -11,10 +11,45 @@ import giis.bank_mockup.exceptions.BankCodeNotFoundException;
 public class Bank {
 	private static final int CODE_NUMBER_LENGTH = 5;
 
+	public enum Period {
+		MONTHLY,
+		WEEKLY,
+		BI_WEEKLY,
+		DAILY
+	}
+
 	private HashMap<String, Integer> pending;
 
 	public Bank() {
 		this.pending = new HashMap<String, Integer>();
+	}
+
+	/**
+	 * @param codeSource the code of the account from which the money originates
+	 * @param codeReceptant the code of the account which receives the money
+	 *
+	 * @return true if all is well
+	 */
+	public boolean payWithTransaction(String codeSource, String codeReceptant) {
+		//Aqui habria que chekar que todo esta bien tambien
+		
+		return true;
+	}
+
+	/**
+	 * Tries to domiciliate a payment, and if successes then adds it to the domiciliated
+	 *
+	 * @param code the code of the account
+	 * @param location the location of the domiciliation
+	 * @param postalCode the postal code
+	 * @param period a Bank.Period representing how often it pays
+	 *
+	 * @return true if all is well
+	 */
+	public boolean domiciliatePayment(String code, String location, String postalCode, Period period) {
+		//Aqui chekeariamos que todo estuviera bien
+
+		return true;
 	}
 
 	/**
