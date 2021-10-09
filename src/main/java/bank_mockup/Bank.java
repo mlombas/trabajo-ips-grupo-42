@@ -1,4 +1,4 @@
-package giis.bank_mockup;
+package bank_mockup;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import giis.bank_mockup.exceptions.BankCodeNotFoundException;
+import bank_mockup.exceptions.BankCodeNotFoundException;
 
 public class Bank {
 	private static final int CODE_NUMBER_LENGTH = 5;
