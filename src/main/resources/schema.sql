@@ -2,7 +2,11 @@
 --(en este caso en cada una de las aplicaciones (tkrun y descuento) se usa solo una tabla, por lo que no hace falta)
 
 --Para giis.demo.tkrun:
+
 drop table Competicion;
+drop table Atleta;
+drop table Inscripcion;
+
 create table Competicion (
 	id int primary key not null, 
 	nombreCarrera varchar(255) not null,
@@ -18,7 +22,6 @@ create table Competicion (
 	check(fin<fecha)
 );
 
-drop table Atleta;
 create table Atleta (
 	dni varchar(255) primary key not null,
 	email varchar(255) unique not null,
@@ -27,7 +30,6 @@ create table Atleta (
 	sexo varchar(255) not null
 );
 
-drop table Inscripcion;
 create table Inscripcion (
 	idCompeticion varchar(255) not null,
 	dniAtleta varchar(255) not null,
