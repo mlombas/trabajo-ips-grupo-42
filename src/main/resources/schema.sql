@@ -23,8 +23,8 @@ create table Competicion (
 );
 
 create table Atleta (
-	dni varchar(255) primary key not null,
-	email varchar(255) unique not null,
+	email varchar(255) primary key not null,
+	dni varchar(255) not null,
 	nombreAtleta varchar(255) not null,
 	fechaNacimiento date not null, 
 	sexo varchar(255) not null
@@ -32,7 +32,7 @@ create table Atleta (
 
 create table Inscripcion (
 	idCompeticion varchar(255) not null,
-	dniAtleta varchar(255) not null,
+	emailAtleta varchar(255) not null,
 	categoria varchar(255) not null,
 	fechaInscripcion date not null,
 	estadoInscripcion varchar(255) not null,
@@ -40,8 +40,8 @@ create table Inscripcion (
 	posicion int,
 	double tiempo,
 	
-	primary key(idCompeticion,dniAtleta),
+	primary key(idCompeticion,emailAtleta),
 	foreign key(idCompeticion) references Competicion(id),
-	foreign key(dniAtleta) references Atleta(dni)
+	foreign key(emailAtleta) references Atleta(email)
 );
 
