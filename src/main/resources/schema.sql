@@ -38,7 +38,7 @@ create table Inscripcion (
 	estadoInscripcion varchar(255) not null,
 	fechaCambioEstado date not null,
 	posicion int,
-	double tiempo,
+	tiempo double,
 	
 	primary key(idCompeticion,emailAtleta),
 	foreign key(idCompeticion) references Competicion(id),
