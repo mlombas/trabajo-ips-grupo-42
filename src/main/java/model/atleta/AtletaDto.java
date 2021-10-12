@@ -1,13 +1,13 @@
 package model.atleta;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class AtletaDto {
 
 	public String email;
 	public String dni;
-	public String nombreAtleta;
+	public String nombre;
 	public Date fechaNacimiento;
 	public String sexo;
-
+  
 }

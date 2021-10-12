@@ -1,10 +1,11 @@
 package controller.atleta;
 
-import java.util.Date;
-
 import model.atleta.AtletaDto;
 import model.atleta.TarjetaDto;
 import model.competicion.CompeticionDto;
+import model.inscripcion.InscripcionDto;
+
+import java.util.Date;
 
 public interface AtletaCrudService {
 	
@@ -14,8 +15,7 @@ public interface AtletaCrudService {
 	 * @param competicion --> competicion en la que quiere participar.
 	 * @return datos del atleta para crear el justificante.
 	 */
-	AtletaDto registerAtletaToCompeticion(AtletaDto atleta, CompeticionDto competicion);
-	
+	InscripcionDto registerAtletaToCompeticion(AtletaDto atleta, CompeticionDto competicion);
 	
 	/**
 	 * Permite al atleta pagar con tarjeta la cuota de una competicion para poder participar en ella.
