@@ -1,8 +1,5 @@
 package model.atleta.commands;
 
-
-
-
 import java.sql.Date;
 
 import bank_mockup.Bank;
