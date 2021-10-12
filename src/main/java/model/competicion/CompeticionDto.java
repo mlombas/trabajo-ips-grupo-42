@@ -14,5 +14,5 @@ public class CompeticionDto {
 	public Date fechaFin;
 	public int plazas;
 	public String estadoCarrera;
-	
+  
 }
