@@ -1,11 +1,12 @@
 package controller.atleta;
 
+import java.sql.Date;
+
 import model.atleta.AtletaDto;
 import model.atleta.TarjetaDto;
 import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
 
-import java.util.Date;
 
 public interface AtletaCrudService {
 	
