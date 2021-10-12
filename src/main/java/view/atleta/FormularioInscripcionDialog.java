@@ -11,6 +11,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
@@ -19,9 +21,10 @@ import javax.swing.BoxLayout;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 
-public class FormularioInscripcionPanel extends JPanel {
+public class FormularioInscripcionDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -43,10 +46,12 @@ public class FormularioInscripcionPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public FormularioInscripcionPanel() {
+	public FormularioInscripcionDialog() {
 		this.competicion = new CompeticionDto();
 		
 		setLayout(new BorderLayout(0, 0));
+		setSize(new Dimension(465, 285));
+		setResizable(false);
 		add(getPanelFormulario(), BorderLayout.CENTER);
 		add(getPanelValidarBtn(), BorderLayout.SOUTH);
 	}

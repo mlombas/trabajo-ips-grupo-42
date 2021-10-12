@@ -15,6 +15,8 @@ public class IncripcionesPanel extends JPanel {
 	private JButton btnInscribirse;
 	
 	private AtletaMain main;
+	
+	private FormularioInscripcionDialog formularioDeInscripcion;
 
 	/**
 	 * Create the panel.
@@ -26,6 +28,13 @@ public class IncripcionesPanel extends JPanel {
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getBtnInscribirse(), BorderLayout.SOUTH);
 
+	}
+	
+	private void showFormularioDeInscripcion() {
+		this.formularioDeInscripcion = new FormularioInscripcionDialog();
+		formularioDeInscripcion.setLocationRelativeTo(null);
+		formularioDeInscripcion.setModal(true);
+		formularioDeInscripcion.setVisible(true);
 	}
 
 	private JScrollPane getCompeticionesPane() {
@@ -41,7 +50,8 @@ public class IncripcionesPanel extends JPanel {
 			
 			btnInscribirse.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					main.flipCard(AtletaMain.FORMULARIO_INSCRIPCION);
+					formularioDeInscripcion.setCompeticionDto(null); // TODO
+					showFormularioDeInscripcion();
 				}
 			});
 		}
