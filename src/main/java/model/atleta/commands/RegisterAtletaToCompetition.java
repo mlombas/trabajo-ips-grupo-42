@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import giis.demo.util.Database;
 import model.Command;
 import model.atleta.AtletaDto;
 import model.competicion.CompeticionDto;
@@ -23,6 +24,7 @@ public class RegisterAtletaToCompetition implements Command {
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
 	
+	private Database db = new Database();
 	private Connection c = null;
 	
 	public RegisterAtletaToCompetition(AtletaDto atleta, CompeticionDto competicion) {
@@ -34,7 +36,7 @@ public class RegisterAtletaToCompetition implements Command {
 		InscripcionDto inscripcion = new InscripcionDto(); 
 		
 		try {
-			Connection c = null; // TODO
+			c = db.getConnection();
 			
 			// check: 
 			//		1. No inscribirse dos veces a la misma competición.
@@ -98,7 +100,7 @@ public class RegisterAtletaToCompetition implements Command {
 			pst.setString(1, competicion.id);
 			ResultSet rs = pst.executeQuery();
 			
-			if(rs.next()) // Si ya se había registrado
+			if(rs.next()) // Si el plazo no está abierto
 				throw new IllegalArgumentException();
 			
 			rs.close();
@@ -114,7 +116,7 @@ public class RegisterAtletaToCompetition implements Command {
 			pst.setString(1, competicion.id);
 			ResultSet rs = pst.executeQuery();
 			
-			if(rs.next()) // Si ya se había registrado
+			if(rs.next()) // Si no hay plazas libres
 				throw new IllegalArgumentException();
 			
 			rs.close();

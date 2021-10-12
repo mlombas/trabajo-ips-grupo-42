@@ -162,8 +162,9 @@ public class FormularioInscripcionDialog extends JDialog {
 			
 			btnValidarEInscribirse.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					atleta.nombre = getTextNombre().getSelectedText();
-					atleta.email = getTextEmail().getSelectedText();
+					atleta = new AtletaDto();
+					atleta.nombre = getTextNombre().getText();
+					atleta.email = getTextEmail().getText();
 					
 					ModelFactory.forAtletaCrudService().registerAtletaToCompeticion(atleta, competicion);
 				}

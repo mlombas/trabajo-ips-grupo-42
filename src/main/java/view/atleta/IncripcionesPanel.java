@@ -2,6 +2,9 @@ package view.atleta;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import model.competicion.CompeticionDto;
+
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -50,8 +53,10 @@ public class IncripcionesPanel extends JPanel {
 			
 			btnInscribirse.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					formularioDeInscripcion.setCompeticionDto(null); // TODO
+					CompeticionDto competicion = new CompeticionDto();
+					
 					showFormularioDeInscripcion();
+					formularioDeInscripcion.setCompeticionDto(competicion); // TODO
 				}
 			});
 		}
