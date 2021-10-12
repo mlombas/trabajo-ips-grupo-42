@@ -29,7 +29,7 @@ create table Competicion (
 create table Atleta (
 	email varchar(255) primary key not null,
 	dni varchar(255) not null,
-	nombreAtleta varchar(255) not null,
+	nombre varchar(255) not null,
 	fechaNacimiento date not null, 
 	sexo varchar(255) not null
 );
@@ -37,6 +37,7 @@ create table Atleta (
 create table Inscripcion (
 	idCompeticion varchar(255) not null,
 	emailAtleta varchar(255) not null,
+	nombreAtleta varchar(255) not null,
 	categoria varchar(255) not null,
 	fechaInscripcion date not null,
 	estadoInscripcion varchar(255) not null,
@@ -46,6 +47,7 @@ create table Inscripcion (
 	
 	primary key(idCompeticion,emailAtleta),
 	foreign key(idCompeticion) references Competicion(id),
-	foreign key(emailAtleta) references Atleta(email)
+	foreign key(emailAtleta) references Atleta(email),
+	foreign key(nombreAtleta) references Atleta(nombre)
 );
 
