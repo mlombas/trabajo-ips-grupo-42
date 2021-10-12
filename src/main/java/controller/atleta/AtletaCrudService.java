@@ -1,6 +1,7 @@
 package controller.atleta;
 
 import model.atleta.AtletaDto;
+import model.atleta.TarjetaDto;
 import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
 
@@ -22,7 +23,7 @@ public interface AtletaCrudService {
 	 * @param competicion --> competicion en la que quiere participar.
 	 * @return la fecha de la relización del pago
 	 */
-	Date payWithTarjeta(AtletaDto atleta, CompeticionDto competicion);
+	Date payWithTarjeta(AtletaDto atleta, CompeticionDto competicion, TarjetaDto tarjeta);
 	//TODO
 	
 }

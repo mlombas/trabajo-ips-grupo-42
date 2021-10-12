@@ -128,6 +128,7 @@ public class FormularioInscripcionPanel extends JPanel {
 			rdbtnTransferencia = new JRadioButton("Transferencia Bancaria");
 			rdbtnTransferencia.setToolTipText("La transferencia implica que vaya al banco físicamente");
 			rdbtnTransferencia.setMnemonic('B');
+
 		}
 		return rdbtnTransferencia;
 	}

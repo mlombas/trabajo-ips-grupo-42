@@ -1,6 +1,7 @@
 package controller.atleta;
 
 import model.atleta.AtletaDto;
+import model.atleta.TarjetaDto;
 import model.atleta.commands.RegisterAtletaToCompetition;
 import model.atleta.commands.PayWithTarjeta;
 import model.competicion.CompeticionDto;
@@ -16,9 +17,8 @@ public class AtletaCrudServiceImpl implements AtletaCrudService {
 	}
 
 	@Override
-	public Date payWithTarjeta(AtletaDto atleta, CompeticionDto competicion) {
-		 return new PayWithTarjeta(atleta,competicion).execute();
-		//TODO
+	public Date payWithTarjeta(AtletaDto atleta, CompeticionDto competicion, TarjetaDto tarjeta) {
+		 return new PayWithTarjeta(atleta,competicion,tarjeta).execute();
 	}
 
 }
