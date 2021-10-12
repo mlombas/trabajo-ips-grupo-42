@@ -60,7 +60,7 @@ public class RegisterAtletaToCompetition implements Command {
 			pst.setDouble(5, inscripcion.cuotaInscripcion);
 			pst.setString(6, inscripcion.estadoInscripcion);
 			
-			pst.executeUpdate();
+			System.out.println(pst.executeUpdate());
 			
 			pst.close();
 			c.close();
