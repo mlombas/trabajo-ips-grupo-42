@@ -34,7 +34,7 @@ public class FormularioInscripcionPanel extends JPanel {
 	private JRadioButton rdbtnTarjeta;
 	private JPanel panelValidarBtn;
   
-  private AtletaDto atleta;
+  	private AtletaDto atleta;
 	private CompeticionDto competicion;
 
 	/**
