@@ -19,7 +19,7 @@ public class RegisterAtletaToCompetition implements Command {
 	private static final String PLAZO_INSCRIPCION = "select fecha from Competicion WHERE id = ?";
 	private static final String PLAZAS_LIBRES = "select plazas - count(*) from Inscripcion WHERE idCompeticion = ?";
 	
-	private static final String ADD_ATLETA = "insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, categoria, fechaInscripcion, estadoInscripcion) VALUES (?, ?, ?, ?, ?, ?)";
+	private static final String ADD_ATLETA = "insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, categoria, fechaInscripcion, cuotaInscripcion, estadoInscripcion) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
@@ -35,6 +35,9 @@ public class RegisterAtletaToCompetition implements Command {
 	public InscripcionDto execute() {
 		InscripcionDto inscripcion = new InscripcionDto(); 
 		
+		db.createDatabase(false);
+		db.loadDatabase();
+		
 		try {
 			c = db.getConnection();
 			
@@ -47,25 +50,27 @@ public class RegisterAtletaToCompetition implements Command {
 			PreparedStatement pst = c.prepareStatement(ADD_ATLETA);
 			
 			inscripcion.nombreAtleta = atleta.nombre;
+			inscripcion.emailAtleta = atleta.email;
 			inscripcion.idCompeticion = competicion.id;
-			// inscripcion.categoria = ; TODO
+			inscripcion.categoria = "a"; // TODO
 			inscripcion.fechaInscripcion = new Date(System.currentTimeMillis());
 			inscripcion.cuotaInscripcion = competicion.cuota;
 			inscripcion.estadoInscripcion = EstadoInscripcion.PRE_INSCRITO.toString();
 			
-			pst.setString(1, inscripcion.nombreAtleta);
-			pst.setString(2, inscripcion.idCompeticion);
-			pst.setString(3, inscripcion.categoria);
-			pst.setDate(4, inscripcion.fechaInscripcion);
-			pst.setDouble(5, inscripcion.cuotaInscripcion);
-			pst.setString(6, inscripcion.estadoInscripcion);
+			pst.setString(1, inscripcion.idCompeticion);
+			pst.setString(2, inscripcion.emailAtleta);
+			pst.setString(3, inscripcion.nombreAtleta);
+			pst.setString(4, inscripcion.categoria);
+			pst.setDate(5, inscripcion.fechaInscripcion);
+			pst.setDouble(6, inscripcion.cuotaInscripcion);
+			pst.setString(7, inscripcion.estadoInscripcion);
 			
 			pst.executeUpdate();
 			
 			pst.close();
 			c.close();
 		}catch(SQLException e) {
-			// TODO throw exception
+			e.printStackTrace();
 		}
 		
 		return inscripcion;

@@ -6,6 +6,7 @@ import javax.swing.JRadioButton;
 import model.ModelFactory;
 import model.atleta.AtletaDto;
 import model.competicion.CompeticionDto;
+import model.inscripcion.InscripcionDto;
 
 import java.awt.BorderLayout;
 
@@ -165,6 +166,7 @@ public class FormularioInscripcionDialog extends JDialog {
 					atleta = new AtletaDto();
 					atleta.nombre = getTextNombre().getText();
 					atleta.email = getTextEmail().getText();
+					competicion.id = "a"; // TODO
 					
 					ModelFactory.forAtletaCrudService().registerAtletaToCompeticion(atleta, competicion);
 				}
