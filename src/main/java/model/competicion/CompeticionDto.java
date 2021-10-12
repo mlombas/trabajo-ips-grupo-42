@@ -2,6 +2,7 @@ package model.competicion;
 
 import java.sql.Date;
 
+
 public class CompeticionDto {
 
 	public String id;
@@ -14,5 +15,4 @@ public class CompeticionDto {
 	public Date fechaFin;
 	public int plazas;
 	public String estadoCarrera;
-  
 }
