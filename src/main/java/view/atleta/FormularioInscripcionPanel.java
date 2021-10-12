@@ -2,13 +2,10 @@ package view.atleta;
 
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-
 import model.ModelFactory;
 import model.atleta.AtletaDto;
 import model.competicion.CompeticionDto;
-
 import java.awt.BorderLayout;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -28,9 +25,6 @@ public class FormularioInscripcionPanel extends JPanel {
 	private JPanel panelFormulario;
 	private ButtonGroup tipoDePago;
 	private JButton btnValidarEInscribirse;
-	
-	private AtletaDto atleta;
-	private CompeticionDto competicion;
 	private JTextField textNombre;
 	private JLabel lblNombre;
 	private JLabel lblEmail;
@@ -39,6 +33,9 @@ public class FormularioInscripcionPanel extends JPanel {
 	private JRadioButton rdbtnTransferencia;
 	private JRadioButton rdbtnTarjeta;
 	private JPanel panelValidarBtn;
+  
+  private AtletaDto atleta;
+	private CompeticionDto competicion;
 
 	/**
 	 * Create the panel.
@@ -167,4 +164,11 @@ public class FormularioInscripcionPanel extends JPanel {
 		return btnValidarEInscribirse;
 	}
 	
+	private JButton getBtnValidarEInscribirse() {
+		if (btnValidarEInscribirse == null) {
+			btnValidarEInscribirse = new JButton("Validar e Inscribirse");
+		}
+		return btnValidarEInscribirse;
+	}
+  
 }

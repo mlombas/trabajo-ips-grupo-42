@@ -19,7 +19,7 @@ public class RegisterAtletaToCompetition implements Command {
 	private static final String PLAZAS_LIBRES = "select plazas - count(*) from Inscripcion WHERE idCompeticion = ?";
 	
 	private static final String ADD_ATLETA = "insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, categoria, fechaInscripcion, estadoInscripcion) VALUES (?, ?, ?, ?, ?, ?)";
-	
+
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
 	
@@ -123,6 +123,5 @@ public class RegisterAtletaToCompetition implements Command {
 			// TODO throw exception
 		}
 	}
-
 
 }
