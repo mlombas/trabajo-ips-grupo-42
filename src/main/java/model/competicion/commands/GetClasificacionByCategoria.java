@@ -4,9 +4,10 @@ import java.util.List;
 
 import giis.demo.util.Database;
 import model.Command;
+import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
 
-public class GetClasificación implements Command{
+public class GetClasificacionByCategoria implements Command{
 
 	private static final String OBTENER_RESULTADOS = "select * from Inscripcion where idCompeticion = ? and categoria = ?";
 
@@ -14,8 +15,8 @@ public class GetClasificación implements Command{
 	private String id_competicion;
 	private String categoria;
 		
-	public GetClasificación(String id_competicion, String categoria) {
-		this.id_competicion = id_competicion;
+	public GetClasificacionByCategoria(CompeticionDto comp, String categoria) {
+		this.id_competicion = comp.id;
 		this.categoria = categoria;
 	}
 	
