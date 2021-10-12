@@ -11,8 +11,8 @@ import model.competicion.CompeticionDto;
 public class GetAllCompeticiones {
 	
 	private static final String ALL_COMPETITIONS =
-			"SELECT *" +
-			"FROM competicion" +
+			"SELECT * " +
+			"FROM competicion " +
 			"WHERE fechaFin >= DATE('now')";
 		
 	private Database db = new Database();
