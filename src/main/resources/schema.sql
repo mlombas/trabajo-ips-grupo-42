@@ -8,7 +8,7 @@ drop table Atleta;
 drop table Inscripcion;
 
 create table Competicion (
-	id int primary key not null, 
+	id varchar(255) primary key not null, 
 	nombreCarrera varchar(255) not null,
 	tipoCarrera varchar(255) not null,
 	distancia varchar(255) not null,
