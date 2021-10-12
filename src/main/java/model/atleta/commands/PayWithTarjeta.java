@@ -3,9 +3,11 @@ package model.atleta.commands;
 
 import java.util.Date;
 
+import bank_mockup.Bank;
 import giis.demo.util.ApplicationException;
 import giis.demo.util.Database;
 import model.atleta.AtletaDto;
+import model.atleta.TarjetaDto;
 import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
 
@@ -18,10 +20,14 @@ public class PayWithTarjeta {
 	private CompeticionDto competicion;
 	
 	private Database db = new Database();
-
-	public PayWithTarjeta(AtletaDto atleta, CompeticionDto competicion) {
+	private Bank bank = new Bank();
+	private TarjetaDto tarjeta;
+	
+	
+	public PayWithTarjeta(AtletaDto atleta, CompeticionDto competicion,TarjetaDto tarjeta) {
 		this.atleta = atleta;
 		this.competicion = competicion;
+		this.tarjeta = tarjeta;
 	}
 
 	public Date execute() {
@@ -29,11 +35,13 @@ public class PayWithTarjeta {
 		
 		//chekear que no sean nulos los dtos
 		checkArguments();
+		
 		//que exista una inscripcion con ese atleta y la competicion
 		//que la inscripcion esté "Pre-inscrito"
 		checkCanPay();
+		
 		//que la tarjeta sea válida
-		// TODO
+		checkTartjeta();
 		
 		Date dt = new Date();
 		db.executeUpdate(UPDATEINSCRIPCION, "Inscrito", dt,competicion.id, atleta.email);
@@ -41,9 +49,16 @@ public class PayWithTarjeta {
 		return  dt;
 	}
 
+	private void checkTartjeta() {
+		if(!bank.payWithCard(tarjeta.number, tarjeta.expiration, tarjeta.cvc)) {
+			throw new ApplicationException("La tarjeta no es válida");
+		}
+		
+	}
+
 	private void checkCanPay() {
 		InscripcionDto ins = db.executeQueryPojo(InscripcionDto.class, GETINSCRIPCION, competicion.id, atleta.email).get(0);
-		if(ins.estadoInscripcion.trim().length() > 0) {
+		if(ins.estadoInscripcion.trim().length() <= 0) {
 			throw new ApplicationException("No existe una inscripcion en esta competicion");
 		}
 		if(!ins.estadoInscripcion.equals("Pre-inscrito")) {
