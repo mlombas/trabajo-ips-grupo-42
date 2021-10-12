@@ -3,12 +3,15 @@ package model.competicion;
 import java.sql.Date;
 
 public class CompeticionDto {
-	public String nombre;
-	public Date fecha;
-	public String tipo;
-	public double distancia;
+
+	public String id;
+	public String nombreCarrera;
+	public String tipoCarrera;
+	public String distancia;
 	public double cuota;
+	public Date fecha;
+	public Date fechaInicio;
 	public Date fechaFin;
 	public int plazas;
-	public String estado;
+	public String estadoCarrera;
 }
