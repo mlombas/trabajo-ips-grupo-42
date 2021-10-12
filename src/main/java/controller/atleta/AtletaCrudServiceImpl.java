@@ -1,5 +1,7 @@
 package controller.atleta;
 
+import java.sql.Date;
+
 import model.atleta.AtletaDto;
 import model.atleta.TarjetaDto;
 import model.atleta.commands.RegisterAtletaToCompetition;
@@ -7,7 +9,6 @@ import model.atleta.commands.PayWithTarjeta;
 import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
 
-import java.util.Date;
 
 public class AtletaCrudServiceImpl implements AtletaCrudService {
 

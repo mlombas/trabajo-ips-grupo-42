@@ -1,7 +1,9 @@
 package model.atleta.commands;
 
 
-import java.util.Date;
+
+
+import java.sql.Date;
 
 import bank_mockup.Bank;
 import giis.demo.util.ApplicationException;
@@ -43,7 +45,7 @@ public class PayWithTarjeta {
 		//que la tarjeta sea válida
 		checkTartjeta();
 		
-		Date dt = new Date();
+		Date dt = new Date(System.currentTimeMillis());
 		db.executeUpdate(UPDATEINSCRIPCION, "Inscrito", dt,competicion.id, atleta.email);
 		
 		return  dt;
