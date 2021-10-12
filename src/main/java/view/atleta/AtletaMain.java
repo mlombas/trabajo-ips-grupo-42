@@ -24,7 +24,6 @@ public class AtletaMain extends JPanel {
 	private AtletaMenu atletaMenu;
 	private IncripcionesPanel inscripcionesPanel;
 	private VerInscripcionesPanel verInscripcionesPanel;
-	private FormularioInscripcionPanel formularioInscripcionPanel;
 	
 	/**
 	 * Create the frame.
@@ -43,13 +42,11 @@ public class AtletaMain extends JPanel {
 		atletaMenu = new AtletaMenu();
 		inscripcionesPanel = new IncripcionesPanel(this);
 		verInscripcionesPanel = new VerInscripcionesPanel(this);
-		formularioInscripcionPanel = new FormularioInscripcionPanel();
 		
 		// Create the panel that contains the cards.
 		cards.add(atletaMenu, ATLETAS_MENU);
 		cards.add(inscripcionesPanel, INSCRIPCIONES);
 		cards.add(verInscripcionesPanel, VER_INSCRIPCIONES);
-		cards.add(formularioInscripcionPanel, FORMULARIO_INSCRIPCION);
 		
 		// Add the card panel to the frame.
 		this.add(cards);

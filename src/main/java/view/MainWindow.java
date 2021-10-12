@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import giis.demo.util.Database;
 import view.atleta.AtletaMain;
 
 import java.awt.CardLayout;
@@ -59,6 +60,11 @@ public class MainWindow extends JFrame {
 		
 		// Default button.
 //		getRootPane().setDefaultButton(); TODO
+		
+		// Initialize the DB
+		Database db = new Database();
+		db.createDatabase(false);
+		db.loadDatabase();
 		
 		// Close operation.
 		addWindowListener(new WindowAdapter() {

@@ -2,12 +2,17 @@ package view.atleta;
 
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+
 import model.ModelFactory;
 import model.atleta.AtletaDto;
 import model.competicion.CompeticionDto;
+
 import java.awt.BorderLayout;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
@@ -16,15 +21,19 @@ import javax.swing.BoxLayout;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 
-public class FormularioInscripcionPanel extends JPanel {
+public class FormularioInscripcionDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel panelFormulario;
 	private ButtonGroup tipoDePago;
 	private JButton btnValidarEInscribirse;
+	
+	private AtletaDto atleta;
+	private CompeticionDto competicion;
 	private JTextField textNombre;
 	private JLabel lblNombre;
 	private JLabel lblEmail;
@@ -33,17 +42,16 @@ public class FormularioInscripcionPanel extends JPanel {
 	private JRadioButton rdbtnTransferencia;
 	private JRadioButton rdbtnTarjeta;
 	private JPanel panelValidarBtn;
-  
-  private AtletaDto atleta;
-	private CompeticionDto competicion;
 
 	/**
 	 * Create the panel.
 	 */
-	public FormularioInscripcionPanel() {
+	public FormularioInscripcionDialog() {
 		this.competicion = new CompeticionDto();
 		
 		setLayout(new BorderLayout(0, 0));
+		setSize(new Dimension(465, 285));
+		setResizable(false);
 		add(getPanelFormulario(), BorderLayout.CENTER);
 		add(getPanelValidarBtn(), BorderLayout.SOUTH);
 	}
@@ -128,7 +136,6 @@ public class FormularioInscripcionPanel extends JPanel {
 			rdbtnTransferencia = new JRadioButton("Transferencia Bancaria");
 			rdbtnTransferencia.setToolTipText("La transferencia implica que vaya al banco físicamente");
 			rdbtnTransferencia.setMnemonic('B');
-
 		}
 		return rdbtnTransferencia;
 	}
@@ -155,8 +162,9 @@ public class FormularioInscripcionPanel extends JPanel {
 			
 			btnValidarEInscribirse.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					atleta.nombre = getTextNombre().getSelectedText();
-					atleta.email = getTextEmail().getSelectedText();
+					atleta = new AtletaDto();
+					atleta.nombre = getTextNombre().getText();
+					atleta.email = getTextEmail().getText();
 					
 					ModelFactory.forAtletaCrudService().registerAtletaToCompeticion(atleta, competicion);
 				}
@@ -164,5 +172,5 @@ public class FormularioInscripcionPanel extends JPanel {
 		}
 		return btnValidarEInscribirse;
 	}
-  
+	
 }
