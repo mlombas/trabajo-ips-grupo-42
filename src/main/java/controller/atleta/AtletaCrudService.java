@@ -2,6 +2,7 @@ package controller.atleta;
 
 import model.atleta.AtletaDto;
 import model.competicion.CompeticionDto;
+import model.inscripcion.InscripcionDto;
 
 public interface AtletaCrudService {
 	
@@ -11,6 +12,6 @@ public interface AtletaCrudService {
 	 * @param competicion --> competicion en la que quiere participar.
 	 * @return datos del atleta para crear el justificante.
 	 */
-	AtletaDto registerAtletaToCompeticion(AtletaDto atleta, CompeticionDto competicion);
+	InscripcionDto registerAtletaToCompeticion(AtletaDto atleta, CompeticionDto competicion);
 	
 }
