@@ -19,8 +19,8 @@ create table Competicion (
 	plazas int not null,
 	estadoCarrera varchar(255) not null,
 	
-	check(inicio<=fin), 
-	check(fin<fecha),
+	check(fechaInicio<=fechaFin), 
+	check(fechaFin<fecha),
 	check(distancia>0),
 	check(plazas>0),
 	check(cuota>0)
@@ -50,6 +50,6 @@ create table Inscripcion (
 	foreign key(idCompeticion) references Competicion(id),
 	foreign key(emailAtleta) references Atleta(email),
 	foreign key(nombreAtleta) references Atleta(nombre),
-	foreign key(cuotaInscripcion) references Competicion(cuota),
+	foreign key(cuotaInscripcion) references Competicion(cuota)
 );
 
