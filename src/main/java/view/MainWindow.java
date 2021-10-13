@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import view.atleta.AtletaMain;
+import view.organizador.OrganizadorMain;
 
 import java.awt.CardLayout;
 import java.awt.GridLayout;
@@ -24,11 +25,13 @@ public class MainWindow extends JFrame {
 	private static final String EXIT_DIALOG = "Estás seguro que quieres cerrar la aplicación?";
 	private static final String MAIN_MENU = "home";
 	private static final String ATLETAS_MENU = "atletas";
+	private static final String ORGANZIADORES_MENU = "organizadores";
 	
 	private JPanel cards;
 	
 	private MainMenu mainMenu;
 	private AtletaMain atletaMain;
+	private OrganizadorMain organizadorMain;
 	
 	/**
 	 * Create the frame.
@@ -50,10 +53,11 @@ public class MainWindow extends JFrame {
 		// Create the cards.
 		mainMenu = new MainMenu();
 		atletaMain = new AtletaMain();
-		
+		organizadorMain = new OrganizadorMain();
 		// Create the panel that contains the cards.
 		cards.add(mainMenu, MAIN_MENU);
 		cards.add(atletaMain, ATLETAS_MENU);
+		cards.add(organizadorMain, ORGANZIADORES_MENU);
 		
 		// Add the card panel to the frame.
 		getContentPane().add(cards);
@@ -109,6 +113,12 @@ public class MainWindow extends JFrame {
 		private JButton getBtnOrganizador() {
 			if (btnOrganizador == null) {
 				btnOrganizador = new JButton("Organizador");
+				
+				btnOrganizador.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						flipCard(ORGANZIADORES_MENU);
+					}
+				});
 			}
 			return btnOrganizador;
 		}
