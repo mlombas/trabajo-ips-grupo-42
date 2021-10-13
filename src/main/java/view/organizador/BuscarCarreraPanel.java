@@ -12,7 +12,9 @@ import javax.swing.JLabel;
 import java.awt.GridLayout;
 import javax.swing.SwingConstants;
 
-public class VerCarrerasPanel extends JPanel {
+import model.competicion.CompeticionDto;
+
+public class BuscarCarreraPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -26,7 +28,7 @@ public class VerCarrerasPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public VerCarrerasPanel(OrganizadorMain main) {
+	public BuscarCarreraPanel(OrganizadorMain main) {
 		this.main = main;
 		
 		setLayout(new BorderLayout(0, 0));
@@ -46,6 +48,9 @@ public class VerCarrerasPanel extends JPanel {
 			JButton btnVerResultados = new JButton("Ver resultados");
 			btnVerResultados.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					CompeticionDto comp = new CompeticionDto();
+					comp.id = textFieldIdCarrera.getText();
+					
 				}
 			});
 			panel.add(btnVerResultados, BorderLayout.SOUTH);

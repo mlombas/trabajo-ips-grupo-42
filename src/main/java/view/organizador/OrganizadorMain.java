@@ -16,13 +16,13 @@ public class OrganizadorMain extends JPanel {
 	
 	static final String ORGANIZADOR_MENU = "organizadores";
 	static final String CREAR_CARRERA = "crear carrera";
-	static final String VER_CARRERAS = "ver carrera";
+	static final String BUSCAR_CARRERAS = "buscar carrera";
 	
 	private JPanel cards;
 	
 	private OrganizadorMenu organizadorMenu;
 	private CrearCarreraPanel crearCarreraPanel;
-	private VerCarrerasPanel verCarreraPanel;
+	private BuscarCarreraPanel buscarCarreraPanel;
 	/**
 	 * Create the frame.
 	 */
@@ -39,12 +39,12 @@ public class OrganizadorMain extends JPanel {
 		// Create the cards.
 		organizadorMenu = new OrganizadorMenu();
 		crearCarreraPanel = new CrearCarreraPanel(this);
-		verCarreraPanel = new VerCarrerasPanel(this);
+		buscarCarreraPanel = new BuscarCarreraPanel(this);
 		
 		// Create the panel that contains the cards.
 		cards.add(organizadorMenu, ORGANIZADOR_MENU);
 		cards.add(crearCarreraPanel, CREAR_CARRERA);
-		cards.add(verCarreraPanel, VER_CARRERAS);
+		cards.add(buscarCarreraPanel, BUSCAR_CARRERAS);
 		
 		// Add the card panel to the frame.
 		this.add(cards);
@@ -99,7 +99,7 @@ public class OrganizadorMain extends JPanel {
 				
 				btnVerCarreras.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						flipCard(VER_CARRERAS);
+						flipCard(BUSCAR_CARRERAS);
 					}
 				});
 			}
