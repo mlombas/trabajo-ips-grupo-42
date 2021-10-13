@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import giis.demo.util.Database;
-import model.Command;
 import model.atleta.AtletaDto;
 import model.competicion.CompeticionDto;
 import model.inscripcion.EstadoInscripcion;
@@ -15,7 +14,7 @@ import model.inscripcion.InscripcionDto;
 import util.AtletaNoValidoException;
 import util.ModelException;
 
-public class RegisterAtletaToCompetition implements Command {
+public class RegisterAtletaToCompetition {
 	
 	private static final String NO_REINSRIBIRSE = "select * from Inscripcion WHERE idCompeticion = ? and emailAtleta = ?";
 	private static final String PLAZO_INSCRIPCION = "select fecha from Competicion WHERE id = ?";

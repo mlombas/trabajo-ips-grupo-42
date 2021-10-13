@@ -9,6 +9,7 @@ public class InscripcionDto {
 	public String idCompeticion;
 	public String emailAtleta;
 	public String nombreAtleta;
+	public String dniAtleta;
 	public String nombreCompeticion;
 	public String categoria;
 	public Date fechaInscripcion;
