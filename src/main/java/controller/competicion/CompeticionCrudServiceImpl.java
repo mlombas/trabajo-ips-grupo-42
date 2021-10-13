@@ -4,6 +4,8 @@ import java.util.List;
 
 import model.competicion.CompeticionDto;
 import model.competicion.commands.GetAllCompeticiones;
+import model.competicion.commands.GetClasificacion;
+import model.inscripcion.InscripcionDto;
 
 public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 
@@ -12,4 +14,11 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 		return new GetAllCompeticiones().execute();
 	}
 
+	@Override
+	public List<InscripcionDto> GetClasificacion() {
+		return new GetClasificacion(null).execute();
+	}
+
+	
+	
 }
