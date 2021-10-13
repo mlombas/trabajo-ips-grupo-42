@@ -1,6 +1,7 @@
 package controller.atleta;
 
 import java.sql.Date;
+import java.util.List;
 
 import model.atleta.AtletaDto;
 import model.atleta.TarjetaDto;
@@ -29,6 +30,12 @@ public interface AtletaCrudService {
 	 * @return la fecha de la relización del pago
 	 */
 	Date payWithTarjeta(AtletaDto atleta, CompeticionDto competicion, TarjetaDto tarjeta);
-	//TODO
+
+	/**
+	 * Permite al atleta visualizar todas las competiciones en las que se ha inscrito
+	 * @param atleta -->  atleta que quiere ver las competiciones.
+	 * @return unas lista con las competiciones en las que está inscrito.
+	 */
+	List<InscripcionDto> getCompetionesInscritas(AtletaDto atleta);
 	
 }
