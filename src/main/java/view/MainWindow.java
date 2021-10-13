@@ -42,6 +42,7 @@ public class MainWindow extends JFrame {
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(0, 0, 1366, 768);
+		setLocationRelativeTo(null);
 		
 		// Main content pane.
 		getContentPane().setLayout(new BorderLayout(0, 0));
