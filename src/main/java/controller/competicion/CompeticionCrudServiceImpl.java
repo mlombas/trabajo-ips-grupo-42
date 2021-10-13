@@ -15,8 +15,8 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	}
 
 	@Override
-	public List<InscripcionDto> GetClasificacion() {
-		return new GetClasificacion(null).execute();
+	public List<InscripcionDto> GetClasificacion(CompeticionDto comp) {
+		return new GetClasificacion(comp).execute();
 	}
 
 	

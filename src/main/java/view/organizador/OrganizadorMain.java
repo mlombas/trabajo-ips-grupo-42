@@ -107,4 +107,9 @@ public class OrganizadorMain extends JPanel {
 		}
 	}
 
+
+	public void startPanel() {
+		flipCard(ORGANIZADOR_MENU);
+	}
+
 }

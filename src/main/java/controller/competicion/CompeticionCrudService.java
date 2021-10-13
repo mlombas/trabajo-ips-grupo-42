@@ -7,5 +7,5 @@ import model.inscripcion.InscripcionDto;
 
 public interface CompeticionCrudService {
 	List<CompeticionDto> GetAllCompeticiones();
-	List<InscripcionDto> GetClasificacion();
+	List<InscripcionDto> GetClasificacion(CompeticionDto comp);
 }
