@@ -8,4 +8,5 @@ import model.inscripcion.InscripcionDto;
 public interface CompeticionCrudService {
 	List<CompeticionDto> GetAllCompeticiones();
 	List<InscripcionDto> GetClasificacion(CompeticionDto comp);
+	List<InscripcionDto> GetClasificacion(CompeticionDto competicion, String categoria);
 }

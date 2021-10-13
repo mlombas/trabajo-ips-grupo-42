@@ -18,10 +18,12 @@ public class VerClasficacionDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JScrollPane scrollParticipantes;
 	private CompeticionDto competicion;
-	
-	public VerClasficacionDialog(CompeticionDto competicion) {
+	private String categoria;
+
+	public VerClasficacionDialog(CompeticionDto competicion, String categoria) {
 		this.competicion = competicion;
-		
+		this.categoria = categoria;
+
 		setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(465, 285));
 		setResizable(true);
@@ -29,12 +31,14 @@ public class VerClasficacionDialog extends JDialog {
 	}
 
 	private Component getCompeticionesListPane() {
-		if(scrollParticipantes == null) {
-			scrollParticipantes = new JScrollPane(
-					new ParticipantesLista(
-							ModelFactory.forCarreraCrudService().GetClasificacion(competicion)
-							)
-					);
+		if (scrollParticipantes == null) {
+			if (categoria.isBlank()) {
+				scrollParticipantes = new JScrollPane(
+						new ParticipantesLista(ModelFactory.forCarreraCrudService().GetClasificacion(competicion)));
+			}else {
+				scrollParticipantes = new JScrollPane(
+						new ParticipantesLista(ModelFactory.forCarreraCrudService().GetClasificacion(competicion, categoria)));
+			}
 		}
 		return scrollParticipantes;
 	}

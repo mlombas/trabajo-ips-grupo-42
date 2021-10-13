@@ -13,7 +13,6 @@ import java.awt.GridLayout;
 import javax.swing.SwingConstants;
 
 import model.competicion.CompeticionDto;
-import view.atleta.FormularioInscripcionDialog;
 
 import java.awt.CardLayout;
 
@@ -59,7 +58,7 @@ public class BuscarCarreraPanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					CompeticionDto comp = new CompeticionDto();
 					comp.id = textFieldIdCarrera.getText();
-					showClasificacion(comp);
+					showClasificacion(comp, textFieldCategoria.getText());
 				}
 			});
 			panel.add(btnVerResultados, BorderLayout.SOUTH);
@@ -100,8 +99,8 @@ public class BuscarCarreraPanel extends JPanel {
 		return btnAtras;
 	}
 	
-	private void showClasificacion(CompeticionDto comp) {
-		this.clasDial = new VerClasficacionDialog(comp);
+	private void showClasificacion(CompeticionDto comp, String cat) {
+		this.clasDial = new VerClasficacionDialog(comp, cat);
 		clasDial.setLocationRelativeTo(null);
 		clasDial.setModal(true);
 		clasDial.setVisible(true);
