@@ -38,7 +38,7 @@ create table Inscripcion (
 	idCompeticion varchar(255) not null,
 	emailAtleta varchar(255) not null,
 	nombreAtleta varchar(255) not null,
-	dniAtleta varchar(255),
+	dniAtleta varchar(255) not null,
 	nombreCompeticion varchar(255) not null,
 	categoria varchar(255) not null,
 	fechaInscripcion date not null,
