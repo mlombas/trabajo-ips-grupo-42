@@ -7,6 +7,8 @@ import model.ModelFactory;
 import model.atleta.AtletaDto;
 import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
+import util.AtletaNoValidoException;
+import util.ModelException;
 
 import java.awt.BorderLayout;
 
@@ -69,7 +71,7 @@ public class FormularioInscripcionDialog extends JDialog {
 		return pattern.matcher(email).matches();
 	}
 	
-	private void showInvalidField(String arg) {
+	private void showError(String arg) {
 		JOptionPane.showMessageDialog(this,
 				arg,
 			    "ERROR - " + arg,
@@ -193,11 +195,10 @@ public class FormularioInscripcionDialog extends JDialog {
 					
 					// Validamos el nombre
 					String nombre = getTextNombre().getText();
-					System.out.println(nombre);
 					if(!nombre.trim().isEmpty())
 						atleta.nombre = nombre;
 					else {
-						showInvalidField("Nombre no válido");
+						showError("Nombre no válido");
 						return;
 					} // Show warning
 						
@@ -206,14 +207,26 @@ public class FormularioInscripcionDialog extends JDialog {
 					if(validateEmail(email))
 						atleta.email = email;
 					else {
-						showInvalidField("Email no válido");
+						showError("Email no válido");
 						getTextEmail().setText("");
 						return;
 					} // Show warning
 					
 					competicion.id = "a"; // TODO mario
 					
-					InscripcionDto inscripcion = ModelFactory.forAtletaCrudService().registerAtletaToCompeticion(atleta, competicion);
+					InscripcionDto inscripcion = null;
+					try {
+						inscripcion = ModelFactory.forAtletaCrudService().registerAtletaToCompeticion(atleta, competicion);
+					} catch (AtletaNoValidoException anve) { // manejamos correctamente las excepciones
+						showError(anve.getMessage());
+						closeDialog();
+						return;
+					} catch (ModelException me) {
+						me.printStackTrace();
+						showError("Lo siento, algo ha salido mal...");
+						closeDialog();
+						return;
+					}
 					
 					closeDialog();
 					showJustificante(inscripcion);

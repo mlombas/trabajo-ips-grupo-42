@@ -57,9 +57,6 @@ public class MainWindow extends JFrame {
 		// Add the card panel to the frame.
 		getContentPane().add(cards);
 		
-		// Default button.
-//		getRootPane().setDefaultButton(); TODO
-		
 		// Close operation.
 		addWindowListener(new WindowAdapter() {
 			@Override
