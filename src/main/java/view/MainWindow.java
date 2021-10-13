@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import giis.demo.util.Database;
 import view.atleta.AtletaMain;
 import view.organizador.OrganizadorMain;
 
@@ -61,9 +60,6 @@ public class MainWindow extends JFrame {
 		
 		// Add the card panel to the frame.
 		getContentPane().add(cards);
-		
-		// Default button.
-//		getRootPane().setDefaultButton(); TODO
 		
 		// Close operation.
 		addWindowListener(new WindowAdapter() {

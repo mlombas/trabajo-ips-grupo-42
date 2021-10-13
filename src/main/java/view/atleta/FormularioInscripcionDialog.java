@@ -7,6 +7,8 @@ import model.ModelFactory;
 import model.atleta.AtletaDto;
 import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
+import util.AtletaNoValidoException;
+import util.ModelException;
 
 import java.awt.BorderLayout;
 
@@ -15,9 +17,11 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.BoxLayout;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
@@ -32,9 +36,6 @@ public class FormularioInscripcionDialog extends JDialog {
 	private JPanel panelFormulario;
 	private ButtonGroup tipoDePago;
 	private JButton btnValidarEInscribirse;
-	
-	private AtletaDto atleta;
-	private CompeticionDto competicion;
 	private JTextField textNombre;
 	private JLabel lblNombre;
 	private JLabel lblEmail;
@@ -43,6 +44,9 @@ public class FormularioInscripcionDialog extends JDialog {
 	private JRadioButton rdbtnTransferencia;
 	private JRadioButton rdbtnTarjeta;
 	private JPanel panelValidarBtn;
+	
+	private AtletaDto atleta;
+	private CompeticionDto competicion;
 
 	/**
 	 * Create the panel.
@@ -50,15 +54,39 @@ public class FormularioInscripcionDialog extends JDialog {
 	public FormularioInscripcionDialog() {
 		this.competicion = new CompeticionDto();
 		
-		setLayout(new BorderLayout(0, 0));
+		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(465, 285));
 		setResizable(false);
-		add(getPanelFormulario(), BorderLayout.CENTER);
-		add(getPanelValidarBtn(), BorderLayout.SOUTH);
+		setTitle("Carreras Populares APP - Formulario de Inscripción");
+		getContentPane().add(getPanelFormulario(), BorderLayout.CENTER);
+		getContentPane().add(getPanelValidarBtn(), BorderLayout.SOUTH);
 	}
 	
 	public void setCompeticionDto(CompeticionDto competicion) {
 		this.competicion = competicion;
+	}
+	
+	private boolean validateEmail(String email) {
+		Pattern pattern = Pattern.compile("^(.+)@(.+)$");
+		return pattern.matcher(email).matches();
+	}
+	
+	private void showError(String arg) {
+		JOptionPane.showMessageDialog(this,
+				arg,
+			    "ERROR - " + arg,
+			    JOptionPane.ERROR_MESSAGE);
+	}
+	
+	private void showJustificante(InscripcionDto inscripcion) {
+		JustificanteDialog justificanteDialog = new JustificanteDialog(inscripcion);
+		justificanteDialog.setLocationRelativeTo(null);
+		justificanteDialog.setModal(true);
+		justificanteDialog.setVisible(true);
+	}
+
+	private void closeDialog() {
+		dispose();
 	}
 	
 	private JPanel getPanelFormulario() {
@@ -90,7 +118,7 @@ public class FormularioInscripcionDialog extends JDialog {
 	private JTextField getTextNombre() {
 		if (textNombre == null) {
 			textNombre = new JTextField();
-			textNombre.setBounds(10, 170, 430, 30);
+			textNombre.setBounds(10, 30, 430, 30);
 			textNombre.setColumns(10);
 		}
 		return textNombre;
@@ -111,7 +139,7 @@ public class FormularioInscripcionDialog extends JDialog {
 	private JTextField getTextEmail() {
 		if (textEmail == null) {
 			textEmail = new JTextField();
-			textEmail.setBounds(10, 30, 430, 30);
+			textEmail.setBounds(10, 170, 430, 30);
 			textEmail.setColumns(10);
 		}
 		return textEmail;
@@ -160,15 +188,49 @@ public class FormularioInscripcionDialog extends JDialog {
 	private JButton getBtnValidarEInscribirse() {
 		if (btnValidarEInscribirse == null) {
 			btnValidarEInscribirse = new JButton("Validar e Inscribirse");
+			getRootPane().setDefaultButton(btnValidarEInscribirse);
 			
 			btnValidarEInscribirse.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					atleta = new AtletaDto();
-					atleta.nombre = getTextNombre().getText();
-					atleta.email = getTextEmail().getText();
-					competicion.id = "a"; // TODO
 					
-					ModelFactory.forAtletaCrudService().registerAtletaToCompeticion(atleta, competicion);
+					// Validamos el nombre
+					String nombre = getTextNombre().getText();
+					if(!nombre.trim().isEmpty())
+						atleta.nombre = nombre;
+					else {
+						showError("Nombre no válido");
+						return;
+					} // Show warning
+						
+					// Validamos el email
+					String email = getTextEmail().getText();
+					if(validateEmail(email))
+						atleta.email = email;
+					else {
+						showError("Email no válido");
+						getTextEmail().setText("");
+						return;
+					} // Show warning
+					
+					competicion.id = "a"; // TODO mario
+					
+					InscripcionDto inscripcion = null;
+					try {
+						inscripcion = ModelFactory.forAtletaCrudService().registerAtletaToCompeticion(atleta, competicion);
+					} catch (AtletaNoValidoException anve) { // manejamos correctamente las excepciones
+						showError(anve.getMessage());
+						closeDialog();
+						return;
+					} catch (ModelException me) {
+						me.printStackTrace();
+						showError("Lo siento, algo ha salido mal...");
+						closeDialog();
+						return;
+					}
+					
+					closeDialog();
+					showJustificante(inscripcion);
 				}
 			});
 		}
