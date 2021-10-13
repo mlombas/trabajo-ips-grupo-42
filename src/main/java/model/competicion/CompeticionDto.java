@@ -2,9 +2,7 @@ package model.competicion;
 
 import java.sql.Date;
 
-
 public class CompeticionDto {
-
 	public String id;
 	public String nombreCarrera;
 	public String tipoCarrera;
