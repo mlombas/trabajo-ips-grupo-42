@@ -101,7 +101,7 @@ public class BuscarCarreraPanel extends JPanel {
 	}
 	
 	private void showClasificacion(CompeticionDto comp) {
-		this.clasDial = new VerClasficacionDialog(main, comp);
+		this.clasDial = new VerClasficacionDialog(comp);
 		clasDial.setLocationRelativeTo(null);
 		clasDial.setModal(true);
 		clasDial.setVisible(true);
