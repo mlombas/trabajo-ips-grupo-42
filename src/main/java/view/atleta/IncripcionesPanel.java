@@ -2,6 +2,9 @@ package view.atleta;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import model.competicion.CompeticionDto;
+
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -15,6 +18,8 @@ public class IncripcionesPanel extends JPanel {
 	private JButton btnInscribirse;
 	
 	private AtletaMain main;
+	
+	private FormularioInscripcionDialog formularioDeInscripcion;
 
 	/**
 	 * Create the panel.
@@ -26,6 +31,13 @@ public class IncripcionesPanel extends JPanel {
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getBtnInscribirse(), BorderLayout.SOUTH);
 
+	}
+	
+	private void showFormularioDeInscripcion() {
+		this.formularioDeInscripcion = new FormularioInscripcionDialog();
+		formularioDeInscripcion.setLocationRelativeTo(null);
+		formularioDeInscripcion.setModal(true);
+		formularioDeInscripcion.setVisible(true);
 	}
 
 	private JScrollPane getCompeticionesPane() {
@@ -41,7 +53,10 @@ public class IncripcionesPanel extends JPanel {
 			
 			btnInscribirse.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					main.flipCard(AtletaMain.FORMULARIO_INSCRIPCION);
+					CompeticionDto competicion = new CompeticionDto();
+					
+					showFormularioDeInscripcion();
+					formularioDeInscripcion.setCompeticionDto(competicion); // TODO
 				}
 			});
 		}

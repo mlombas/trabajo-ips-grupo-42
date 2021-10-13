@@ -42,7 +42,7 @@ create table Inscripcion (
 	fechaInscripcion date not null,
 	cuotaInscripcion decimal(10,2) not null,
 	estadoInscripcion varchar(255) not null,
-	fechaCambioEstado date not null,
+	fechaCambioEstado date,
 	posicion int,
 	tiempo decimal(10,2),
 	
