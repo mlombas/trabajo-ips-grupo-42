@@ -188,6 +188,7 @@ public class FormularioInscripcionDialog extends JDialog {
 	private JButton getBtnValidarEInscribirse() {
 		if (btnValidarEInscribirse == null) {
 			btnValidarEInscribirse = new JButton("Validar e Inscribirse");
+			getRootPane().setDefaultButton(btnValidarEInscribirse);
 			
 			btnValidarEInscribirse.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
