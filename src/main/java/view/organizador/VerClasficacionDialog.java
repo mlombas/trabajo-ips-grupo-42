@@ -6,13 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 
 import model.ModelFactory;
 import model.competicion.CompeticionDto;
 
-public class VerClasficacionPanel extends JPanel {
+public class VerClasficacionDialog extends JDialog {
 
 	/**
 	 * 
@@ -23,7 +23,7 @@ public class VerClasficacionPanel extends JPanel {
 	private JScrollPane scrollParticipantes;
 	private CompeticionDto competicion;
 	
-	public VerClasficacionPanel(OrganizadorMain main, CompeticionDto competicion) {
+	public VerClasficacionDialog(OrganizadorMain main, CompeticionDto competicion) {
 		this.main = main;
 		this.competicion = competicion;
 		

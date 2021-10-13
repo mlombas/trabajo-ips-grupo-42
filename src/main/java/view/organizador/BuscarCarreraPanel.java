@@ -13,6 +13,9 @@ import java.awt.GridLayout;
 import javax.swing.SwingConstants;
 
 import model.competicion.CompeticionDto;
+import view.atleta.FormularioInscripcionDialog;
+
+import java.awt.CardLayout;
 
 public class BuscarCarreraPanel extends JPanel {
 
@@ -25,6 +28,8 @@ public class BuscarCarreraPanel extends JPanel {
 	private JTextField textFieldIdCarrera;
 	private JTextField textFieldCategoria;
 
+	private VerClasficacionDialog clasDial;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -34,6 +39,10 @@ public class BuscarCarreraPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getBtnAtras(), BorderLayout.SOUTH);
+		
+		JPanel pnCard = new JPanel();
+		add(pnCard, BorderLayout.NORTH);
+		pnCard.setLayout(new CardLayout(0, 0));
 
 	}
 
@@ -50,7 +59,7 @@ public class BuscarCarreraPanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					CompeticionDto comp = new CompeticionDto();
 					comp.id = textFieldIdCarrera.getText();
-					
+					showClasificacion(comp);
 				}
 			});
 			panel.add(btnVerResultados, BorderLayout.SOUTH);
@@ -90,5 +99,12 @@ public class BuscarCarreraPanel extends JPanel {
 		}
 		return btnAtras;
 	}
+	
+	private void showClasificacion(CompeticionDto comp) {
+		this.clasDial = new VerClasficacionDialog(main, comp);
+		clasDial.setLocationRelativeTo(null);
+		clasDial.setModal(true);
+		clasDial.setVisible(true);
 
+}
 }

@@ -9,7 +9,7 @@ import model.inscripcion.InscripcionDto;
 
 public class GetClasificacion implements Command{
 
-	private static final String OBTENER_RESULTADOS = "select * from Inscripcion where idCompeticion = ? sort by posicion";
+	private static final String OBTENER_RESULTADOS = "select * from Inscripcion where idCompeticion = ?";
 
 	private Database db = new Database();
 	private String id_competicion;
