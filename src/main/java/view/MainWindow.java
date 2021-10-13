@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import giis.demo.util.Database;
 import view.atleta.AtletaMain;
 
 import java.awt.CardLayout;

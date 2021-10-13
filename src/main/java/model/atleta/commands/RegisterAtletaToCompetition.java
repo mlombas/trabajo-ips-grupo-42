@@ -52,7 +52,7 @@ public class RegisterAtletaToCompetition implements Command {
 			inscripcion.nombreAtleta = atleta.nombre;
 			inscripcion.emailAtleta = atleta.email;
 			inscripcion.idCompeticion = competicion.id;
-			inscripcion.categoria = "a"; // TODO
+			inscripcion.categoria = "a"; // TODO nico
 			inscripcion.fechaInscripcion = new Date(System.currentTimeMillis());
 			inscripcion.cuotaInscripcion = competicion.cuota;
 			inscripcion.estadoInscripcion = EstadoInscripcion.PRE_INSCRITO.toString();
