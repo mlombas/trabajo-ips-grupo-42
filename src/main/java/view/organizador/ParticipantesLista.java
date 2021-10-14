@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import model.inscripcion.InscripcionDto;
+import model.competicion.PosicionDto;
 
 public class ParticipantesLista extends JPanel {
 
@@ -17,13 +17,13 @@ public class ParticipantesLista extends JPanel {
 
 	private List<ParticipantePanel> participantes;
 
-	public ParticipantesLista(List<InscripcionDto> inscripciones) {
+	public ParticipantesLista(List<PosicionDto> posiciones) {
 		participantes = new LinkedList<ParticipantePanel>();
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		for(InscripcionDto insc : inscripciones) {
-			ParticipantePanel pp = new ParticipantePanel(insc);
+		for(PosicionDto pos : posiciones) {
+			ParticipantePanel pp = new ParticipantePanel(pos);
 			participantes.add(pp);
 			add(pp);
 		}

@@ -5,25 +5,28 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import model.inscripcion.InscripcionDto;
+import model.competicion.PosicionDto;
 
-public class ParticipantePanel extends JPanel{
+public class ParticipantePanel extends JPanel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	
-	public ParticipantePanel(InscripcionDto participante) {
+	public ParticipantePanel(PosicionDto participante) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		
-		add(new JLabel(participante.poisicion+""));
+
+		add(new JLabel(participante.poisicion + ""));
 		add(Box.createHorizontalGlue());
-		//TODO Nico: añadir sexo
+		add(new JLabel(participante.sexo));
+		add(Box.createHorizontalGlue());
 		add(new JLabel(participante.nombreAtleta));
 		add(Box.createHorizontalGlue());
-		add(new JLabel(participante.tiempo+""));
+		if (participante.estadoInscripcion == "Finalizado")
+			add(new JLabel(participante.tiempo + ""));
+		else
+			add(new JLabel("-:--"));
 
 	}
 }
