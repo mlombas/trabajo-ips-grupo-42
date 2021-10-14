@@ -9,12 +9,17 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 
+import model.atleta.AtletaDto;
+import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
 
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
@@ -34,11 +39,14 @@ public class JustificanteDialog extends JDialog {
 	
 	private InscripcionDto inscripcion;
 	
+	private boolean isPagoTarjeta;
+	
 	/**
 	 * Create the panel.
 	 */
-	public JustificanteDialog(InscripcionDto inscripcion) {
+	public JustificanteDialog(InscripcionDto inscripcion, boolean isPagoTarjeta) {
 		this.inscripcion = inscripcion;
+		this.isPagoTarjeta = isPagoTarjeta;
 		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(465, 285));
@@ -47,6 +55,14 @@ public class JustificanteDialog extends JDialog {
 		getContentPane().add(getLblAgradecimiento(), BorderLayout.NORTH);
 		getContentPane().add(getPanelFormulario(), BorderLayout.CENTER);
 		getContentPane().add(getPanelOkBtn(), BorderLayout.SOUTH);
+	}
+	
+	private void showPagoTarjeta(InscripcionDto inscripcion) {
+		PagoTarjeta pagoTarjetaDialog = new PagoTarjeta(new AtletaDto(), new CompeticionDto()); // TODO inscripcion
+		pagoTarjetaDialog.setLocationRelativeTo(null);
+		pagoTarjetaDialog.setModal(true);
+		pagoTarjetaDialog.setVisible(true);
+		this.dispose();
 	}
 	
 	private JLabel getLblAgradecimiento() {
@@ -141,6 +157,16 @@ public class JustificanteDialog extends JDialog {
 		if (btnOk == null) {
 			btnOk = new JButton("OK");
 			btnOk.setMnemonic('O');
+			
+			btnOk.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(isPagoTarjeta)
+						showPagoTarjeta(inscripcion);
+				}
+			});
+			
+			
 		}
 		return btnOk;
 	}

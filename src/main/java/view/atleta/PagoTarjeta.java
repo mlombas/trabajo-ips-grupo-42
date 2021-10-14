@@ -24,7 +24,7 @@ import model.atleta.AtletaDto;
 import model.atleta.TarjetaDto;
 import model.competicion.CompeticionDto;
 
-public class PagoTarjeta extends JPanel {
+public class PagoTarjeta extends JDialog {
 
 	/**
 	 * 

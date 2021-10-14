@@ -79,7 +79,7 @@ public class FormularioInscripcionDialog extends JDialog {
 	}
 	
 	private void showJustificante(InscripcionDto inscripcion) {
-		JustificanteDialog justificanteDialog = new JustificanteDialog(inscripcion);
+		JustificanteDialog justificanteDialog = new JustificanteDialog(inscripcion, getRdbtnTarjeta().isSelected());
 		justificanteDialog.setLocationRelativeTo(null);
 		justificanteDialog.setModal(true);
 		justificanteDialog.setVisible(true);
