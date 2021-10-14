@@ -4,11 +4,12 @@ import java.util.List;
 
 import giis.demo.util.Database;
 import model.competicion.CompeticionDto;
-import model.inscripcion.InscripcionDto;
+import model.competicion.PosicionDto;
+
 
 public class GetClasificacionByCategoria{
 
-	private static final String OBTENER_RESULTADOS = "select * from Inscripcion where idCompeticion = ? and categoria = ?";
+	private static final String OBTENER_RESULTADOS = "select i.posicion, a.sexo, i.nombreAtleta, i.tiempo from Inscripcion i, Atleta a where i.idCompeticion = ? and i.categoria = ? order by i.posicion";
 
 	private Database db = new Database();
 	private String id_competicion;
@@ -20,8 +21,8 @@ public class GetClasificacionByCategoria{
 	}
 	
 	
-	public List<InscripcionDto> execute() {
-		return db.executeQueryPojo(InscripcionDto.class, OBTENER_RESULTADOS, id_competicion, categoria);
+	public List<PosicionDto> execute() {
+		return db.executeQueryPojo(PosicionDto.class, OBTENER_RESULTADOS, id_competicion, categoria);
 	}
 	
 	
