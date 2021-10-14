@@ -8,7 +8,7 @@ import model.competicion.PosicionDto;
 
 public class GetClasificacion{
 
-	private static final String OBTENER_RESULTADOS = "select i.posicion, a.sexo, i.nombreAtleta, i.tiempo from Inscripcion i, Atleta a where idCompeticion = ? order by i.posicion";
+	private static final String OBTENER_RESULTADOS = "select i.posicion, a.sexo, i.nombreAtleta, i.tiempo, i.estadoInscripcion from Inscripcion i, Atleta a where idCompeticion = ? and a.email=i.emailAtleta order by i.posicion";
 
 	private Database db = new Database();
 	private String id_competicion;

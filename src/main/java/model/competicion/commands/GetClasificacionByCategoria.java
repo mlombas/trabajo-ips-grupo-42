@@ -9,7 +9,7 @@ import model.competicion.PosicionDto;
 
 public class GetClasificacionByCategoria{
 
-	private static final String OBTENER_RESULTADOS = "select i.posicion, a.sexo, i.nombreAtleta, i.tiempo from Inscripcion i, Atleta a where i.idCompeticion = ? and i.categoria = ? order by i.posicion";
+	private static final String OBTENER_RESULTADOS = "select i.posicion, a.sexo, i.nombreAtleta, i.tiempo, i.estadoInscripcion from Inscripcion i, Atleta a where i.idCompeticion = ? and i.categoria = ? and a.email=i.emailAtleta order by i.posicion";
 
 	private Database db = new Database();
 	private String id_competicion;
