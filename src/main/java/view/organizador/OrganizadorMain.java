@@ -48,9 +48,6 @@ public class OrganizadorMain extends JPanel {
 		
 		// Add the card panel to the frame.
 		this.add(cards);
-		
-		// Default button.
-		//	getRootPane().setDefaultButton(); TODO
 	}
 	
 	protected void flipCard(String cardId) {
