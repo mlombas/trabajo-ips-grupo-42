@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import giis.demo.util.Database;
 import model.atleta.AtletaDto;
@@ -136,10 +137,10 @@ public class RegisterAtletaToCompetition {
 	private String getCategoria() throws AtletaNoValidoException, ModelException {		
 		try {
 			PreparedStatement pst = c.prepareStatement(GET_CATEGORIA);
-			int edad = new Date(System.currentTimeMillis()).getYear() - atleta.fechaNacimiento.getYear();
+			int edad = LocalDate.now().getYear() - atleta.fechaNacimiento.toLocalDate().getYear();
 			
-			pst.setString(1, edad+"");
-			pst.setString(2, edad+"");
+			pst.setString(1, edad + "");
+			pst.setString(2, edad + "");
 			pst.setString(4, atleta.sexo);
 			pst.setString(4, competicion.id);
 			ResultSet rs = pst.executeQuery();

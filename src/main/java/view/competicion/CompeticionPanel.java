@@ -1,7 +1,5 @@
 package view.competicion;
 
-import java.awt.Dimension;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -10,6 +8,8 @@ import javax.swing.JPanel;
 import model.competicion.CompeticionDto;
 
 public class CompeticionPanel extends JPanel {
+
+	private static final long serialVersionUID = 1L;
 
 	public CompeticionPanel(CompeticionDto competicion) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
