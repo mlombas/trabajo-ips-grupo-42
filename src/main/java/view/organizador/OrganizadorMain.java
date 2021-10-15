@@ -22,7 +22,7 @@ public class OrganizadorMain extends JPanel {
 	
 	private OrganizadorMenu organizadorMenu;
 	private CrearCarreraPanel crearCarreraPanel;
-	private BuscarCarreraPanel buscarCarreraPanel;
+	private VerCarrerasPanel buscarCarreraPanel;
 	/**
 	 * Create the frame.
 	 */
@@ -39,7 +39,7 @@ public class OrganizadorMain extends JPanel {
 		// Create the cards.
 		organizadorMenu = new OrganizadorMenu();
 		crearCarreraPanel = new CrearCarreraPanel(this);
-		buscarCarreraPanel = new BuscarCarreraPanel(this);
+		buscarCarreraPanel = new VerCarrerasPanel(this);
 		
 		// Create the panel that contains the cards.
 		cards.add(organizadorMenu, ORGANIZADOR_MENU);

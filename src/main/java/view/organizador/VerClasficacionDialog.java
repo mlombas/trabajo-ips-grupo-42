@@ -12,10 +12,8 @@ import model.competicion.CompeticionDto;
 
 public class VerClasficacionDialog extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
 	private JScrollPane scrollParticipantes;
 	private CompeticionDto competicion;
 	private String categoria;
@@ -26,6 +24,7 @@ public class VerClasficacionDialog extends JDialog {
 
 		setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(465, 285));
+		setLocationRelativeTo(null);
 		setResizable(true);
 		add(getCompeticionesListPane(), BorderLayout.CENTER);
 	}
