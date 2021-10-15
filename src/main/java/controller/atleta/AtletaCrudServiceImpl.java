@@ -22,8 +22,8 @@ public class AtletaCrudServiceImpl implements AtletaCrudService {
 	}
 
 	@Override
-	public Date payWithTarjeta(AtletaDto atleta, CompeticionDto competicion, TarjetaDto tarjeta) {
-		 return new PayWithTarjeta(atleta,competicion,tarjeta).execute();
+	public Date payWithTarjeta(InscripcionDto inscripcion, TarjetaDto tarjeta) {
+		 return new PayWithTarjeta(inscripcion,tarjeta).execute();
 	}
 
 	@Override

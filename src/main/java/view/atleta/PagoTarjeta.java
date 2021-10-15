@@ -1,7 +1,6 @@
 package view.atleta;
 
 import java.awt.BorderLayout;
-
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -20,9 +19,8 @@ import controller.atleta.AtletaCrudService;
 import controller.atleta.AtletaCrudServiceImpl;
 import giis.demo.util.ApplicationException;
 import giis.demo.util.Util;
-import model.atleta.AtletaDto;
 import model.atleta.TarjetaDto;
-import model.competicion.CompeticionDto;
+import model.inscripcion.InscripcionDto;
 
 public class PagoTarjeta extends JDialog {
 
@@ -41,18 +39,15 @@ public class PagoTarjeta extends JDialog {
 	private JPanel pnCvc;
 	private JLabel lbCvc;
 	private JTextField tfCvc;
-	private AtletaDto atleta;
-	private CompeticionDto competicion;
-
+	private InscripcionDto inscripcion;
 	/**
 	 * Create the frame.
 	 */
-	public PagoTarjeta(AtletaDto atleta, CompeticionDto competicion) {
+	public PagoTarjeta(InscripcionDto inscripcion) {
 		setLayout(new BorderLayout(0, 0));
 		add(getPnTarjetaCredito(), BorderLayout.CENTER);
 		add(getBtnValidarPago(), BorderLayout.SOUTH);
-		this.atleta = atleta;
-		this.competicion = competicion;
+		this.inscripcion = inscripcion;
 	}
 
 	private JPanel getPnTarjetaCredito() {
@@ -92,9 +87,9 @@ public class PagoTarjeta extends JDialog {
 				tarjeta.cvc = tfCvc.getText();
 				tarjeta.expiration = Util.isoStringToDate(tfFecha.getText());
 				AtletaCrudService acs = new AtletaCrudServiceImpl();
-				Date date = acs.payWithTarjeta(atleta, competicion, tarjeta);
-				showMessage("El pago con los siguientes datos se ha confirmado: Nombre: " + atleta.nombre + " Carrera: " + competicion.nombreCarrera 
-						+ " Cuota: " + competicion.cuota + "Fecha de pago: " + Util.dateToIsoString(date), "Informacion", JOptionPane.INFORMATION_MESSAGE);
+				Date date = acs.payWithTarjeta(inscripcion, tarjeta);
+				showMessage("El pago con los siguientes datos se ha confirmado: Nombre: " + inscripcion.nombreAtleta + " Carrera: " + inscripcion.nombreCompeticion
+						+ " Cuota: " + inscripcion.cuotaInscripcion + "Fecha de pago: " + Util.dateToIsoString(date), "Informacion", JOptionPane.INFORMATION_MESSAGE);
 			} catch (ApplicationException e) {
 				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
 			} catch (RuntimeException e) { 
