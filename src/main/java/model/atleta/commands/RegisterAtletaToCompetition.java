@@ -16,12 +16,15 @@ import util.ModelException;
 
 public class RegisterAtletaToCompetition {
 	
-	private static final String NO_REINSRIBIRSE = "select * from Inscripcion WHERE idCompeticion = ? and emailAtleta = ?";
+	private static final String NO_REINSCRIBIRSE = "select * from Inscripcion WHERE idCompeticion = ? and emailAtleta = ?";
 	private static final String PLAZO_INSCRIPCION = "select fecha from Competicion WHERE id = ?";
 	private static final String PLAZAS_LIBRES = "select c.plazas - count(*) from Competicion c, Inscripcion i WHERE i.idCompeticion = ?";
 	
 	private static final String ADD_ATLETA = "insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, categoria, fechaInscripcion, cuotaInscripcion, estadoInscripcion) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
+	private static final String GET_CATEGORIA = "select nombreCategoria from Categoria where edadMinima<=? and edadMaxima>? and sexo = ? and id = ?";
+	
+	
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
 	
@@ -50,7 +53,7 @@ public class RegisterAtletaToCompetition {
 			inscripcion.nombreAtleta = atleta.nombre;
 			inscripcion.emailAtleta = atleta.email;
 			inscripcion.idCompeticion = competicion.id;
-			inscripcion.categoria = "a"; // TODO nico
+			inscripcion.categoria = getCategoria();
 			inscripcion.fechaInscripcion = new Date(System.currentTimeMillis());
 			inscripcion.cuotaInscripcion = competicion.cuota;
 			inscripcion.estadoInscripcion = EstadoInscripcion.PRE_INSCRITO.toString();
@@ -82,7 +85,7 @@ public class RegisterAtletaToCompetition {
 
 	private void checkNoReinscripcion() throws AtletaNoValidoException, ModelException {
 		try {
-			PreparedStatement pst = c.prepareStatement(NO_REINSRIBIRSE);
+			PreparedStatement pst = c.prepareStatement(NO_REINSCRIBIRSE);
 			pst.setString(1, competicion.id);
 			pst.setString(2, atleta.email);
 			ResultSet rs = pst.executeQuery();
@@ -125,6 +128,29 @@ public class RegisterAtletaToCompetition {
 			
 			rs.close();
 			pst.close();
+		} catch(SQLException e) {
+			throw new ModelException(e.getMessage());
+		}
+	}
+	
+	private String getCategoria() throws AtletaNoValidoException, ModelException {		
+		try {
+			PreparedStatement pst = c.prepareStatement(GET_CATEGORIA);
+			int edad = new Date(System.currentTimeMillis()).getYear() - atleta.fechaNacimiento.getYear();
+			
+			pst.setString(1, edad+"");
+			pst.setString(2, edad+"");
+			pst.setString(4, atleta.sexo);
+			pst.setString(4, competicion.id);
+			ResultSet rs = pst.executeQuery();
+			String cat = rs.getString(1);
+			
+			if(cat == null) // Si no hay plazas libres
+				throw new AtletaNoValidoException("No hay categoria válida");
+			
+			rs.close();
+			pst.close();
+			return cat;
 		} catch(SQLException e) {
 			throw new ModelException(e.getMessage());
 		}

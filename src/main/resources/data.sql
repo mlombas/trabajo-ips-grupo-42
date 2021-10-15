@@ -17,3 +17,8 @@ insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nom
  			cuotaInscripcion, estadoInscripcion, fechaCambioEstado) values
  			('100','pedro@gmail.com','Pedro', 'dni','Carrera100','Juvenil H','2021-10-12',30,'Pre-inscrito','2021-10-12'),
  			('101','pedro@gmail.com','Pedro', 'dni', 'Carrera101','Juvenil H','2021-10-10',30,'Pre-inscrito','2021-10-03');
+ 			
+insert into Categoria(nombreCategoria, idCompeticion, edadMinima, edadMaxima, sexo) values 
+			('Juvenil H', 100, 18, 28, 'H'),
+			('Juvenil M', 100, 18, 28, 'M'),
+			('Juvenil H', 101, 18, 28, 'H');
