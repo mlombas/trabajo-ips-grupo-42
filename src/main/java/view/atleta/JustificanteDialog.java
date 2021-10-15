@@ -9,8 +9,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 
-import model.atleta.AtletaDto;
-import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
 
 import javax.swing.border.LineBorder;
@@ -58,7 +56,7 @@ public class JustificanteDialog extends JDialog {
 	}
 	
 	private void showPagoTarjeta(InscripcionDto inscripcion) {
-		PagoTarjeta pagoTarjetaDialog = new PagoTarjeta(new AtletaDto(), new CompeticionDto()); // TODO inscripcion
+		PagoTarjeta pagoTarjetaDialog = new PagoTarjeta(inscripcion);
 		pagoTarjetaDialog.setLocationRelativeTo(null);
 		pagoTarjetaDialog.setModal(true);
 		pagoTarjetaDialog.setVisible(true);

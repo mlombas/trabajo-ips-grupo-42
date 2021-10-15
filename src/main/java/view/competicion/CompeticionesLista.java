@@ -1,17 +1,17 @@
 package view.competicion;
 
-import java.awt.FlowLayout;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.competicion.CompeticionDto;
 
 public class CompeticionesLista extends JPanel {
 
+	private static final long serialVersionUID = 1L;
+	
 	private List<CompeticionPanel> competiciones;
 	
 	public CompeticionesLista(List<CompeticionDto> competiciones) {
