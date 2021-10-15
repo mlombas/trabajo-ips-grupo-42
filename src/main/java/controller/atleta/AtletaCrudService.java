@@ -30,7 +30,7 @@ public interface AtletaCrudService {
 	 * @param competicion --> competicion en la que quiere participar.
 	 * @return la fecha de la relización del pago
 	 */
-	Date payWithTarjeta(AtletaDto atleta, CompeticionDto competicion, TarjetaDto tarjeta);
+	Date payWithTarjeta(InscripcionDto inscripcion, TarjetaDto tarjeta);
 
 	/**
 	 * Permite al atleta visualizar todas las competiciones en las que se ha inscrito

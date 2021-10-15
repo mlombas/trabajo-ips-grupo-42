@@ -1,13 +1,12 @@
 package model.atleta.commands;
 
 import java.sql.Date;
+import java.util.List;
 
 import bank_mockup.Bank;
 import giis.demo.util.ApplicationException;
 import giis.demo.util.Database;
-import model.atleta.AtletaDto;
 import model.atleta.TarjetaDto;
-import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
 
 public class PayWithTarjeta {
@@ -15,17 +14,15 @@ public class PayWithTarjeta {
 	private static final String UPDATEINSCRIPCION = "update Inscripcion set estadoInscripcion = ?, set fechaCambioEstado = ? where idCompeticion = ? and emailAtleta = ? ";
 	private static final String GETINSCRIPCION = "select * from Inscripcion where idCompeticion = ? and emailAtleta = ? ";
 	
-	private AtletaDto atleta;
-	private CompeticionDto competicion;
+	private InscripcionDto inscripcion;
 	
 	private Database db = new Database();
 	private Bank bank = new Bank();
 	private TarjetaDto tarjeta;
 	
 	
-	public PayWithTarjeta(AtletaDto atleta, CompeticionDto competicion,TarjetaDto tarjeta) {
-		this.atleta = atleta;
-		this.competicion = competicion;
+	public PayWithTarjeta(InscripcionDto inscripcion,TarjetaDto tarjeta) {
+		this.inscripcion = inscripcion;
 		this.tarjeta = tarjeta;
 	}
 
@@ -43,7 +40,7 @@ public class PayWithTarjeta {
 		checkTartjeta();
 		
 		Date dt = new Date(System.currentTimeMillis());
-		db.executeUpdate(UPDATEINSCRIPCION, "Inscrito", dt,competicion.id, atleta.email);
+		db.executeUpdate(UPDATEINSCRIPCION, "Inscrito", dt, inscripcion.idCompeticion, inscripcion.emailAtleta);
 		
 		return  dt;
 	}
@@ -56,21 +53,21 @@ public class PayWithTarjeta {
 	}
 
 	private void checkCanPay() {
-		InscripcionDto ins = db.executeQueryPojo(InscripcionDto.class, GETINSCRIPCION, competicion.id, atleta.email).get(0);
-		if(ins.estadoInscripcion.trim().length() <= 0) {
+		List<InscripcionDto> ins = db.executeQueryPojo(InscripcionDto.class, GETINSCRIPCION, inscripcion.idCompeticion, inscripcion.emailAtleta);
+		if(ins.size() <= 0) {
 			throw new ApplicationException("No existe una inscripcion en esta competicion");
 		}
-		if(!ins.estadoInscripcion.equals("Pre-inscrito")) {
+		if(!ins.get(0).estadoInscripcion.equals("Pre-inscrito")) {
 			throw new ApplicationException("La inscripcion ya ha sido pagada");
 		}
 	}
 
 	private void checkArguments() {
-		if(atleta == null ) {
-			throw new IllegalArgumentException("El AtletaDto es nulo");
+		if(inscripcion.emailAtleta == null || inscripcion.emailAtleta.trim().length() <= 0 ) {
+			throw new IllegalArgumentException("El atleta no es válido");
 		} 
-		if(competicion == null ) {
-			throw new IllegalArgumentException("El CompeticionDto es nulo");
+		if(inscripcion.idCompeticion == null || inscripcion.idCompeticion.trim().length() <= 0 ) {
+			throw new IllegalArgumentException("La competición no es válida");
 		} 
 		
 		
