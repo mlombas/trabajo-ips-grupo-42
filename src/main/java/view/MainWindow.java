@@ -37,6 +37,7 @@ public class MainWindow extends JFrame {
 		// Setting-up some features of this window.
 		setTitle(TITLE);
 		setResizable(true);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(0, 0, 1366, 768);
 		

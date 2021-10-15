@@ -17,16 +17,12 @@ public class IncripcionesPanel extends JPanel {
 	private JScrollPane competicionesPane;
 	private JButton btnInscribirse;
 	
-	private AtletaMain main;
-	
 	private FormularioInscripcionDialog formularioDeInscripcion;
 
 	/**
 	 * Create the panel.
 	 */
-	public IncripcionesPanel(AtletaMain main) {
-		this.main = main;
-		
+	public IncripcionesPanel() {
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getBtnInscribirse(), BorderLayout.SOUTH);
