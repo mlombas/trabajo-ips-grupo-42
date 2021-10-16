@@ -2,6 +2,7 @@ package bank_mockup;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import bank_mockup.exceptions.BankCodeNotFoundException;
@@ -17,6 +18,7 @@ public class Bank {
 	}
 
 	private HashMap<String, Integer> pending;
+	private List<String> paid;
 
 	public Bank() {
 		this.pending = new HashMap<String, Integer>();
@@ -107,8 +109,18 @@ public class Bank {
 		if(pending.get(code) < amount) return false;
 		else {
 			pending.remove(code);
+			paid.add(code);
 			return true;
 		}
+	}
+	
+	/**
+	 * Checks if the provided code is already paid
+	 * @param code the code
+	 * @return true if the transaction is paid, false otherwise
+	 */
+	public boolean isPaid(String code) {
+		return paid.contains(code);
 	}
 	
 	private static String generatePayNumber(int length) {
