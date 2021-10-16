@@ -2,6 +2,8 @@ package model.competicion;
 
 import java.sql.Date;
 
+import giis.demo.util.Util;
+
 public class CompeticionDto {
 	public String id;
 	public String getId() {
@@ -28,35 +30,35 @@ public class CompeticionDto {
 	public void setDistancia(String distancia) {
 		this.distancia = distancia;
 	}
-	public double getCuota() {
-		return cuota;
+	public String getCuota() {
+		return cuota + "";
 	}
-	public void setCuota(double cuota) {
-		this.cuota = cuota;
+	public void setCuota(String cuota) {
+		this.cuota = Double.parseDouble(cuota);
 	}
-	public Date getFecha() {
-		return fecha;
+	public String getFecha() {
+		return Util.dateToIsoString(new java.util.Date(fecha.getTime()));
 	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+	public void setFecha(String fecha) {
+		this.fecha = new java.sql.Date(Util.isoStringToDate(fecha).getTime());
 	}
-	public Date getFechaInicio() {
-		return fechaInicio;
+	public String getFechaInicio() {
+		return Util.dateToIsoString(new java.util.Date(fechaInicio.getTime()));
 	}
-	public void setFechaInicio(Date fechaInicio) {
-		this.fechaInicio = fechaInicio;
+	public void setFechaInicio(String fechaInicio) {
+		this.fechaInicio = new java.sql.Date(Util.isoStringToDate(fechaInicio).getTime());
 	}
-	public Date getFechaFin() {
-		return fechaFin;
+	public String getFechaFin() {
+		return Util.dateToIsoString(new java.util.Date(fechaFin.getTime()));
 	}
-	public void setFechaFin(Date fechaFin) {
-		this.fechaFin = fechaFin;
+	public void setFechaFin(String fechaFin) {
+		this.fechaFin = new java.sql.Date(Util.isoStringToDate(fechaFin).getTime());
 	}
-	public int getPlazas() {
-		return plazas;
+	public String getPlazas() {
+		return plazas + "";
 	}
-	public void setPlazas(int plazas) {
-		this.plazas = plazas;
+	public void setPlazas(String plazas) {
+		this.plazas = Integer.parseInt(plazas);
 	}
 	public String getEstadoCarrera() {
 		return estadoCarrera;

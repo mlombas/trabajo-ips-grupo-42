@@ -10,7 +10,8 @@ public class GetAllCompeticiones {
 	private static final String ALL_COMPETITIONS =
 			"SELECT * " +
 			"FROM competicion " +
-			"WHERE fechaFin >= DATE('now')";
+			"WHERE fechaFin >= DATE('now')" +
+			"ORDER BY fecha";
 		
 	private Database db = new Database();
 	

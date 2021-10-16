@@ -4,12 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
+import giis.demo.util.SwingUtil;
 import model.ModelFactory;
+import model.competicion.CompeticionDto;
 import view.atleta.AtletaMain;
 
 public class VerCompeticionesPanel extends JPanel {
@@ -43,11 +48,22 @@ public class VerCompeticionesPanel extends JPanel {
 
 	private Component getCompeticionesListPane() {
 		if(scrollCompeticiones == null) {
-			scrollCompeticiones = new JScrollPane(
-					new CompeticionesLista(
-							ModelFactory.forCarreraCrudService().GetAllCompeticiones()
-							)
-					);
+
+			List<CompeticionDto> competiciones = ModelFactory.forCarreraCrudService().GetAllCompeticiones();
+			TableModel tmodel = SwingUtil.getTableModelFromPojos(competiciones, new String[] {
+					"nombreCarrera",
+					"tipoCarrera",
+					"fecha",
+					"distancia",
+					"cuota",
+					"fechaFin",
+					"plazas"
+					});
+			
+			JTable table = new JTable(tmodel);
+			SwingUtil.autoAdjustColumns(table);
+			
+			scrollCompeticiones = new JScrollPane(table);
 		}
 		return scrollCompeticiones;
 	}
