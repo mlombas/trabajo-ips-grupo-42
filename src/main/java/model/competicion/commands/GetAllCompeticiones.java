@@ -1,11 +1,8 @@
 package model.competicion.commands;
 
-import java.util.LinkedList;
 import java.util.List;
 
-import bank_mockup.Bank;
 import giis.demo.util.Database;
-import model.atleta.TarjetaDto;
 import model.competicion.CompeticionDto;
 
 public class GetAllCompeticiones {

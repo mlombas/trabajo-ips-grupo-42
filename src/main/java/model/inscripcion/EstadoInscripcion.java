@@ -4,6 +4,7 @@ public enum EstadoInscripcion {
 
 	PRE_INSCRITO("PRE-INSCRITO");
 	
+	
 	private String estado = "";
 	
 	EstadoInscripcion(String estado) {

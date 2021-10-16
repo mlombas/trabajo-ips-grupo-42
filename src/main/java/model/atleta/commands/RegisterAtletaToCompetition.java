@@ -5,22 +5,27 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import giis.demo.util.Database;
-import model.Command;
 import model.atleta.AtletaDto;
 import model.competicion.CompeticionDto;
 import model.inscripcion.EstadoInscripcion;
 import model.inscripcion.InscripcionDto;
+import util.AtletaNoValidoException;
+import util.ModelException;
 
-public class RegisterAtletaToCompetition implements Command {
+public class RegisterAtletaToCompetition {
 	
-	private static final String NO_REINSRIBIRSE = "select * from Inscripcion WHERE idCompeticion = ? and emailAtleta = ?";
+	private static final String NO_REINSCRIBIRSE = "select * from Inscripcion WHERE idCompeticion = ? and emailAtleta = ?";
 	private static final String PLAZO_INSCRIPCION = "select fecha from Competicion WHERE id = ?";
-	private static final String PLAZAS_LIBRES = "select plazas - count(*) from Inscripcion WHERE idCompeticion = ?";
+	private static final String PLAZAS_LIBRES = "select c.plazas - count(*) from Competicion c, Inscripcion i WHERE i.idCompeticion = ?";
 	
-	private static final String ADD_ATLETA = "insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, categoria, fechaInscripcion, estadoInscripcion) VALUES (?, ?, ?, ?, ?, ?)";
+	private static final String ADD_ATLETA = "insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, categoria, fechaInscripcion, cuotaInscripcion, estadoInscripcion) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
+	private static final String GET_CATEGORIA = "select nombreCategoria from Categoria where edadMinima<=? and edadMaxima>? and sexo = ? and id = ?";
+	
+	
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
 	
@@ -32,7 +37,7 @@ public class RegisterAtletaToCompetition implements Command {
 		this.competicion = competicion;
 	}
 
-	public InscripcionDto execute() {
+	public InscripcionDto execute() throws AtletaNoValidoException, ModelException {
 		InscripcionDto inscripcion = new InscripcionDto(); 
 		
 		try {
@@ -47,82 +52,108 @@ public class RegisterAtletaToCompetition implements Command {
 			PreparedStatement pst = c.prepareStatement(ADD_ATLETA);
 			
 			inscripcion.nombreAtleta = atleta.nombre;
+			inscripcion.emailAtleta = atleta.email;
 			inscripcion.idCompeticion = competicion.id;
-			// inscripcion.categoria = ; TODO
+			inscripcion.categoria = getCategoria();
 			inscripcion.fechaInscripcion = new Date(System.currentTimeMillis());
 			inscripcion.cuotaInscripcion = competicion.cuota;
 			inscripcion.estadoInscripcion = EstadoInscripcion.PRE_INSCRITO.toString();
 			
-			pst.setString(1, inscripcion.nombreAtleta);
-			pst.setString(2, inscripcion.idCompeticion);
-			pst.setString(3, inscripcion.categoria);
-			pst.setDate(4, inscripcion.fechaInscripcion);
-			pst.setDouble(5, inscripcion.cuotaInscripcion);
-			pst.setString(6, inscripcion.estadoInscripcion);
+			pst.setString(1, inscripcion.idCompeticion);
+			pst.setString(2, inscripcion.emailAtleta);
+			pst.setString(3, inscripcion.nombreAtleta);
+			pst.setString(4, inscripcion.categoria);
+			pst.setDate(5, inscripcion.fechaInscripcion);
+			pst.setDouble(6, inscripcion.cuotaInscripcion);
+			pst.setString(7, inscripcion.estadoInscripcion);
 			
 			pst.executeUpdate();
 			
 			pst.close();
 			c.close();
 		}catch(SQLException e) {
-			// TODO throw exception
+			throw new ModelException(e.getMessage());
 		}
 		
 		return inscripcion;
 	}
 
-	private void checkCanEnroll() {
+	private void checkCanEnroll() throws AtletaNoValidoException, ModelException {
 		checkNoReinscripcion();
 		checkPlazoAbierto();
 		checkPlazasLibres();
 	}
 
-	private void checkNoReinscripcion() {
+	private void checkNoReinscripcion() throws AtletaNoValidoException, ModelException {
 		try {
-			PreparedStatement pst = c.prepareStatement(NO_REINSRIBIRSE);
+			PreparedStatement pst = c.prepareStatement(NO_REINSCRIBIRSE);
 			pst.setString(1, competicion.id);
 			pst.setString(2, atleta.email);
 			ResultSet rs = pst.executeQuery();
 			
 			if(rs.next()) // Si ya se había registrado
-				throw new IllegalArgumentException();
+				throw new AtletaNoValidoException("Te estás intentando reinscribir");
 			
 			rs.close();
 			pst.close();
 		} catch(SQLException e) {
-			// TODO throw exception
+			throw new ModelException(e.getMessage());
 		}
 	}
 	
-	private void checkPlazoAbierto() {
+	private void checkPlazoAbierto() throws AtletaNoValidoException, ModelException {
 		try {
 			PreparedStatement pst = c.prepareStatement(PLAZO_INSCRIPCION);
 			pst.setString(1, competicion.id);
 			ResultSet rs = pst.executeQuery();
 			
 			if(rs.next()) // Si el plazo no está abierto
-				throw new IllegalArgumentException();
+				throw new AtletaNoValidoException("El plazo de inscripción está cerrado");
 			
 			rs.close();
 			pst.close();
 		} catch(SQLException e) {
-			// TODO throw exception
+			throw new ModelException(e.getMessage());
 		}
 	}
 	
-	private void checkPlazasLibres() {
+	private void checkPlazasLibres() throws AtletaNoValidoException, ModelException {
 		try {
 			PreparedStatement pst = c.prepareStatement(PLAZAS_LIBRES);
 			pst.setString(1, competicion.id);
 			ResultSet rs = pst.executeQuery();
+			int plazasLibres = rs.getInt(1);
 			
-			if(rs.next()) // Si no hay plazas libres
-				throw new IllegalArgumentException();
+			if(plazasLibres <= 0) // Si no hay plazas libres
+				throw new AtletaNoValidoException("No quedan plazas libres");
 			
 			rs.close();
 			pst.close();
 		} catch(SQLException e) {
-			// TODO throw exception
+			throw new ModelException(e.getMessage());
+		}
+	}
+	
+	private String getCategoria() throws AtletaNoValidoException, ModelException {		
+		try {
+			PreparedStatement pst = c.prepareStatement(GET_CATEGORIA);
+			int edad = LocalDate.now().getYear() - atleta.fechaNacimiento.toLocalDate().getYear();
+			
+			pst.setString(1, edad + "");
+			pst.setString(2, edad + "");
+			pst.setString(4, atleta.sexo);
+			pst.setString(4, competicion.id);
+			ResultSet rs = pst.executeQuery();
+			String cat = rs.getString(1);
+			
+			if(cat == null) // Si no hay plazas libres
+				throw new AtletaNoValidoException("No hay categoria válida");
+			
+			rs.close();
+			pst.close();
+			return cat;
+		} catch(SQLException e) {
+			throw new ModelException(e.getMessage());
 		}
 	}
 

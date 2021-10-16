@@ -6,6 +6,7 @@
 drop table Competicion;
 drop table Atleta;
 drop table Inscripcion;
+drop table Categoria;
 
 create table Competicion (
 	id varchar(255) primary key not null, 
@@ -38,11 +39,13 @@ create table Inscripcion (
 	idCompeticion varchar(255) not null,
 	emailAtleta varchar(255) not null,
 	nombreAtleta varchar(255) not null,
+	dniAtleta varchar(255) not null,
+	nombreCompeticion varchar(255) not null,
 	categoria varchar(255) not null,
 	fechaInscripcion date not null,
 	cuotaInscripcion decimal(10,2) not null,
 	estadoInscripcion varchar(255) not null,
-	fechaCambioEstado date not null,
+	fechaCambioEstado date,
 	posicion int,
 	tiempo decimal(10,2),
 	
@@ -50,6 +53,20 @@ create table Inscripcion (
 	foreign key(idCompeticion) references Competicion(id),
 	foreign key(emailAtleta) references Atleta(email),
 	foreign key(nombreAtleta) references Atleta(nombre),
-	foreign key(cuotaInscripcion) references Competicion(cuota)
+	foreign key(dniAtleta) references Atleta(dni),
+	foreign key(cuotaInscripcion) references Competicion(cuota),
+	foreign key(nombreCompeticion) references Competicion(nombreCarrera),
+	foreign key(categoria) references Categoria(nombreCategoria)
+);
+
+create table Categoria (
+	nombreCategoria varchar(255) not null,
+	idCompeticion varchar(255) not null,
+	edadMinima int not null,
+	edadMaxima int not null,
+	sexo varchar(255),
+	
+	primary key(nombreCategoria,idCompeticion),
+	foreign key(idCompeticion) references Competicion(id)
 );
 

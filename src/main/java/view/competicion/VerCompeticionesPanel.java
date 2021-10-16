@@ -14,6 +14,8 @@ import view.atleta.AtletaMain;
 
 public class VerCompeticionesPanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
+	
 	private AtletaMain main;
 	private JButton btnAtras;
 	private JScrollPane scrollCompeticiones;

@@ -56,9 +56,6 @@ public class AtletaMain extends JPanel {
 		
 		// Add the card panel to the frame.
 		this.add(cards);
-		
-		// Default button.
-		//	getRootPane().setDefaultButton(); TODO
 	}
 	
 	public void startPanel() {
