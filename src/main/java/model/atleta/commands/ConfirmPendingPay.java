@@ -3,6 +3,7 @@ package model.atleta.commands;
 import java.sql.Date;
 import java.util.List;
 
+import bank_mockup.Bank;
 import giis.demo.util.ApplicationException;
 import giis.demo.util.Database;
 import model.inscripcion.InscripcionDto;
@@ -14,30 +15,37 @@ public class ConfirmPendingPay {
 	private InscripcionDto inscripcion;
 	
 	private Database db = new Database();
-	
+	private String code;
+	private static Bank bank = new Bank();
 	
 	public ConfirmPendingPay(InscripcionDto inscripcion, String code) {
 		this.inscripcion = inscripcion;
+		this.code = code;
 	}
 
 	public Date execute() {
 		checkArguments();
-		checkCanPay();
-		
-		//TODO(Mario): Check that the bank confirms the payment
-		
+		checkExists();
+		checkIsPaid();
+
 		Date dt = new Date(System.currentTimeMillis());
 		db.executeUpdate(UPDATEINSCRIPCION, "Inscrito", dt, inscripcion.idCompeticion, inscripcion.emailAtleta);
 		
-		return  dt;
+		return dt;
 	}
 
-	private void checkCanPay() {
+	private void checkIsPaid() {
+		if(!bank.isPaid(code)) {
+			throw new ApplicationException("La inscripcion ya ha sido pagada");
+		}
+	}
+	
+	private void checkExists() {
 		List<InscripcionDto> ins = db.executeQueryPojo(InscripcionDto.class, GETINSCRIPCION, inscripcion.idCompeticion, inscripcion.emailAtleta);
 		if(ins.size() <= 0) {
 			throw new ApplicationException("No existe una inscripcion en esta competicion");
 		}
-		if(!ins.get(0).estadoInscripcion.equals("Pre-inscrito")) {
+		if(!ins.get(0).estadoInscripcion.equals("Pago-pendiente")) {
 			throw new ApplicationException("La inscripcion ya ha sido pagada");
 		}
 	}
