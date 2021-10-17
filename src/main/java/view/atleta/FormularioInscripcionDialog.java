@@ -231,13 +231,17 @@ public class FormularioInscripcionDialog extends JDialog {
 						return;
 					}
 					
-					JDialog dialog;
-					if(tipoDePago.isSelected(rdbtnTarjeta.getModel()))
-						dialog = new PagoTarjeta(inscripcion);
-					else 
-						dialog = null;
-					
-					dialog.setVisible(true);
+
+					if(tipoDePago.isSelected(rdbtnTarjeta.getModel())) {
+						JDialog dialog = new PagoTarjeta(inscripcion);
+						dialog.setVisible(true);
+					} else {
+						String code = ModelFactory.forAtletaCrudService().pendingPayWithTransaction(inscripcion);
+						JOptionPane.showMessageDialog(
+								inscripcoines,
+								"Haz una transferencia con el código " + code + " en no mas de 2 dias"
+								);
+					}
 					
 					closeDialog();
 					showJustificante(inscripcion);
