@@ -229,6 +229,14 @@ public class FormularioInscripcionDialog extends JDialog {
 						return;
 					}
 					
+					JDialog dialog;
+					if(tipoDePago.isSelected(rdbtnTarjeta.getModel()))
+						dialog = new PagoTarjeta(inscripcion);
+					else 
+						dialog = null;
+					
+					dialog.setVisible(true);
+					
 					closeDialog();
 					showJustificante(inscripcion);
 				}
