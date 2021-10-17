@@ -107,6 +107,7 @@ public class RegisterAtletaToCompetition {
 			pst.setString(1, competicion.id);
 			ResultSet rs = pst.executeQuery();
 			
+			//TODO(angel): esto no funciona
 			if(rs.next()) // Si el plazo no está abierto
 				throw new AtletaNoValidoException("El plazo de inscripción está cerrado");
 			

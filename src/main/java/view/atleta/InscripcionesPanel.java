@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import model.competicion.CompeticionDto;
+import view.competicion.VerCompeticionesPanel;
 
 import javax.swing.JButton;
 import java.awt.BorderLayout;
@@ -11,11 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.GridLayout;
 
-public class IncripcionesPanel extends JPanel {
+public class InscripcionesPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JScrollPane competicionesPane;
+	private VerCompeticionesPanel competiciones;
 	private JButton btnInscribirse;
 	private JButton btnAtras;
 	
@@ -27,7 +29,7 @@ public class IncripcionesPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public IncripcionesPanel(AtletaMain main) {
+	public InscripcionesPanel(AtletaMain main) {
 		this.main = main;
 		
 		setLayout(new BorderLayout(0, 0));
@@ -37,7 +39,7 @@ public class IncripcionesPanel extends JPanel {
 	}
 	
 	private void showFormularioDeInscripcion() {
-		this.formularioDeInscripcion = new FormularioInscripcionDialog();
+		this.formularioDeInscripcion = new FormularioInscripcionDialog(this);
 		formularioDeInscripcion.setLocationRelativeTo(null);
 		formularioDeInscripcion.setModal(true);
 		formularioDeInscripcion.setVisible(true);
@@ -45,11 +47,15 @@ public class IncripcionesPanel extends JPanel {
 
 	private JScrollPane getCompeticionesPane() {
 		if (competicionesPane == null) {
-			competicionesPane = new JScrollPane();
+			competiciones = new VerCompeticionesPanel(main);
+			competicionesPane = new JScrollPane(competiciones);
 		}
 		return competicionesPane;
 	}
 
+	public String getCompeticionId() {
+		return competiciones.getCompeticionId();
+	}
 	
 	private JPanel getPanelButtons() {
 		if (panelButtons == null) {

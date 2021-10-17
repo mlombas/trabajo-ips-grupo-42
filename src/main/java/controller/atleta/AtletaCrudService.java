@@ -39,4 +39,10 @@ public interface AtletaCrudService {
 	 */
 	List<InscripcionDto> getCompetionesInscritas(AtletaDto atleta);
 	
+	/**
+	 * Añade una transaccion pendiente al atleta
+	 * @param inscripcion --> la inscripcion
+	 * @return el codigo de transaccion
+	 */
+	String pendingPayWithTransaction(InscripcionDto inscripcion);
 }

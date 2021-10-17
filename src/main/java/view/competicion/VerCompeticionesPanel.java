@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,6 +25,7 @@ public class VerCompeticionesPanel extends JPanel {
 	private AtletaMain main;
 	private JButton btnAtras;
 	private JScrollPane scrollCompeticiones;
+	private JTable competicionesTable;
 	
 	public VerCompeticionesPanel(AtletaMain main) {
 		this.main = main;
@@ -51,6 +53,7 @@ public class VerCompeticionesPanel extends JPanel {
 
 			List<CompeticionDto> competiciones = ModelFactory.forCarreraCrudService().GetAllCompeticiones();
 			TableModel tmodel = SwingUtil.getTableModelFromPojos(competiciones, new String[] {
+					"id",
 					"nombreCarrera",
 					"tipoCarrera",
 					"fecha",
@@ -59,13 +62,17 @@ public class VerCompeticionesPanel extends JPanel {
 					"fechaFin",
 					"plazas"
 					});
+			competicionesTable = new JTable(tmodel);
+			SwingUtil.autoAdjustColumns(competicionesTable);
 			
-			JTable table = new JTable(tmodel);
-			SwingUtil.autoAdjustColumns(table);
-			
-			scrollCompeticiones = new JScrollPane(table);
+			scrollCompeticiones = new JScrollPane(competicionesTable);
 		}
 		return scrollCompeticiones;
+	}
+	
+	public String getCompeticionId() {
+		int row = competicionesTable.getSelectedRow();
+		return competicionesTable.getValueAt(row, 0).toString();
 	}
 
 }
