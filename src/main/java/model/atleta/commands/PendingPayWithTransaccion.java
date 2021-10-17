@@ -12,24 +12,33 @@ import model.inscripcion.InscripcionDto;
 public class PendingPayWithTransaccion {
 	private static final String UPDATEINSCRIPCION = "update Inscripcion set estadoInscripcion = ?, set fechaCambioEstado = ? where idCompeticion = ? and emailAtleta = ? ";
 	private static final String GETINSCRIPCION = "select * from Inscripcion where idCompeticion = ? and emailAtleta = ? ";
+	private static final String GETCUOTA = "select cuota from carrera where id = ?";
 	
 	private InscripcionDto inscripcion;
 	
 	private Database db = new Database();
 	
+	private Bank bank = new Bank();
 	
 	public PendingPayWithTransaccion(InscripcionDto inscripcion) {
 		this.inscripcion = inscripcion;
 	}
 
-	public Date execute() {
+	public String execute() {
 		checkArguments();
 		checkCanPay();
 		
 		Date dt = new Date(System.currentTimeMillis());
 		db.executeUpdate(UPDATEINSCRIPCION, "Pago-pendiente", dt, inscripcion.idCompeticion, inscripcion.emailAtleta);
 		
-		return  dt;
+		String code = addTransaction();
+		return code;
+	}
+	
+	private String addTransaction() {
+		int cuota = db.executeQueryPojo(Integer.class, GETCUOTA, inscripcion.idCompeticion).get(0);
+		String code = bank.addPendingTransaction(cuota);
+		return code;
 	}
 
 	private void checkCanPay() {
