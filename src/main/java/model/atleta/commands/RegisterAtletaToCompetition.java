@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import giis.demo.util.Database;
 import model.Command;
@@ -103,9 +104,10 @@ public class RegisterAtletaToCompetition implements Command {
 			PreparedStatement pst = c.prepareStatement(PLAZO_INSCRIPCION);
 			pst.setString(1, competicion.id);
 			ResultSet rs = pst.executeQuery();
+			LocalDate date = new java.sql.Date(rs.getDate("fecha").getTime()).toLocalDate();
 			
-			if(rs.next()) // Si el plazo no está abierto
-				throw new AtletaNoValidoException("El plazo de inscripción está cerrado");
+			if(LocalDate.now().compareTo(date) > 0)
+				throw new AtletaNoValidoException("Ha pasado el plazo de inscripción");
 			
 			rs.close();
 			pst.close();
