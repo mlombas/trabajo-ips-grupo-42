@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import model.competicion.CompeticionDto;
+import view.competicion.VerCompeticionesPanel;
 
 import javax.swing.JButton;
 import java.awt.BorderLayout;
@@ -18,6 +19,7 @@ public class IncripcionesPanel extends JPanel {
 	private JScrollPane competicionesPane;
 	private JButton btnInscribirse;
 	private JButton btnAtras;
+	private VerCompeticionesPanel competiciones;
 	
 	private AtletaMain main;
 	
@@ -45,7 +47,8 @@ public class IncripcionesPanel extends JPanel {
 
 	private JScrollPane getCompeticionesPane() {
 		if (competicionesPane == null) {
-			competicionesPane = new JScrollPane();
+			competiciones = new VerCompeticionesPanel(main, false);
+			competicionesPane = new JScrollPane(competiciones);
 		}
 		return competicionesPane;
 	}
