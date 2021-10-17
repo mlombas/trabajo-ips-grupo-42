@@ -39,7 +39,7 @@ public class IncripcionesPanel extends JPanel {
 	}
 	
 	private void showFormularioDeInscripcion() {
-		this.formularioDeInscripcion = new FormularioInscripcionDialog();
+		this.formularioDeInscripcion = new FormularioInscripcionDialog(this);
 		formularioDeInscripcion.setLocationRelativeTo(null);
 		formularioDeInscripcion.setModal(true);
 		formularioDeInscripcion.setVisible(true);
@@ -91,6 +91,10 @@ public class IncripcionesPanel extends JPanel {
 			});
 		}
 		return btnAtras;
+	}
+
+	public String getCompeticionId() {
+		return competiciones.getCompeticionId();
 	}
 	
 }

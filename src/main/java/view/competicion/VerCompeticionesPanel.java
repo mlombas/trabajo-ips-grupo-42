@@ -24,6 +24,7 @@ public class VerCompeticionesPanel extends JPanel {
 	private AtletaMain main;
 	private JButton btnAtras;
 	private JScrollPane scrollCompeticiones;
+	private JTable table;
 	
 	public VerCompeticionesPanel(AtletaMain main) {
 		this(main, true);
@@ -63,12 +64,17 @@ public class VerCompeticionesPanel extends JPanel {
 					"plazas"
 					});
 			
-			JTable table = new JTable(tmodel);
+			table = new JTable(tmodel);
 			SwingUtil.autoAdjustColumns(table);
 			
 			scrollCompeticiones = new JScrollPane(table);
 		}
 		return scrollCompeticiones;
+	}
+	
+	public String getCompeticionId() {
+		int index = table.getSelectedRow();
+		return table.getComponentAt(index, 0).toString();
 	}
 
 }
