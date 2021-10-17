@@ -12,14 +12,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.GridLayout;
 
-public class InscripcionesPanel extends JPanel {
+public class IncripcionesPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JScrollPane competicionesPane;
-	private VerCompeticionesPanel competiciones;
 	private JButton btnInscribirse;
 	private JButton btnAtras;
+	private VerCompeticionesPanel competiciones;
 	
 	private AtletaMain main;
 	
@@ -29,7 +29,7 @@ public class InscripcionesPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public InscripcionesPanel(AtletaMain main) {
+	public IncripcionesPanel(AtletaMain main) {
 		this.main = main;
 		
 		setLayout(new BorderLayout(0, 0));
@@ -39,7 +39,7 @@ public class InscripcionesPanel extends JPanel {
 	}
 	
 	private void showFormularioDeInscripcion() {
-		this.formularioDeInscripcion = new FormularioInscripcionDialog(this);
+		this.formularioDeInscripcion = new FormularioInscripcionDialog();
 		formularioDeInscripcion.setLocationRelativeTo(null);
 		formularioDeInscripcion.setModal(true);
 		formularioDeInscripcion.setVisible(true);
@@ -53,9 +53,6 @@ public class InscripcionesPanel extends JPanel {
 		return competicionesPane;
 	}
 
-	public String getCompeticionId() {
-		return competiciones.getCompeticionId();
-	}
 	
 	private JPanel getPanelButtons() {
 		if (panelButtons == null) {

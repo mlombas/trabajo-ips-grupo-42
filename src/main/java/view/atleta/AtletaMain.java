@@ -25,7 +25,7 @@ public class AtletaMain extends JPanel {
 	private JPanel cards;
 	
 	private AtletaMenu atletaMenu;
-	private InscripcionesPanel inscripcionesPanel;
+	private IncripcionesPanel inscripcionesPanel;
 	private VerInscripcionesPanel verInscripcionesPanel;
 	private VerCompeticionesPanel verCarrerasPanel;
 	
@@ -44,7 +44,7 @@ public class AtletaMain extends JPanel {
 		
 		// Create the cards.
 		atletaMenu = new AtletaMenu();
-		inscripcionesPanel = new InscripcionesPanel(this);
+		inscripcionesPanel = new IncripcionesPanel(this);
 		verInscripcionesPanel = new VerInscripcionesPanel(this);
 		verCarrerasPanel = new VerCompeticionesPanel(this);
 		

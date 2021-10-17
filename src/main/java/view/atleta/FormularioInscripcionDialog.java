@@ -44,7 +44,6 @@ public class FormularioInscripcionDialog extends JDialog {
 	private JRadioButton rdbtnTransferencia;
 	private JRadioButton rdbtnTarjeta;
 	private JPanel panelValidarBtn;
-	private InscripcionesPanel inscripcoines;
 	
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
@@ -52,9 +51,8 @@ public class FormularioInscripcionDialog extends JDialog {
 	/**
 	 * Create the panel.
 	 */
-	public FormularioInscripcionDialog(InscripcionesPanel inscripciones) {
+	public FormularioInscripcionDialog() {
 		this.competicion = new CompeticionDto();
-		this.inscripcoines = inscripciones;
 		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(465, 285));
@@ -215,7 +213,7 @@ public class FormularioInscripcionDialog extends JDialog {
 						return;
 					} // Show warning
 					
-					competicion.id = inscripcoines.getCompeticionId();
+					competicion.id = "a"; // TODO mario
 					
 					InscripcionDto inscripcion = null;
 					try {
@@ -229,18 +227,6 @@ public class FormularioInscripcionDialog extends JDialog {
 						showError("Lo siento, algo ha salido mal...");
 						closeDialog();
 						return;
-					}
-					
-
-					if(tipoDePago.isSelected(rdbtnTarjeta.getModel())) {
-						JDialog dialog = new PagoTarjeta(inscripcion);
-						dialog.setVisible(true);
-					} else {
-						String code = ModelFactory.forAtletaCrudService().pendingPayWithTransaction(inscripcion);
-						JOptionPane.showMessageDialog(
-								inscripcoines,
-								"Haz una transferencia con el código " + code + " en no mas de 2 dias"
-								);
 					}
 					
 					closeDialog();
