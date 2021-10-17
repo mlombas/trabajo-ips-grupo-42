@@ -7,7 +7,6 @@ import model.atleta.AtletaDto;
 import model.atleta.TarjetaDto;
 import model.atleta.commands.GetCompeticionesInscritas;
 import model.atleta.commands.PayWithTarjeta;
-import model.atleta.commands.PendingPayWithTransaccion;
 import model.atleta.commands.RegisterAtletaToCompetition;
 import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
@@ -30,11 +29,6 @@ public class AtletaCrudServiceImpl implements AtletaCrudService {
 	@Override
 	public List<InscripcionDto> getCompetionesInscritas(AtletaDto atleta) {
 		return new GetCompeticionesInscritas(atleta).execute();
-	}
-	
-	@Override
-	public String pendingPayWithTransaction(InscripcionDto inscripcion) {
-		return new PendingPayWithTransaccion(inscripcion).execute();
 	}
 
 }
