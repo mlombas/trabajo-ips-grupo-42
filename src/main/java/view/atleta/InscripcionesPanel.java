@@ -47,7 +47,7 @@ public class InscripcionesPanel extends JPanel {
 
 	private JScrollPane getCompeticionesPane() {
 		if (competicionesPane == null) {
-			competiciones = new VerCompeticionesPanel(main);
+			competiciones = new VerCompeticionesPanel(main, false);
 			competicionesPane = new JScrollPane(competiciones);
 		}
 		return competicionesPane;

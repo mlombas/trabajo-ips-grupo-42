@@ -28,11 +28,14 @@ public class VerCompeticionesPanel extends JPanel {
 	private JTable competicionesTable;
 	
 	public VerCompeticionesPanel(AtletaMain main) {
+		this(main, true);
+	}
+	public VerCompeticionesPanel(AtletaMain main, boolean botonAtras) {
 		this.main = main;
 		
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesListPane(), BorderLayout.CENTER);
-		add(getBtnAtras(), BorderLayout.SOUTH);
+		if(botonAtras) add(getBtnAtras(), BorderLayout.SOUTH);
 	}
 
 	private Component getBtnAtras() {
