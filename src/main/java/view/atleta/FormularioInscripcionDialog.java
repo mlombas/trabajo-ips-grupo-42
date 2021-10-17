@@ -44,6 +44,7 @@ public class FormularioInscripcionDialog extends JDialog {
 	private JRadioButton rdbtnTransferencia;
 	private JRadioButton rdbtnTarjeta;
 	private JPanel panelValidarBtn;
+	private IncripcionesPanel inscripciones;
 	
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
@@ -51,8 +52,9 @@ public class FormularioInscripcionDialog extends JDialog {
 	/**
 	 * Create the panel.
 	 */
-	public FormularioInscripcionDialog() {
+	public FormularioInscripcionDialog(IncripcionesPanel incripcionesPanel) {
 		this.competicion = new CompeticionDto();
+		this.inscripciones = incripcionesPanel;
 		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(465, 285));
@@ -213,7 +215,7 @@ public class FormularioInscripcionDialog extends JDialog {
 						return;
 					} // Show warning
 					
-					competicion.id = "a"; // TODO mario
+					competicion.id = inscripciones.getCompeticionId();
 					
 					InscripcionDto inscripcion = null;
 					try {
