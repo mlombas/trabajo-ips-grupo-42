@@ -308,8 +308,9 @@ public class FormularioInscripcionDialog extends JDialog {
 						return;
 					}
 					
-					competicion.id = inscripciones.getCompeticionId();
-					if(competicion.id.trim().isEmpty()) {
+					try {
+						competicion.id = inscripciones.getCompeticionId();
+					} catch(ArrayIndexOutOfBoundsException aiobe) {
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
 						return;
 					}

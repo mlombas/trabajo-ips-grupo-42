@@ -1,7 +1,6 @@
 package model.atleta.commands;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -62,7 +61,7 @@ public class RegisterAtletaToCompetition {
 			inscripcion.emailAtleta = atleta.email;
 			inscripcion.idCompeticion = competicion.id;
 			inscripcion.categoria = getCategoria();
-			inscripcion.fechaInscripcion = new Date(System.currentTimeMillis());
+			inscripcion.fechaInscripcion = LocalDate.now();
 			inscripcion.cuotaInscripcion = competicion.cuota;
 			inscripcion.estadoInscripcion = EstadoInscripcion.PRE_INSCRITO.toString();
 			
@@ -70,7 +69,7 @@ public class RegisterAtletaToCompetition {
 			pst.setString(2, inscripcion.emailAtleta);
 			pst.setString(3, inscripcion.nombreAtleta);
 			pst.setString(4, inscripcion.categoria);
-			pst.setDate(5, inscripcion.fechaInscripcion);
+			pst.setString(5, inscripcion.fechaInscripcion.toString());
 			pst.setDouble(6, inscripcion.cuotaInscripcion);
 			pst.setString(7, inscripcion.estadoInscripcion);
 			

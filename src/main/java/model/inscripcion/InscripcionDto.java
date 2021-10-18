@@ -1,6 +1,7 @@
 package model.inscripcion;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import giis.demo.util.Util;
 
@@ -12,7 +13,7 @@ public class InscripcionDto {
 	public String dniAtleta;
 	public String nombreCompeticion;
 	public String categoria;
-	public Date fechaInscripcion;
+	public LocalDate fechaInscripcion;
 	public double cuotaInscripcion;
 	public String estadoInscripcion;
 	public Date fechaCambioEstado;
@@ -56,11 +57,11 @@ public class InscripcionDto {
 	}
 
 	public String getFechaInscripcion() {
-		return Util.dateToIsoString(new java.util.Date(fechaInscripcion.getTime()));
+		return fechaInscripcion.toString();
 	}
 
 	public void setFechaInscripcion(String fechaInscripcion) {
-		this.fechaInscripcion = new java.sql.Date(Util.isoStringToDate(fechaInscripcion).getTime());
+		this.fechaInscripcion = LocalDate.parse(fechaInscripcion);
 	}
 
 	public double getCuotaInscripcion() {

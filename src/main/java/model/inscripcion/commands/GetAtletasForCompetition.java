@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +19,11 @@ import util.ModelException;
 public class GetAtletasForCompetition {
 
 	private static String GET_ATLETAS_FROM_COMPETITION = ""
-			+ "select a.dni, a.nombre, i.categoria, i.fechaInscripcion, i.estado"
+			+ "select a.dni, a.nombre, i.categoria, i.fechaInscripcion, i.estadoInscripcion"
 			+ "		from Atleta a, Inscripcion i"
 			+ "		where a.email = i.emailAtleta"
 			+ "			and i.idCompeticion = ?"
-			+ "		order by i.fechaInscripcion, i.estado";
+			+ "		order by i.fechaInscripcion, i.estadoInscripcion";
 	
 	private CompeticionDto competition;
 	
@@ -47,7 +51,17 @@ public class GetAtletasForCompetition {
 				inscripcion.dniAtleta = rs.getString(1);
 				inscripcion.nombreAtleta = rs.getString(2);
 				inscripcion.categoria = rs.getString(3);
-				inscripcion.fechaInscripcion = rs.getDate(4);
+				
+				try {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					long time = sdf.parse(rs.getString("fechaInscripcion")).getTime();
+					inscripcion.fechaInscripcion = Instant.ofEpochMilli(time)
+							  .atZone(ZoneId.systemDefault())
+							  .toLocalDate();;
+				} catch (ParseException e) {
+					// DO nothing
+				}
+				
 				inscripcion.estadoInscripcion = rs.getString(5);
 				
 				inscripciones.add(inscripcion);
@@ -57,6 +71,7 @@ public class GetAtletasForCompetition {
 			pst.close();
 			c.close();
 		}catch(SQLException e) {
+			e.printStackTrace();
 			throw new ModelException(e.getMessage());
 		}
 		
