@@ -3,20 +3,24 @@ package view.organizador;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 
 import model.ModelFactory;
 import model.competicion.CompeticionDto;
+import model.competicion.PosicionDto;
+import view.util.ClasificacionesToTable;
 
 public class VerClasficacionDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private JScrollPane scrollParticipantes;
 	private CompeticionDto competicion;
 	private String categoria;
+	ClasificacionesToTable table;;
 
 	public VerClasficacionDialog(CompeticionDto competicion, String categoria) {
 		this.competicion = competicion;
@@ -31,12 +35,16 @@ public class VerClasficacionDialog extends JDialog {
 
 	private Component getCompeticionesListPane() {
 		if (scrollParticipantes == null) {
+			scrollParticipantes = new JScrollPane();
+			List<PosicionDto> clasificacion;
 			if (categoria.isBlank()) {
-				scrollParticipantes = new JScrollPane(
-						new ParticipantesLista(ModelFactory.forCarreraCrudService().GetClasificacion(competicion)));
-			}else {
-				scrollParticipantes = new JScrollPane(
-						new ParticipantesLista(ModelFactory.forCarreraCrudService().GetClasificacion(competicion, categoria)));
+				clasificacion = ModelFactory.forCarreraCrudService().GetClasificacion(competicion);
+				table = new ClasificacionesToTable(clasificacion);
+				scrollParticipantes.setViewportView(table);
+			} else {
+				clasificacion = ModelFactory.forCarreraCrudService().GetClasificacion(competicion, categoria);
+				table = new ClasificacionesToTable(clasificacion);
+				scrollParticipantes.setViewportView(table);
 			}
 		}
 		return scrollParticipantes;

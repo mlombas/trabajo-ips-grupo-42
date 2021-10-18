@@ -3,17 +3,17 @@ package model.competicion;
 
 public class PosicionDto {
 
-	public int poisicion;
+	public int posicion;
 	public String sexo;
 	public String nombreAtleta;
 	public double tiempo;
 	public String estadoInscripcion; //TODO Nico cambiar esto por el enum
 	
-	public int getPoisicion() {
-		return poisicion;
+	public int getPosicion() {
+		return posicion;
 	}
-	public void setPoisicion(int poisicion) {
-		this.poisicion = poisicion;
+	public void setPosicion(int posicion) {
+		this.posicion = posicion;
 	}
 	public String getSexo() {
 		return sexo;
