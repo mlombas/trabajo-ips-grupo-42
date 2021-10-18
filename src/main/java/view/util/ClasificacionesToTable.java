@@ -14,7 +14,7 @@ public class ClasificacionesToTable extends JTable {
 	public ClasificacionesToTable(List<PosicionDto> posiciones) {
 		setDefaultEditor(Object.class, null); // hacer que no sea editable
 		
-		String[] columnNames = {"DNI", "nombre", "categoria", "fechaInscripcion", "estadoInscripcion"};
+		String[] columnNames = {"posicion", "sexo", "nombre", "tiempo"};
 		DefaultTableModel model = new DefaultTableModel(null, columnNames);
 		
 		for(PosicionDto posicion : posiciones) {
