@@ -6,7 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -90,9 +90,10 @@ public class PagoTarjetaDialog extends JDialog {
 				tarjeta.cvc = tfCvc.getText();
 				tarjeta.expiration = Util.isoStringToDate(tfFecha.getText());
 				AtletaCrudService acs = new AtletaCrudServiceImpl();
-				Date date = acs.payWithTarjeta(inscripcion, tarjeta);
-				showMessage("El pago con los siguientes datos se ha confirmado: Nombre: " + inscripcion.nombreAtleta + " Carrera: " + inscripcion.nombreCompeticion
-						+ " Cuota: " + inscripcion.cuotaInscripcion + "Fecha de pago: " + Util.dateToIsoString(date), "Informacion", JOptionPane.INFORMATION_MESSAGE);
+				LocalDate date = acs.payWithTarjeta(inscripcion, tarjeta);
+				showMessage("El pago con los siguientes datos se ha confirmado:\nNombre: " + inscripcion.nombreAtleta + " \nCarrera: " + inscripcion.nombreCompeticion
+						+ "\nCuota: " + inscripcion.cuotaInscripcion + "\nFecha de pago: " + date, "\nInformacion", JOptionPane.INFORMATION_MESSAGE);
+				this.dispose();
 			} catch (ApplicationException e) {
 				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
 			} catch (RuntimeException e) { 

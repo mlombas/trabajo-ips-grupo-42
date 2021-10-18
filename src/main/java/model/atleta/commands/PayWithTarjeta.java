@@ -1,6 +1,6 @@
 package model.atleta.commands;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import bank_mockup.Bank;
@@ -11,7 +11,7 @@ import model.inscripcion.InscripcionDto;
 
 public class PayWithTarjeta {
 	
-	private static final String UPDATEINSCRIPCION = "update Inscripcion set estadoInscripcion = ?, set fechaCambioEstado = ? where idCompeticion = ? and emailAtleta = ? ";
+	private static final String UPDATEINSCRIPCION = "update Inscripcion set estadoInscripcion = ?, fechaCambioEstado = ? where idCompeticion = ? and emailAtleta = ? ";
 	private static final String GETINSCRIPCION = "select * from Inscripcion where idCompeticion = ? and emailAtleta = ? ";
 	
 	private InscripcionDto inscripcion;
@@ -26,7 +26,7 @@ public class PayWithTarjeta {
 		this.tarjeta = tarjeta;
 	}
 
-	public Date execute() {
+	public LocalDate execute() {
 		
 		
 		//chekear que no sean nulos los dtos
@@ -39,7 +39,7 @@ public class PayWithTarjeta {
 		//que la tarjeta sea válida
 		checkTartjeta();
 		
-		Date dt = new Date(System.currentTimeMillis());
+		LocalDate dt = LocalDate.now();
 		db.executeUpdate(UPDATEINSCRIPCION, "Inscrito", dt, inscripcion.idCompeticion, inscripcion.emailAtleta);
 		
 		return  dt;
@@ -57,7 +57,7 @@ public class PayWithTarjeta {
 		if(ins.size() <= 0) {
 			throw new ApplicationException("No existe una inscripcion en esta competicion");
 		}
-		if(!ins.get(0).estadoInscripcion.equals("Pre-inscrito")) {
+		if(!ins.get(0).estadoInscripcion.equals("PRE-INSCRITO")) {
 			throw new ApplicationException("La inscripcion ya ha sido pagada");
 		}
 	}
