@@ -63,6 +63,10 @@ public class JustificanteDialog extends JDialog {
 		this.dispose();
 	}
 	
+	private void closeDialog() {
+		this.dispose();
+	}
+	
 	private JLabel getLblAgradecimiento() {
 		if (lblAgradecimiento == null) {
 			lblAgradecimiento = new JLabel("Gracias por realizar la Inscripción, nos vemos en la carrera!");
@@ -161,10 +165,10 @@ public class JustificanteDialog extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					if(isPagoTarjeta)
 						showPagoTarjeta(inscripcion);
+					else
+						closeDialog();
 				}
 			});
-			
-			
 		}
 		return btnOk;
 	}

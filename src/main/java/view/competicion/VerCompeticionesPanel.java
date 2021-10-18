@@ -77,5 +77,15 @@ public class VerCompeticionesPanel extends JPanel {
 		int index = table.getSelectedRow();
 		return table.getValueAt(index, 0).toString();
 	}
+	
+	public double getCuota() {
+		int index = table.getSelectedRow();
+		return Double.parseDouble(table.getValueAt(index, 5).toString());
+	}
+	
+	public String getNombreCompeticion() {
+		int index = table.getSelectedRow();
+		return table.getValueAt(index, 1).toString();
+	}
 
 }

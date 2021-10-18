@@ -48,7 +48,7 @@ public class FormularioInscripcionDialog extends JDialog {
 	private JRadioButton rdbtnTransferencia;
 	private JRadioButton rdbtnTarjeta;
 	private JPanel panelValidarBtn;
-	private IncripcionesPanel inscripciones;
+	private InscribirsePanel inscripciones;
 	
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
@@ -61,7 +61,7 @@ public class FormularioInscripcionDialog extends JDialog {
 	/**
 	 * Create the panel.
 	 */
-	public FormularioInscripcionDialog(IncripcionesPanel incripcionesPanel) {
+	public FormularioInscripcionDialog(InscribirsePanel incripcionesPanel) {
 		this.competicion = new CompeticionDto();
 		this.inscripciones = incripcionesPanel;
 		
@@ -310,6 +310,8 @@ public class FormularioInscripcionDialog extends JDialog {
 					
 					try {
 						competicion.id = inscripciones.getCompeticionId();
+						competicion.cuota = inscripciones.getCuota();
+						competicion.nombreCarrera = inscripciones.getNombreCompeticion();
 					} catch(ArrayIndexOutOfBoundsException aiobe) {
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
 						return;
@@ -323,6 +325,7 @@ public class FormularioInscripcionDialog extends JDialog {
 						closeDialog();
 						return;
 					} catch (ModelException me) {
+						me.printStackTrace();
 						showError("Lo siento, algo ha salido mal...");
 						closeDialog();
 						return;

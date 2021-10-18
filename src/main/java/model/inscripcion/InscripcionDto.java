@@ -1,9 +1,6 @@
 package model.inscripcion;
 
-import java.sql.Date;
 import java.time.LocalDate;
-
-import giis.demo.util.Util;
 
 public class InscripcionDto {
 
@@ -16,7 +13,7 @@ public class InscripcionDto {
 	public LocalDate fechaInscripcion;
 	public double cuotaInscripcion;
 	public String estadoInscripcion;
-	public Date fechaCambioEstado;
+	public LocalDate fechaCambioEstado;
 	public int poisicion;
 	public double tiempo;
 
@@ -29,7 +26,7 @@ public class InscripcionDto {
 	}
 
 	public String getFechaCambioEstado() {
-		return Util.dateToIsoString(new java.util.Date(fechaCambioEstado.getTime()));
+		return fechaCambioEstado.toString();
 	}
 
 	public String getEmailAtleta() {
@@ -97,7 +94,7 @@ public class InscripcionDto {
 	}
 
 	public void setFechaCambioEstado(String fechaCambioEstado) {
-		this.fechaCambioEstado = new java.sql.Date(Util.isoStringToDate(fechaCambioEstado).getTime());
+		this.fechaCambioEstado = LocalDate.parse(fechaCambioEstado);
 	}
 
 	public String getNombreCompeticion() {

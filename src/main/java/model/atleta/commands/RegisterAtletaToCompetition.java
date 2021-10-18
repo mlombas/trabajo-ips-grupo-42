@@ -24,8 +24,9 @@ public class RegisterAtletaToCompetition {
 	private static final String PLAZO_INSCRIPCION = "select fecha from Competicion WHERE id = ?";
 	private static final String PLAZAS_LIBRES = "select c.plazas - count(*) from Competicion c, Inscripcion i WHERE i.idCompeticion = ?";
 	private static final String ADD_ATLETA = "insert into "
-						+ "Inscripcion(idCompeticion, emailAtleta, nombreAtleta, categoria, fechaInscripcion, cuotaInscripcion, estadoInscripcion) "
-						+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+						+ "Inscripcion(idCompeticion, emailAtleta, nombreAtleta, categoria, "
+								+ "fechaInscripcion, cuotaInscripcion, estadoInscripcion, fechaCambioEstado, nombreCompeticion) "
+						+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String GET_CATEGORIA = "select nombreCategoria "
 												+ "from Categoria where edadMinima <= ? "
 													+ "and edadMaxima > ? "
@@ -64,6 +65,8 @@ public class RegisterAtletaToCompetition {
 			inscripcion.fechaInscripcion = LocalDate.now();
 			inscripcion.cuotaInscripcion = competicion.cuota;
 			inscripcion.estadoInscripcion = EstadoInscripcion.PRE_INSCRITO.toString();
+			inscripcion.fechaCambioEstado = LocalDate.now();
+			inscripcion.nombreCompeticion = competicion.nombreCarrera;
 			
 			pst.setString(1, inscripcion.idCompeticion);
 			pst.setString(2, inscripcion.emailAtleta);
@@ -72,6 +75,8 @@ public class RegisterAtletaToCompetition {
 			pst.setString(5, inscripcion.fechaInscripcion.toString());
 			pst.setDouble(6, inscripcion.cuotaInscripcion);
 			pst.setString(7, inscripcion.estadoInscripcion);
+			pst.setString(8, inscripcion.fechaCambioEstado.toString());
+			pst.setString(9, inscripcion.nombreCompeticion);
 			
 			pst.executeUpdate();
 			
