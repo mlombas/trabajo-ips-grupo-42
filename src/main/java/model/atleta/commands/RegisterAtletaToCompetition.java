@@ -5,7 +5,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 import giis.demo.util.Database;
 import model.atleta.AtletaDto;
@@ -20,11 +24,14 @@ public class RegisterAtletaToCompetition {
 	private static final String NO_REINSCRIBIRSE = "select * from Inscripcion WHERE idCompeticion = ? and emailAtleta = ?";
 	private static final String PLAZO_INSCRIPCION = "select fecha from Competicion WHERE id = ?";
 	private static final String PLAZAS_LIBRES = "select c.plazas - count(*) from Competicion c, Inscripcion i WHERE i.idCompeticion = ?";
-	
-	private static final String ADD_ATLETA = "insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, categoria, fechaInscripcion, cuotaInscripcion, estadoInscripcion) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-	private static final String GET_CATEGORIA = "select nombreCategoria from Categoria where edadMinima<=? and edadMaxima>? and sexo = ? and id = ?";
-	
+	private static final String ADD_ATLETA = "insert into "
+						+ "Inscripcion(idCompeticion, emailAtleta, nombreAtleta, categoria, fechaInscripcion, cuotaInscripcion, estadoInscripcion) "
+						+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+	private static final String GET_CATEGORIA = "select nombreCategoria "
+												+ "from Categoria where edadMinima <= ? "
+													+ "and edadMaxima > ? "
+													+ "and sexo = ? "
+													+ "and idCompeticion = ?";
 	
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
@@ -102,14 +109,29 @@ public class RegisterAtletaToCompetition {
 	}
 	
 	private void checkPlazoAbierto() throws AtletaNoValidoException, ModelException {
+		LocalDate date = null;
+		
 		try {
 			PreparedStatement pst = c.prepareStatement(PLAZO_INSCRIPCION);
 			pst.setString(1, competicion.id);
 			ResultSet rs = pst.executeQuery();
-			LocalDate date = new java.sql.Date(rs.getDate("fecha").getTime()).toLocalDate();
+			
+			if(rs.next()) {
+				try {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					long time = sdf.parse(rs.getString("fecha")).getTime();
+					date = Instant.ofEpochMilli(time)
+							  .atZone(ZoneId.systemDefault())
+							  .toLocalDate();;
+				} catch (ParseException e) {
+					throw new AtletaNoValidoException("No se encuentra la fecha");
+				}	
+			} else
+				throw new AtletaNoValidoException("No se encuentra la competición");			
 			
 			if(LocalDate.now().compareTo(date) > 0)
 				throw new AtletaNoValidoException("Ha pasado el plazo de inscripción");
+			
 			
 			rs.close();
 			pst.close();
@@ -135,19 +157,21 @@ public class RegisterAtletaToCompetition {
 		}
 	}
 	
-	private String getCategoria() throws AtletaNoValidoException, ModelException {		
+	private String getCategoria() throws AtletaNoValidoException, ModelException {
+		String cat = null;
 		try {
 			PreparedStatement pst = c.prepareStatement(GET_CATEGORIA);
-			int edad = LocalDate.now().getYear() - atleta.fechaNacimiento.toLocalDate().getYear();
+			int edad = LocalDate.now().getYear() - atleta.fechaNacimiento.getYear();
 			
-			pst.setString(1, edad + "");
-			pst.setString(2, edad + "");
-			pst.setString(4, atleta.sexo);
+			pst.setInt(1, edad);
+			pst.setInt(2, edad);
+			pst.setString(3, atleta.sexo);
 			pst.setString(4, competicion.id);
 			ResultSet rs = pst.executeQuery();
-			String cat = rs.getString(1);
 			
-			if(cat == null) // Si no hay plazas libres
+			if(rs.next())
+				cat = rs.getString(1);
+			else
 				throw new AtletaNoValidoException("No hay categoria válida");
 			
 			rs.close();

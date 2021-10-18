@@ -17,6 +17,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
@@ -28,6 +31,7 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class FormularioInscripcionDialog extends JDialog {
 
@@ -48,6 +52,11 @@ public class FormularioInscripcionDialog extends JDialog {
 	
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
+	private JLabel lblFechaNacimiento;
+	private JTextField textFechaNacimiento;
+	private JLabel lblSexo;
+	private JRadioButton rdbtnHombre;
+	private JRadioButton rdbtnMujer;
 
 	/**
 	 * Create the panel.
@@ -57,7 +66,7 @@ public class FormularioInscripcionDialog extends JDialog {
 		this.inscripciones = incripcionesPanel;
 		
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setSize(new Dimension(465, 285));
+		setSize(new Dimension(465, 350));
 		setResizable(false);
 		setTitle("Carreras Populares APP - Formulario de Inscripción");
 		getContentPane().add(getPanelFormulario(), BorderLayout.CENTER);
@@ -71,6 +80,19 @@ public class FormularioInscripcionDialog extends JDialog {
 	private boolean validateEmail(String email) {
 		Pattern pattern = Pattern.compile("^(.+)@(.+)$");
 		return pattern.matcher(email).matches();
+	}
+	
+	private LocalDate validateFecha(String email) {
+		LocalDate date;
+		
+		try {
+			date = LocalDate.parse(getTextFechaNacimiento().getText(),
+					DateTimeFormatter.ofPattern("d/M/yyyy"));
+		} catch(DateTimeParseException dfe) {
+			return null;
+		}
+		
+		return date;
 	}
 	
 	private void showError(String arg) {
@@ -101,6 +123,11 @@ public class FormularioInscripcionDialog extends JDialog {
 			panelFormulario.add(getPanelTipoDePago());
 			panelFormulario.add(getLblEmail());
 			panelFormulario.add(getTextEmail());
+			panelFormulario.add(getLblFechaNacimiento());
+			panelFormulario.add(getTextFechaNacimiento());
+			panelFormulario.add(getLblSexo());
+			panelFormulario.add(getRdbtnHombre());
+			panelFormulario.add(getRdbtnMujer());
 		}
 		return panelFormulario;
 	}
@@ -179,6 +206,54 @@ public class FormularioInscripcionDialog extends JDialog {
 		return rdbtnTarjeta;
 	}
 	
+	private JLabel getLblFechaNacimiento() {
+		if (lblFechaNacimiento == null) {
+			lblFechaNacimiento = new JLabel("Fecha de Nacimiento:");
+			lblFechaNacimiento.setToolTipText("Introduzca su fecha de nacimiento en el formato: DD/MM/AAAA");
+			lblFechaNacimiento.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblFechaNacimiento.setDisplayedMnemonic('N');
+			lblFechaNacimiento.setBounds(10, 211, 143, 14);
+		}
+		return lblFechaNacimiento;
+	}
+	
+	private JTextField getTextFechaNacimiento() {
+		if (textFechaNacimiento == null) {
+			textFechaNacimiento = new JTextField();
+			textFechaNacimiento.setColumns(10);
+			textFechaNacimiento.setBounds(10, 231, 210, 30);
+		}
+		return textFechaNacimiento;
+	}
+	
+	private JLabel getLblSexo() {
+		if (lblSexo == null) {
+			lblSexo = new JLabel("Sexo:");
+			lblSexo.setHorizontalAlignment(SwingConstants.CENTER);
+			lblSexo.setToolTipText("");
+			lblSexo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblSexo.setDisplayedMnemonic('N');
+			lblSexo.setBounds(264, 214, 139, 14);
+		}
+		return lblSexo;
+	}
+	
+	private JRadioButton getRdbtnHombre() {
+		if (rdbtnHombre == null) {
+			rdbtnHombre = new JRadioButton("Hombre");
+			rdbtnHombre.setBounds(264, 238, 74, 23);
+		}
+		return rdbtnHombre;
+	}
+	
+	private JRadioButton getRdbtnMujer() {
+		if (rdbtnMujer == null) {
+			rdbtnMujer = new JRadioButton("Mujer");
+			rdbtnMujer.setBounds(340, 238, 63, 23);
+		}
+		return rdbtnMujer;
+	}
+	
 	private JPanel getPanelValidarBtn() {
 		if (panelValidarBtn == null) {
 			panelValidarBtn = new JPanel();
@@ -215,7 +290,29 @@ public class FormularioInscripcionDialog extends JDialog {
 						return;
 					} // Show warning
 					
+					// Validamos la fechaDeNacimiento
+					String fechaNacimiento = getTextFechaNacimiento().getText();
+					atleta.fechaNacimiento = validateFecha(fechaNacimiento);
+					if(atleta.fechaNacimiento == null) {
+						showError("Fecha no válida");
+						return;
+					} // Show warning
+					
+					// Validamos el sexo
+					if (getRdbtnHombre().isSelected())
+						atleta.sexo = "H";
+					else if (getRdbtnMujer().isSelected())
+						atleta.sexo = "M";
+					else {
+						showError("Sexo no seleccionado");
+						return;
+					}
+					
 					competicion.id = inscripciones.getCompeticionId();
+					if(competicion.id.trim().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						return;
+					}
 					
 					InscripcionDto inscripcion = null;
 					try {
@@ -225,7 +322,6 @@ public class FormularioInscripcionDialog extends JDialog {
 						closeDialog();
 						return;
 					} catch (ModelException me) {
-						me.printStackTrace();
 						showError("Lo siento, algo ha salido mal...");
 						closeDialog();
 						return;
@@ -238,5 +334,5 @@ public class FormularioInscripcionDialog extends JDialog {
 		}
 		return btnValidarEInscribirse;
 	}
-	
+
 }

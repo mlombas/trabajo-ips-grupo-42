@@ -1,6 +1,7 @@
 package view.atleta;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -22,11 +23,9 @@ import giis.demo.util.Util;
 import model.atleta.TarjetaDto;
 import model.inscripcion.InscripcionDto;
 
-public class PagoTarjeta extends JDialog {
+public class PagoTarjetaDialog extends JDialog {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JPanel pnTarjetaCredito;
 	private JButton btnValidarPago;
@@ -40,13 +39,17 @@ public class PagoTarjeta extends JDialog {
 	private JLabel lbCvc;
 	private JTextField tfCvc;
 	private InscripcionDto inscripcion;
+	
 	/**
 	 * Create the frame.
 	 */
-	public PagoTarjeta(InscripcionDto inscripcion) {
-		setLayout(new BorderLayout(0, 0));
-		add(getPnTarjetaCredito(), BorderLayout.CENTER);
-		add(getBtnValidarPago(), BorderLayout.SOUTH);
+	public PagoTarjetaDialog(InscripcionDto inscripcion) {
+		setResizable(false);
+		setSize(new Dimension(465, 285));
+		setTitle("Carreras Populares APP - Pago con Tarjeta");
+		getContentPane().setLayout(new BorderLayout(0, 0));
+		getContentPane().add(getPnTarjetaCredito(), BorderLayout.CENTER);
+		getContentPane().add(getBtnValidarPago(), BorderLayout.SOUTH);
 		this.inscripcion = inscripcion;
 	}
 

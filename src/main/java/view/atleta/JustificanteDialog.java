@@ -56,7 +56,7 @@ public class JustificanteDialog extends JDialog {
 	}
 	
 	private void showPagoTarjeta(InscripcionDto inscripcion) {
-		PagoTarjeta pagoTarjetaDialog = new PagoTarjeta(inscripcion);
+		PagoTarjetaDialog pagoTarjetaDialog = new PagoTarjetaDialog(inscripcion);
 		pagoTarjetaDialog.setLocationRelativeTo(null);
 		pagoTarjetaDialog.setModal(true);
 		pagoTarjetaDialog.setVisible(true);
