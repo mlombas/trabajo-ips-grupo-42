@@ -38,5 +38,7 @@ public interface AtletaCrudService {
 	 * @return unas lista con las competiciones en las que está inscrito.
 	 */
 	List<InscripcionDto> getCompetionesInscritas(AtletaDto atleta);
+
+	String pendingPayWithTransaccion(InscripcionDto inscripcion);
 	
 }
