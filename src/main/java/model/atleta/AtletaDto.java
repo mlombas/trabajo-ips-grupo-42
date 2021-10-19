@@ -1,15 +1,13 @@
 package model.atleta;
 
-import java.sql.Date;
-
-import giis.demo.util.Util;
+import java.time.LocalDate;
 
 public class AtletaDto {
 
 	public String email;
 	public String dni;
 	public String nombre;
-	public Date fechaNacimiento;
+	public LocalDate fechaNacimiento;
 	public String sexo;
 
 	public String getEmail() {
@@ -37,11 +35,11 @@ public class AtletaDto {
 	}
 
 	public String getFechaNacimiento() {
-		return Util.dateToIsoString(new java.util.Date(fechaNacimiento.getTime()));
+		return fechaNacimiento.toString();
 	}
 
 	public void setFechaNacimiento(String fechaNacimiento) {
-		this.fechaNacimiento = new java.sql.Date(Util.isoStringToDate(fechaNacimiento).getTime());
+		this.fechaNacimiento = LocalDate.parse(fechaNacimiento);
 	}
 
 	public String getSexo() {

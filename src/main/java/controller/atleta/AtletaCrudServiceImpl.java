@@ -1,6 +1,6 @@
 package controller.atleta;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import model.atleta.AtletaDto;
@@ -22,7 +22,7 @@ public class AtletaCrudServiceImpl implements AtletaCrudService {
 	}
 
 	@Override
-	public Date payWithTarjeta(InscripcionDto inscripcion, TarjetaDto tarjeta) {
+	public LocalDate payWithTarjeta(InscripcionDto inscripcion, TarjetaDto tarjeta) {
 		 return new PayWithTarjeta(inscripcion,tarjeta).execute();
 	}
 

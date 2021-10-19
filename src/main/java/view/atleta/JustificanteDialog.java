@@ -56,10 +56,14 @@ public class JustificanteDialog extends JDialog {
 	}
 	
 	private void showPagoTarjeta(InscripcionDto inscripcion) {
-		PagoTarjeta pagoTarjetaDialog = new PagoTarjeta(inscripcion);
+		PagoTarjetaDialog pagoTarjetaDialog = new PagoTarjetaDialog(inscripcion);
 		pagoTarjetaDialog.setLocationRelativeTo(null);
 		pagoTarjetaDialog.setModal(true);
 		pagoTarjetaDialog.setVisible(true);
+		this.dispose();
+	}
+	
+	private void closeDialog() {
 		this.dispose();
 	}
 	
@@ -161,10 +165,10 @@ public class JustificanteDialog extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					if(isPagoTarjeta)
 						showPagoTarjeta(inscripcion);
+					else
+						closeDialog();
 				}
 			});
-			
-			
 		}
 		return btnOk;
 	}

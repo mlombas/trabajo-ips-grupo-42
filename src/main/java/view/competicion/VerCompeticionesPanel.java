@@ -55,6 +55,7 @@ public class VerCompeticionesPanel extends JPanel {
 
 			List<CompeticionDto> competiciones = ModelFactory.forCarreraCrudService().GetAllCompeticiones();
 			TableModel tmodel = SwingUtil.getTableModelFromPojos(competiciones, new String[] {
+					"id",
 					"nombreCarrera",
 					"tipoCarrera",
 					"fecha",
@@ -74,7 +75,17 @@ public class VerCompeticionesPanel extends JPanel {
 	
 	public String getCompeticionId() {
 		int index = table.getSelectedRow();
-		return table.getComponentAt(index, 0).toString();
+		return table.getValueAt(index, 0).toString();
+	}
+	
+	public double getCuota() {
+		int index = table.getSelectedRow();
+		return Double.parseDouble(table.getValueAt(index, 5).toString());
+	}
+	
+	public String getNombreCompeticion() {
+		int index = table.getSelectedRow();
+		return table.getValueAt(index, 1).toString();
 	}
 
 }

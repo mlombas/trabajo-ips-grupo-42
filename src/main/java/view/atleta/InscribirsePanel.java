@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.GridLayout;
 
-public class IncripcionesPanel extends JPanel {
+public class InscribirsePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -29,7 +29,7 @@ public class IncripcionesPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public IncripcionesPanel(AtletaMain main) {
+	public InscribirsePanel(AtletaMain main) {
 		this.main = main;
 		
 		setLayout(new BorderLayout(0, 0));
@@ -95,6 +95,14 @@ public class IncripcionesPanel extends JPanel {
 
 	public String getCompeticionId() {
 		return competiciones.getCompeticionId();
+	}
+
+	public double getCuota() {
+		return competiciones.getCuota();
+	}
+
+	public String getNombreCompeticion() {
+		return competiciones.getNombreCompeticion();
 	}
 	
 }

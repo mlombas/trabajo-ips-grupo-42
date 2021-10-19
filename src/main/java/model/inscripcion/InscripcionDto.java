@@ -1,8 +1,6 @@
 package model.inscripcion;
 
-import java.sql.Date;
-
-import giis.demo.util.Util;
+import java.time.LocalDate;
 
 public class InscripcionDto {
 
@@ -12,10 +10,10 @@ public class InscripcionDto {
 	public String dniAtleta;
 	public String nombreCompeticion;
 	public String categoria;
-	public Date fechaInscripcion;
+	public LocalDate fechaInscripcion;
 	public double cuotaInscripcion;
 	public String estadoInscripcion;
-	public Date fechaCambioEstado;
+	public LocalDate fechaCambioEstado;
 	public int poisicion;
 	public double tiempo;
 
@@ -28,7 +26,7 @@ public class InscripcionDto {
 	}
 
 	public String getFechaCambioEstado() {
-		return Util.dateToIsoString(new java.util.Date(fechaCambioEstado.getTime()));
+		return fechaCambioEstado.toString();
 	}
 
 	public String getEmailAtleta() {
@@ -56,11 +54,11 @@ public class InscripcionDto {
 	}
 
 	public String getFechaInscripcion() {
-		return Util.dateToIsoString(new java.util.Date(fechaInscripcion.getTime()));
+		return fechaInscripcion.toString();
 	}
 
 	public void setFechaInscripcion(String fechaInscripcion) {
-		this.fechaInscripcion = new java.sql.Date(Util.isoStringToDate(fechaInscripcion).getTime());
+		this.fechaInscripcion = LocalDate.parse(fechaInscripcion);
 	}
 
 	public double getCuotaInscripcion() {
@@ -96,7 +94,7 @@ public class InscripcionDto {
 	}
 
 	public void setFechaCambioEstado(String fechaCambioEstado) {
-		this.fechaCambioEstado = new java.sql.Date(Util.isoStringToDate(fechaCambioEstado).getTime());
+		this.fechaCambioEstado = LocalDate.parse(fechaCambioEstado);
 	}
 
 	public String getNombreCompeticion() {

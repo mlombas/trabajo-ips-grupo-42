@@ -31,16 +31,19 @@ public class VerEstadoInscripcionDialog extends JDialog {
 	InscripcionesToTable table;
 
 	public VerEstadoInscripcionDialog(CompeticionDto competicion) {
+		this.competicion = competicion;
+		
 		setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(465, 285));
 		setLocationRelativeTo(null);
 		setResizable(true);
+		setTitle("Carreras Populares APP - Estado de Inscripción");
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getBtnPane(), BorderLayout.SOUTH);
 	}
 	
 	private void closeDialog() {
-		dispose();
+		this.dispose();
 	}
 
 	private JScrollPane getCompeticionesPane() {
@@ -53,7 +56,6 @@ public class VerEstadoInscripcionDialog extends JDialog {
 				competicionesPane.setViewportView(table);
 			} catch (ModelException e) {
 				JOptionPane.showMessageDialog(null, "Algo ha salido mal...");
-				closeDialog();
 			}
 		}
 		
