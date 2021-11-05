@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import view.atleta.panel.FormularioAtletaPanel;
 import view.atleta.panel.FormularioInscripcionPanel;
 import view.atleta.panel.InscribirsePanel;
 import view.atleta.panel.VerInscripcionesPanel;
@@ -25,6 +26,7 @@ public class AtletaMain extends JPanel {
 	public static final String VER_INSCRIPCIONES = "ver inscripciones";
 	public static final String FORMULARIO_INSCRIPCION = "formulario";
 	public static final String VER_CARRERAS = "carreras";
+	public static final String FORMULARIO_ATLETA = "formulario atleta";
 	
 	private static AtletaMain atletaMain;
 	
@@ -35,6 +37,7 @@ public class AtletaMain extends JPanel {
 	private VerInscripcionesPanel verInscripcionesPanel;
 	private VerCompeticionesPanel verCompeticionesPanel;
 	private FormularioInscripcionPanel formularioInscripcionPanel;
+	private FormularioAtletaPanel formularioAtletaPanel;
 	
 	/**
 	 * Create the frame.
@@ -55,12 +58,15 @@ public class AtletaMain extends JPanel {
 		verInscripcionesPanel = new VerInscripcionesPanel();
 		verCompeticionesPanel = getVerCompeticionesPanel();
 		formularioInscripcionPanel = new FormularioInscripcionPanel();
+		formularioAtletaPanel = new FormularioAtletaPanel();
 		
 		// Create the panel that contains the cards.
 		cards.add(atletaMenu, ATLETAS_MENU);
 		cards.add(inscripcionesPanel, INSCRIPCIONES);
 		cards.add(verInscripcionesPanel, VER_INSCRIPCIONES);
 		cards.add(verCompeticionesPanel, VER_CARRERAS);
+		cards.add(formularioInscripcionPanel, FORMULARIO_INSCRIPCION);
+		cards.add(formularioAtletaPanel, FORMULARIO_ATLETA);
 		
 		// Add the card panel to the frame.
 		this.add(cards);
@@ -153,6 +159,14 @@ public class AtletaMain extends JPanel {
 					BorderLayout.SOUTH);
 		}
 		return verCompeticionesPanel;
+	}
+	
+	public FormularioInscripcionPanel getFormularioInscripcion() {
+		return formularioInscripcionPanel;
+	}
+
+	public FormularioAtletaPanel getFormularioAtletaPanel() {
+		return formularioAtletaPanel;
 	}
 
 }
