@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 
 import model.competicion.CompeticionDto;
-import util.exceptions.ModelException;
 import view.organizador.OrganizadorMain;
 import view.organizador.dialog.VerClasficacionDialog;
 import view.organizador.dialog.VerEstadoInscripcionDialog;

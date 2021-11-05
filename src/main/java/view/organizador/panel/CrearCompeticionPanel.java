@@ -1,13 +1,9 @@
 package view.organizador.panel;
 
-import javax.swing.ButtonGroup;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
@@ -18,6 +14,10 @@ import view.organizador.util.AtrasOrganizadorButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.JTextArea;
+import java.awt.GridLayout;
 
 public class CrearCompeticionPanel extends JPanel {
 
@@ -27,16 +27,20 @@ public class CrearCompeticionPanel extends JPanel {
 	private JButton btnValidarDatos;
 	private JTextField textNombre;
 	private JLabel lblNombre;
-	private JLabel lblDni;
-	private JTextField textDni;
-	private JLabel lblFechaNacimiento;
-	private JTextField textFechaNacimiento;
-	private JLabel lblSexo;
-	private ButtonGroup sexo = new ButtonGroup();
-	private JRadioButton rdbtnHombre;
-	private JRadioButton rdbtnMujer;
+	private JLabel lblDescripcion;
+	private JLabel lblTipo;
+	private JTextField textTipo;
 	private JPanel panelValidarBtn;
 	private AtrasOrganizadorButton btnAtras;
+	private JSpinner spinnerNumeroPlazas;
+	private JLabel lblNumeroPlazas;
+	private JLabel lblNumeroDorsalesReservados;
+	private JSpinner spinnerDorsalesReservados;
+	private JTextArea textAreaDescripcion;
+	private JPanel panelCategorias;
+	private JPanel panelPlazos;
+	private JButton btnCategorias;
+	private JButton btnPlazos;
 
 	
 	/**
@@ -52,16 +56,19 @@ public class CrearCompeticionPanel extends JPanel {
 		if (panelFormulario == null) {
 			panelFormulario = new JPanel();
 			panelFormulario.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Formulario de Inscripción a la Carrera", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-			panelFormulario.setLayout(new MigLayout("", "[grow,center][grow,center]", "[grow][][][][][][][][][grow]"));
-			panelFormulario.add(getLblNombre(), "cell 0 1 2 1,alignx left,growy");
-			panelFormulario.add(getTextNombre(), "cell 0 2 2 1,grow");
-			panelFormulario.add(getLblDni(), "cell 0 3 2 1,alignx left");
-			panelFormulario.add(getTextDni(), "cell 0 4 2 1,growx");
-			panelFormulario.add(getLblFechaNacimiento(), "cell 0 5,alignx left,aligny center");
-			panelFormulario.add(getTextFechaNacimiento(), "cell 0 6 2 1,grow");
-			panelFormulario.add(getLblSexo(), "cell 0 7 2 1,alignx center,aligny top");
-			panelFormulario.add(getRdbtnMujer(), "flowx,cell 0 8 2 1");
-			panelFormulario.add(getRdbtnHombre(), "cell 0 8 2 1,alignx right,aligny bottom");
+			panelFormulario.setLayout(new MigLayout("", "[grow,center][grow,center]", "[grow][][][][grow][][][][grow][grow][grow]"));
+			panelFormulario.add(getLblNombre(), "flowx,cell 0 1 2 1,alignx left,growy");
+			panelFormulario.add(getTextNombre(), "cell 0 2,grow");
+			panelFormulario.add(getTextTipo(), "cell 1 2,grow");
+			panelFormulario.add(getLblDescripcion(), "cell 0 3 2 1,alignx left");
+			panelFormulario.add(getTextAreaDescripcion(), "cell 0 4 2 2,grow");
+			panelFormulario.add(getLblNumeroDorsalesReservados(), "cell 0 6,alignx left");
+			panelFormulario.add(getLblNumeroPlazas(), "cell 1 6,alignx left");
+			panelFormulario.add(getSpinnerDorsalesReservados(), "cell 0 7,growx");
+			panelFormulario.add(getSpinnerNumeroPlazas(), "cell 1 7,growx");
+			panelFormulario.add(getLblTipo(), "cell 1 1,alignx left,aligny center");
+			panelFormulario.add(getPanelCategorias(), "cell 0 8 2 1,grow");
+			panelFormulario.add(getPanelPlazos(), "cell 0 9 2 1,grow");
 		}
 		return panelFormulario;
 	}
@@ -71,7 +78,7 @@ public class CrearCompeticionPanel extends JPanel {
 			lblNombre = new JLabel("Nombre:");
 			lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			lblNombre.setDisplayedMnemonic('N');
-			lblNombre.setToolTipText("Inserte su nombre (no apellidos)");
+			lblNombre.setToolTipText("Inserte el nombre de la competición");
 			lblNombre.setLabelFor(getTextNombre());
 		}
 		return lblNombre;
@@ -85,70 +92,33 @@ public class CrearCompeticionPanel extends JPanel {
 		return textNombre;
 	}
 	
-	private JLabel getLblDni() {
-		if (lblDni == null) {
-			lblDni = new JLabel("DNI:");
-			lblDni.setLabelFor(getTextDni());
-			lblDni.setToolTipText("Inserte su dni (99999999X)");
-			lblDni.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblDni.setDisplayedMnemonic('D');
+	private JLabel getLblDescripcion() {
+		if (lblDescripcion == null) {
+			lblDescripcion = new JLabel("Descripción:");
+			lblDescripcion.setLabelFor(getTextAreaDescripcion());
+			lblDescripcion.setToolTipText("Escriba un breve texto explicando en qué consiste la competición");
+			lblDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblDescripcion.setDisplayedMnemonic('D');
 		}
-		return lblDni;
+		return lblDescripcion;
 	}
 	
-	private JTextField getTextDni() {
-		if (textDni == null) {
-			textDni = new JTextField();
-			textDni.setColumns(10);
+	private JLabel getLblTipo() {
+		if (lblTipo == null) {
+			lblTipo = new JLabel("Tipo:");
+			lblTipo.setToolTipText("");
+			lblTipo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblTipo.setDisplayedMnemonic('N');
 		}
-		return textDni;
+		return lblTipo;
 	}
 	
-	private JLabel getLblFechaNacimiento() {
-		if (lblFechaNacimiento == null) {
-			lblFechaNacimiento = new JLabel("Fecha de Nacimiento:");
-			lblFechaNacimiento.setToolTipText("Introduzca su fecha de nacimiento en el formato: DD/MM/AAAA");
-			lblFechaNacimiento.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblFechaNacimiento.setDisplayedMnemonic('N');
+	private JTextField getTextTipo() {
+		if (textTipo == null) {
+			textTipo = new JTextField();
+			textTipo.setColumns(10);
 		}
-		return lblFechaNacimiento;
-	}
-	
-	private JTextField getTextFechaNacimiento() {
-		if (textFechaNacimiento == null) {
-			textFechaNacimiento = new JTextField();
-			textFechaNacimiento.setColumns(10);
-		}
-		return textFechaNacimiento;
-	}
-	
-	private JLabel getLblSexo() {
-		if (lblSexo == null) {
-			lblSexo = new JLabel("Sexo:");
-			lblSexo.setHorizontalAlignment(SwingConstants.CENTER);
-			lblSexo.setToolTipText("");
-			lblSexo.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblSexo.setDisplayedMnemonic('N');
-		}
-		return lblSexo;
-	}
-	
-	private JRadioButton getRdbtnHombre() {
-		if (rdbtnHombre == null) {
-			rdbtnHombre = new JRadioButton("Hombre");
-			rdbtnHombre.setToolTipText("H");
-			sexo.add(rdbtnHombre);
-		}
-		return rdbtnHombre;
-	}
-	
-	private JRadioButton getRdbtnMujer() {
-		if (rdbtnMujer == null) {
-			rdbtnMujer = new JRadioButton("Mujer");
-			rdbtnMujer.setToolTipText("M");
-			sexo.add(rdbtnMujer);
-		}
-		return rdbtnMujer;
+		return textTipo;
 	}
 	
 	private JPanel getPanelValidarBtn() {
@@ -174,4 +144,72 @@ public class CrearCompeticionPanel extends JPanel {
 		return btnValidarDatos;
 	}
 	
+	private JSpinner getSpinnerNumeroPlazas() {
+		if (spinnerNumeroPlazas == null) {
+			spinnerNumeroPlazas = new JSpinner();
+			spinnerNumeroPlazas.setModel(new SpinnerNumberModel(0, 0, null, 1));
+		}
+		return spinnerNumeroPlazas;
+	}
+	private JLabel getLblNumeroPlazas() {
+		if (lblNumeroPlazas == null) {
+			lblNumeroPlazas = new JLabel("Número de Plazas:");
+			lblNumeroPlazas.setLabelFor(getSpinnerNumeroPlazas());
+			lblNumeroPlazas.setToolTipText("");
+			lblNumeroPlazas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblNumeroPlazas.setDisplayedMnemonic('N');
+		}
+		return lblNumeroPlazas;
+	}
+	private JLabel getLblNumeroDorsalesReservados() {
+		if (lblNumeroDorsalesReservados == null) {
+			lblNumeroDorsalesReservados = new JLabel("Dorsales Reservados:");
+			lblNumeroDorsalesReservados.setLabelFor(getSpinnerDorsalesReservados());
+			lblNumeroDorsalesReservados.setToolTipText("");
+			lblNumeroDorsalesReservados.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblNumeroDorsalesReservados.setDisplayedMnemonic('N');
+		}
+		return lblNumeroDorsalesReservados;
+	}
+	private JSpinner getSpinnerDorsalesReservados() {
+		if (spinnerDorsalesReservados == null) {
+			spinnerDorsalesReservados = new JSpinner();
+			spinnerDorsalesReservados.setModel(new SpinnerNumberModel(0, 0, null, 1));
+		}
+		return spinnerDorsalesReservados;
+	}
+	private JTextArea getTextAreaDescripcion() {
+		if (textAreaDescripcion == null) {
+			textAreaDescripcion = new JTextArea();
+		}
+		return textAreaDescripcion;
+	}
+	private JPanel getPanelCategorias() {
+		if (panelCategorias == null) {
+			panelCategorias = new JPanel();
+			panelCategorias.setLayout(new GridLayout(0, 1, 0, 0));
+			panelCategorias.add(getBtnCategorias());
+		}
+		return panelCategorias;
+	}
+	private JPanel getPanelPlazos() {
+		if (panelPlazos == null) {
+			panelPlazos = new JPanel();
+			panelPlazos.setLayout(new GridLayout(0, 1, 0, 0));
+			panelPlazos.add(getBtnPlazos());
+		}
+		return panelPlazos;
+	}
+	private JButton getBtnCategorias() {
+		if (btnCategorias == null) {
+			btnCategorias = new JButton("Configurar Categorías");
+		}
+		return btnCategorias;
+	}
+	private JButton getBtnPlazos() {
+		if (btnPlazos == null) {
+			btnPlazos = new JButton("Configurar Plazos");
+		}
+		return btnPlazos;
+	}
 }
