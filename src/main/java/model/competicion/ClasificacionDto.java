@@ -1,7 +1,7 @@
 package model.competicion;
 
 
-public class PosicionDto {
+public class ClasificacionDto {
 
 	public int posicion;
 	public String sexo;

@@ -2,6 +2,7 @@
 delete from Competicion;
 delete from Atleta;
 delete from Inscripcion;
+delete from Clasificacion;
 
 insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, cuota, fecha, fechaInicio, 
 	fechaFin, plazas, estadoCarrera) values 
