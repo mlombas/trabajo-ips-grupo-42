@@ -4,7 +4,7 @@ import java.util.List;
 
 import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
-import util.ModelException;
+import util.exceptions.ModelException;
 
 public interface OrganizadorCrudService {
 	

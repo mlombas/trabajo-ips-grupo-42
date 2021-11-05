@@ -2,7 +2,7 @@ package model.competicion;
 
 import java.sql.Date;
 
-import giis.demo.util.Util;
+import util.Util;
 
 public class CompeticionDto {
 	public String id;

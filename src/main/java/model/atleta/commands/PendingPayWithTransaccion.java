@@ -4,19 +4,20 @@ import java.sql.Date;
 import java.util.List;
 
 import bank_mockup.Bank;
-import giis.demo.util.ApplicationException;
-import giis.demo.util.Database;
 import model.atleta.TarjetaDto;
 import model.inscripcion.InscripcionDto;
+import util.database.Database;
+import util.exceptions.ApplicationException;
 
 public class PendingPayWithTransaccion {
+	
 	private static final String UPDATEINSCRIPCION = "update Inscripcion set estadoInscripcion = ?, set fechaCambioEstado = ? where idCompeticion = ? and emailAtleta = ? ";
 	private static final String GETINSCRIPCION = "select * from Inscripcion where idCompeticion = ? and emailAtleta = ? ";
 	private static final String GETCUOTA = "select cuota from carrera where id = ?";
 	
 	private InscripcionDto inscripcion;
 	
-	private Database db = new Database();
+	private Database db = Database.getInstance();
 	
 	private Bank bank = new Bank();
 	
@@ -59,4 +60,5 @@ public class PendingPayWithTransaccion {
 			throw new IllegalArgumentException("La competición no es válida");
 		} 	
 	}
+	
 }

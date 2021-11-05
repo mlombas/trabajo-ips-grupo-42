@@ -8,8 +8,8 @@ import model.atleta.AtletaDto;
 import model.atleta.TarjetaDto;
 import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
-import util.AtletaNoValidoException;
-import util.ModelException;
+import util.exceptions.AtletaNoValidoException;
+import util.exceptions.ModelException;
 
 
 public interface AtletaCrudService {

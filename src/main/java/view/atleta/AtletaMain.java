@@ -10,29 +10,36 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import view.competicion.VerCompeticionesPanel;
+import view.atleta.panel.FormularioInscripcionPanel;
+import view.atleta.panel.InscribirsePanel;
+import view.atleta.panel.VerInscripcionesPanel;
+import view.atleta.util.AtrasAtletaButton;
+import view.util.panel.VerCompeticionesPanel;
 
 public class AtletaMain extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	
-	static final String ATLETAS_MENU = "atletas";
-	static final String INSCRIPCIONES = "inscripciones";
-	static final String VER_INSCRIPCIONES = "ver inscripciones";
-	static final String FORMULARIO_INSCRIPCION = "formulario";
-	static final String VER_CARRERAS = "carreras";
+	public static final String ATLETAS_MENU = "atletas";
+	public static final String INSCRIPCIONES = "inscripciones";
+	public static final String VER_INSCRIPCIONES = "ver inscripciones";
+	public static final String FORMULARIO_INSCRIPCION = "formulario";
+	public static final String VER_CARRERAS = "carreras";
+	
+	private static AtletaMain atletaMain;
 	
 	private JPanel cards;
 	
 	private AtletaMenu atletaMenu;
 	private InscribirsePanel inscripcionesPanel;
 	private VerInscripcionesPanel verInscripcionesPanel;
-	private VerCompeticionesPanel verCarrerasPanel;
+	private VerCompeticionesPanel verCompeticionesPanel;
+	private FormularioInscripcionPanel formularioInscripcionPanel;
 	
 	/**
 	 * Create the frame.
 	 */
-	public AtletaMain() {
+	private AtletaMain() {
 		// Setting-up some features of this window.
 		setBounds(0, 0, 1366, 768);
 		
@@ -44,34 +51,42 @@ public class AtletaMain extends JPanel {
 		
 		// Create the cards.
 		atletaMenu = new AtletaMenu();
-		inscripcionesPanel = new InscribirsePanel(this);
-		verInscripcionesPanel = new VerInscripcionesPanel(this);
-		verCarrerasPanel = new VerCompeticionesPanel(this);
+		inscripcionesPanel = new InscribirsePanel();
+		verInscripcionesPanel = new VerInscripcionesPanel();
+		verCompeticionesPanel = getVerCompeticionesPanel();
+		formularioInscripcionPanel = new FormularioInscripcionPanel();
 		
 		// Create the panel that contains the cards.
 		cards.add(atletaMenu, ATLETAS_MENU);
 		cards.add(inscripcionesPanel, INSCRIPCIONES);
 		cards.add(verInscripcionesPanel, VER_INSCRIPCIONES);
-		cards.add(verCarrerasPanel, VER_CARRERAS);
+		cards.add(verCompeticionesPanel, VER_CARRERAS);
 		
 		// Add the card panel to the frame.
 		this.add(cards);
 	}
+
+	public static AtletaMain getInstance() {
+		 if (atletaMain == null)
+			 atletaMain = new AtletaMain();
+		 
+		 return atletaMain;
+	 }
 	
 	public void startPanel() {
 		flipCard(ATLETAS_MENU);
 	}
 	
-	protected void flipCard(String cardId) {
+	public void flipCard(String cardId) {
         CardLayout cl = (CardLayout) cards.getLayout();
         cl.show(cards, cardId);
 	}
 	
-
 	/** Basic implementation of the AtletasMenu;
 	 * 		1. Here you can select what you want to do:
 	 * 			a. Inscribirse
 	 * 			b. Ver inscripciones
+	 * 			c. Ver competiciones
 	 */
 	private class AtletaMenu extends JPanel {
 		private static final long serialVersionUID = 1L;
@@ -129,6 +144,15 @@ public class AtletaMain extends JPanel {
 			}
 			return btnVerInscripciones;
 		}
+	}
+	
+	private VerCompeticionesPanel getVerCompeticionesPanel() {
+		if (verCompeticionesPanel == null) {
+			verCompeticionesPanel = new VerCompeticionesPanel();
+			verCompeticionesPanel.add(new AtrasAtletaButton(AtletaMain.ATLETAS_MENU),
+					BorderLayout.SOUTH);
+		}
+		return verCompeticionesPanel;
 	}
 
 }
