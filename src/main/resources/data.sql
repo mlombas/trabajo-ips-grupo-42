@@ -25,3 +25,7 @@ insert into Categoria(nombreCategoria, idCompeticion, edadMinima, edadMaxima, se
 			('Juvenil H', 100, 18, 28, 'H'),
 			('Juvenil M', 100, 18, 28, 'M'),
 			('Juvenil H', 101, 18, 28, 'H');
+			
+insert into Clasificacion(idCompeticion, emailAtleta, dorsal, tiempoSalida, tiempoLlegada, posicion) values
+			('100', 'pedro@gmail.com', '330', '0', '150', '2'),
+			('100', 'elena@gmail.com', '331', '2', '143', '1');
