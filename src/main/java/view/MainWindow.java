@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import util.exceptions.ModelException;
 import view.atleta.AtletaMain;
 import view.organizador.OrganizadorMain;
 
@@ -55,8 +56,13 @@ public class MainWindow extends JFrame {
 		
 		// Create the cards.
 		mainMenu = new MainMenu();
-		atletaMain = AtletaMain.getInstance();
-		organizadorMain = OrganizadorMain.getInstance();
+		try {
+			atletaMain = AtletaMain.getInstance();
+			organizadorMain = OrganizadorMain.getInstance();
+		} catch (ModelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		// Create the panel that contains the cards.
 		cards.add(mainMenu, MAIN_MENU);
 		cards.add(atletaMain, ATLETAS_MENU);

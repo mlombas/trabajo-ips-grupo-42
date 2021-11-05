@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 
 import model.competicion.CompeticionDto;
+import util.exceptions.ModelException;
 import view.organizador.OrganizadorMain;
 import view.organizador.dialog.VerClasficacionDialog;
 import view.organizador.dialog.VerEstadoInscripcionDialog;
@@ -32,7 +33,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private JPanel verClasificacionesPane;
 	private JTextField textCategoria;
 
-	public GestionarCompeticionesPanel() {
+	public GestionarCompeticionesPanel() throws ModelException {
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getBtnPane(), BorderLayout.SOUTH);
@@ -54,7 +55,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		estadoInscripcionDialog.setVisible(true);
 	}
 
-	private VerCompeticionesPanel getCompeticionesPane() {
+	private VerCompeticionesPanel getCompeticionesPane() throws ModelException {
 		if (verCompeticionesPane == null)
 			verCompeticionesPane = new VerCompeticionesPanel();
 		

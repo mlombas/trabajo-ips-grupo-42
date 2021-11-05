@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import util.exceptions.ModelException;
 import view.atleta.panel.FormularioInscripcionPanel;
 import view.atleta.panel.InscribirsePanel;
 import view.atleta.panel.VerInscripcionesPanel;
@@ -38,8 +39,9 @@ public class AtletaMain extends JPanel {
 	
 	/**
 	 * Create the frame.
+	 * @throws ModelException 
 	 */
-	private AtletaMain() {
+	private AtletaMain() throws ModelException {
 		// Setting-up some features of this window.
 		setBounds(0, 0, 1366, 768);
 		
@@ -66,7 +68,7 @@ public class AtletaMain extends JPanel {
 		this.add(cards);
 	}
 
-	public static AtletaMain getInstance() {
+	public static AtletaMain getInstance() throws ModelException {
 		 if (atletaMain == null)
 			 atletaMain = new AtletaMain();
 		 
@@ -146,7 +148,7 @@ public class AtletaMain extends JPanel {
 		}
 	}
 	
-	private VerCompeticionesPanel getVerCompeticionesPanel() {
+	private VerCompeticionesPanel getVerCompeticionesPanel() throws ModelException {
 		if (verCompeticionesPanel == null) {
 			verCompeticionesPanel = new VerCompeticionesPanel();
 			verCompeticionesPanel.add(new AtrasAtletaButton(AtletaMain.ATLETAS_MENU),

@@ -9,6 +9,7 @@ import javax.swing.JTable;
 
 import model.ModelFactory;
 import model.competicion.CompeticionDto;
+import util.exceptions.ModelException;
 import view.util.table.CompeticionesToTable;
 
 public class VerCompeticionesPanel extends JPanel {
@@ -20,7 +21,7 @@ private static final long serialVersionUID = 1L;
 	
 	private List<CompeticionDto> competiciones;
 
-	public VerCompeticionesPanel() {
+	public VerCompeticionesPanel() throws ModelException {
 		this.competiciones = ModelFactory.forCarreraCrudService().GetAllCompeticiones();
 		
 		setLayout(new BorderLayout(0, 0));
