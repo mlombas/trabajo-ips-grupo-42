@@ -11,7 +11,7 @@ import util.exceptions.ApplicationException;
 
 public class PendingPayWithTransaccion {
 	
-	private static final String UPDATEINSCRIPCION = "update Inscripcion set estadoInscripcion = ?, set fechaCambioEstado = ? where idCompeticion = ? and emailAtleta = ? ";
+	private static final String UPDATEINSCRIPCION = "update Inscripcion set estadoInscripcion = ?, fechaCambioEstado = ? where idCompeticion = ? and emailAtleta = ? ";
 	private static final String GETINSCRIPCION = "select * from Inscripcion where idCompeticion = ? and emailAtleta = ? ";
 	private static final String GETCUOTA = "select cuota from carrera where id = ?";
 	

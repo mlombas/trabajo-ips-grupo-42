@@ -69,8 +69,11 @@ public class JustificanteDialog extends JDialog {
 	}
 	
 	private void showPagoTransacción(InscripcionDto inscripcion) {
-		String code = ModelFactory.forAtletaCrudService().pendingPayWithTransaccion(inscripcion);
-		JOptionPane.showMessageDialog(this, code);
+		PagoTransaccionDialog diag = new PagoTransaccionDialog(inscripcion);
+		diag.setLocationRelativeTo(null);
+		diag.setModal(true);
+		diag.setVisible(true);
+		closeDialog();
 	}
 	
 	private void closeDialog() {
