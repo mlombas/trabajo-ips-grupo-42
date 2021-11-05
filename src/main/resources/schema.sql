@@ -46,6 +46,7 @@ create table Inscripcion (
 	cuotaInscripcion decimal(10,2) not null,
 	estadoInscripcion varchar(255) not null,
 	fechaCambioEstado date,
+	dorsal int,
 	
 	primary key(idCompeticion,emailAtleta),
 	foreign key(idCompeticion) references Competicion(id),
