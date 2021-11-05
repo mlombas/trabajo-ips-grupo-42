@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class CSVCreator {
-	public CSVTable<String, String> read(String fname) throws FileNotFoundException {
+	public static CSVTable<String, String> read(String fname) throws FileNotFoundException {
 		return read(fname, "\s*,\s*");
 	}
 	
-	public CSVTable<String, String> read(String fname, String split) throws FileNotFoundException {
+	public static CSVTable<String, String> read(String fname, String split) throws FileNotFoundException {
 		File f = new File(fname);
 		CSVReader reader = new CSVReader(f, split);
 		
