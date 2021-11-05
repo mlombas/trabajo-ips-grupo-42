@@ -3,7 +3,7 @@ package model.competicion.commands;
 import java.util.List;
 
 import model.competicion.CompeticionDto;
-import model.competicion.PosicionDto;
+import model.competicion.ClasificacionDto;
 import util.database.Database;
 
 
@@ -21,8 +21,8 @@ public class GetClasificacionByCategoria{
 	}
 	
 	
-	public List<PosicionDto> execute() {
-		return db.executeQueryPojo(PosicionDto.class, OBTENER_RESULTADOS, id_competicion, categoria);
+	public List<ClasificacionDto> execute() {
+		return db.executeQueryPojo(ClasificacionDto.class, OBTENER_RESULTADOS, id_competicion, categoria);
 	}
 	
 }
