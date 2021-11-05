@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import util.exceptions.ModelException;
 import view.atleta.AtletaMain;
 
 public class AtrasAtletaButton extends JButton {
@@ -16,12 +15,7 @@ public class AtrasAtletaButton extends JButton {
 		this.setText("Atrás");
 		this.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					AtletaMain.getInstance().flipCard(back);
-				} catch (ModelException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				AtletaMain.getInstance().flipCard(back);
 			}
 		});
 	}

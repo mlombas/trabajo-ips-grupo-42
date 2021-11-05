@@ -7,11 +7,9 @@ import java.awt.BorderLayout;
 import javax.swing.JDialog;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 
 import bank_mockup.Bank;
-import model.ModelFactory;
 import model.inscripcion.InscripcionDto;
 
 import javax.swing.border.LineBorder;

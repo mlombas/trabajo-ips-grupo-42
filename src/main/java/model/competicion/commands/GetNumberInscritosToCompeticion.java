@@ -1,10 +1,9 @@
 package model.competicion.commands;
 
-import java.util.List;
-
 import util.database.Database;
 
 public class GetNumberInscritosToCompeticion {
+	
 	private static final String GET_INSCRIBED_TO_COMPETITION =
 			"SELECT COUNT(emailAtleta) " +
 			"FROM inscripcion " +

@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.List;
 
 import bank_mockup.Bank;
-import model.atleta.TarjetaDto;
 import model.inscripcion.InscripcionDto;
 import util.database.Database;
 import util.exceptions.ApplicationException;
