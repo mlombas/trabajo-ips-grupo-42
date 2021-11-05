@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import util.exceptions.ModelException;
 import view.organizador.panel.CrearCompeticionPanel;
 import view.organizador.panel.GestionarCompeticionesPanel;
 
@@ -31,8 +32,9 @@ public class OrganizadorMain extends JPanel {
 	
 	/**
 	 * Create the frame.
+	 * @throws ModelException 
 	 */
-	private OrganizadorMain() {
+	private OrganizadorMain() throws ModelException {
 		// Setting-up some features of this window.
 		setBounds(0, 0, 1366, 768);
 		
@@ -56,7 +58,7 @@ public class OrganizadorMain extends JPanel {
 		this.add(cards);
 	}
 	
-	public static OrganizadorMain getInstance() {
+	public static OrganizadorMain getInstance() throws ModelException {
 		 if (organizadorMain == null)
 			 organizadorMain = new OrganizadorMain();
 		 

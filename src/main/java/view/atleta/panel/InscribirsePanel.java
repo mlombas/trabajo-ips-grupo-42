@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import model.ModelFactory;
 import model.competicion.CompeticionDto;
+import util.exceptions.ModelException;
 import view.atleta.AtletaMain;
 import view.atleta.util.AtrasAtletaButton;
 import view.util.panel.VerCompeticionesPanel;
@@ -31,15 +32,16 @@ public class InscribirsePanel extends JPanel {
 
 	/**
 	 * Create the panel.
+	 * @throws ModelException 
 	 */
-	public InscribirsePanel() {
+	public InscribirsePanel() throws ModelException {
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getPanelButtons(), BorderLayout.SOUTH);
 
 	}
 
-	VerCompeticionesPanel getCompeticionesPane() {
+	VerCompeticionesPanel getCompeticionesPane() throws ModelException {
 		if (competicionesPane == null) {
 			List<CompeticionDto> competiciones = ModelFactory
 					.forCarreraCrudService()

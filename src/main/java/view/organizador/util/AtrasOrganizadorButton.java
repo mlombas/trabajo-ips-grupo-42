@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import util.exceptions.ModelException;
 import view.organizador.OrganizadorMain;
 
 public class AtrasOrganizadorButton extends JButton {
@@ -15,7 +16,12 @@ public class AtrasOrganizadorButton extends JButton {
 		this.setText("Atrás");
 		this.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OrganizadorMain.getInstance().flipCard(back);
+				try {
+					OrganizadorMain.getInstance().flipCard(back);
+				} catch (ModelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 	}
