@@ -44,19 +44,18 @@ public class InscribirsePanel extends JPanel {
 	VerCompeticionesPanel getCompeticionesPane() {
 		if (competicionesPane == null) {
 			List<CompeticionDto> competiciones;
-			try {
-				competiciones = ModelFactory
-						.forCarreraCrudService()
-						.GetAllCompeticiones()
-						.stream()
-						.filter(competicion -> LocalDate.parse(competicion.getFecha())
-												.compareTo(LocalDate.now()) > 0)
-						.collect(Collectors.toList());
-				competicionesPane = new VerCompeticionesPanel(competiciones);
-			} catch (ModelException e) {
-				JOptionPane.showMessageDialog(null, "No se han podido cargar las competiciones");
-				AtletaMain.getInstance().startPanel();
-			}
+				try {
+					competiciones = ModelFactory
+							.forCarreraCrudService()
+							.GetAllCompeticiones()
+							.stream()
+							.filter(competicion -> LocalDate.parse(competicion.getFecha())
+													.compareTo(LocalDate.now()) > 0)
+							.collect(Collectors.toList());
+					competicionesPane = new VerCompeticionesPanel(competiciones);
+				} catch (ModelException e) {
+					competicionesPane = new VerCompeticionesPanel();
+				}
 		}
 		return competicionesPane;
 	}

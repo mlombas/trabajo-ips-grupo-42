@@ -29,7 +29,6 @@ import util.Validate;
 import util.exceptions.AtletaNoValidoException;
 import util.exceptions.ModelException;
 import view.atleta.AtletaMain;
-import view.atleta.dialog.JustificanteDialog;
 
 public class FormularioInscripcionPanel extends JPanel {
 
@@ -68,13 +67,6 @@ public class FormularioInscripcionPanel extends JPanel {
 				arg,
 			    "ERROR - " + arg,
 			    JOptionPane.ERROR_MESSAGE);
-	}
-	
-	private void showJustificante(InscripcionDto inscripcion) {
-		JustificanteDialog justificanteDialog = new JustificanteDialog(inscripcion, getRdbtnTarjeta().isSelected());
-		justificanteDialog.setLocationRelativeTo(null);
-		justificanteDialog.setModal(true);
-		justificanteDialog.setVisible(true);
 	}
 	
 	private JPanel getPanelFormulario() {
@@ -177,8 +169,11 @@ public class FormularioInscripcionPanel extends JPanel {
 							AtletaMain.getInstance().getFormularioAtletaPanel().setIsSelectedTarjeta(rdbtnTarjeta.isSelected());
 							AtletaMain.getInstance().flipCard(AtletaMain.FORMULARIO_ATLETA);
 						} else {
+							atleta = temp.get();
 							inscripcion = ModelFactory.forAtletaCrudService().registerAtletaToCompeticion(atleta, competicion);
-							showJustificante(inscripcion);
+							AtletaMain.getInstance().getJustificantePanel().setInscripcionDto(inscripcion);
+							AtletaMain.getInstance().getJustificantePanel().setIsPagoTarjeta(rdbtnTarjeta.isSelected());
+							AtletaMain.getInstance().flipCard(AtletaMain.JUSTIFICANTE);
 						}
 					} catch (AtletaNoValidoException anve) { // manejamos correctamente las excepciones
 						showError(anve.getMessage());
