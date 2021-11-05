@@ -34,23 +34,29 @@ public class InscribirsePanel extends JPanel {
 	 * Create the panel.
 	 * @throws ModelException 
 	 */
-	public InscribirsePanel() throws ModelException {
+	public InscribirsePanel() {
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getPanelButtons(), BorderLayout.SOUTH);
 
 	}
 
-	VerCompeticionesPanel getCompeticionesPane() throws ModelException {
+	VerCompeticionesPanel getCompeticionesPane() {
 		if (competicionesPane == null) {
-			List<CompeticionDto> competiciones = ModelFactory
-					.forCarreraCrudService()
-					.GetAllCompeticiones()
-					.stream()
-					.filter(competicion -> LocalDate.parse(competicion.getFecha())
-											.compareTo(LocalDate.now()) > 0)
-					.collect(Collectors.toList());
-			competicionesPane = new VerCompeticionesPanel(competiciones);
+			List<CompeticionDto> competiciones;
+			try {
+				competiciones = ModelFactory
+						.forCarreraCrudService()
+						.GetAllCompeticiones()
+						.stream()
+						.filter(competicion -> LocalDate.parse(competicion.getFecha())
+												.compareTo(LocalDate.now()) > 0)
+						.collect(Collectors.toList());
+				competicionesPane = new VerCompeticionesPanel(competiciones);
+			} catch (ModelException e) {
+				JOptionPane.showMessageDialog(null, "No se han podido cargar las competiciones");
+				AtletaMain.getInstance().startPanel();
+			}
 		}
 		return competicionesPane;
 	}

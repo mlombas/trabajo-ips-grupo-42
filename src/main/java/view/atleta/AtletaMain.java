@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -45,7 +46,7 @@ public class AtletaMain extends JPanel {
 	 * Create the frame.
 	 * @throws ModelException 
 	 */
-	private AtletaMain() throws ModelException {
+	private AtletaMain() {
 		// Setting-up some features of this window.
 		setBounds(0, 0, 1366, 768);
 		
@@ -75,7 +76,7 @@ public class AtletaMain extends JPanel {
 		this.add(cards);
 	}
 
-	public static AtletaMain getInstance() throws ModelException {
+	public static AtletaMain getInstance() {
 		 if (atletaMain == null)
 			 atletaMain = new AtletaMain();
 		 
@@ -155,9 +156,14 @@ public class AtletaMain extends JPanel {
 		}
 	}
 	
-	private VerCompeticionesPanel getVerCompeticionesPanel() throws ModelException {
+	private VerCompeticionesPanel getVerCompeticionesPanel() {
 		if (verCompeticionesPanel == null) {
-			verCompeticionesPanel = new VerCompeticionesPanel();
+			try {
+				verCompeticionesPanel = new VerCompeticionesPanel();
+			} catch (ModelException e) {
+				JOptionPane.showMessageDialog(null, "No se han podido cargar las competiciones");
+				System.exit(1000);
+			}
 			verCompeticionesPanel.add(new AtrasAtletaButton(AtletaMain.ATLETAS_MENU),
 					BorderLayout.SOUTH);
 		}
