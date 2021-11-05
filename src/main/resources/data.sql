@@ -19,6 +19,7 @@ insert into Atleta(email, dni, nombre, fechaNacimiento, sexo) values
 insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nombreCompeticion, categoria, fechaInscripcion,
  			cuotaInscripcion, estadoInscripcion, fechaCambioEstado, dorsal) values
  			('100','pedro@gmail.com','Pedro', 'dni','Carrera100','Juvenil H','2021-11-12',30,'Pre-inscrito','2021-11-12',1),
+ 			('100','elena@gmail.com','Elena', 'dni','Carrera100','Juvenil M','2021-11-12',30,'Pre-inscrito','2021-11-12',1),
  			('101','pedro@gmail.com','Pedro', 'dni', 'Carrera101','Juvenil H','2021-11-10',30,'Pre-inscrito','2021-11-03',1);
  			
 insert into Categoria(nombreCategoria, idCompeticion, edadMinima, edadMaxima, sexo) values 

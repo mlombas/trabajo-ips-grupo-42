@@ -21,11 +21,8 @@ public class ClasificacionesToTable extends JTable {
 			Object[] fila = new Object[columnNames.length];
 			fila[0] = posicion.posicion;
 			fila[1] = posicion.sexo;
-			fila[2] = posicion.nombreAtleta;
-			if (posicion.estadoInscripcion == "Finalizado")
-				fila[3] = posicion.tiempo + "";
-			else
-				fila[3] ="-:--";			
+			fila[2] = posicion.nombre;
+			fila[3] = posicion.tiempoLlegada-posicion.tiempoSalida;			
 			model.addRow(fila);
 		}
 		

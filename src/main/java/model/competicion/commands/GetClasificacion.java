@@ -8,7 +8,7 @@ import util.database.Database;
 
 public class GetClasificacion{
 
-	private static final String OBTENER_RESULTADOS = "select c.posicion, c.dorsal, c.tiempoSalida, c.tiempoLlegada, a.sexo, a.nombre from Clasificacion c, Atleta a where c.idCompeticion = ? and a.email=c.emailAtleta order by c.posicion";
+	private static final String OBTENER_RESULTADOS = "select c.posicion, c.dorsal, c.tiempoSalida, c.tiempoLlegada, a.sexo, a.nombre, i.categoria from Clasificacion c, Atleta a, Inscripcion i where c.idCompeticion = ? and a.email=c.emailAtleta and i.idCompeticion = c.idCompeticion and i.emailAtleta = c.emailAtleta order by c.posicion";
 
 	private Database db = Database.getInstance();
 	private String id_competicion;

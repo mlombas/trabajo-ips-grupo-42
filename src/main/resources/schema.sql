@@ -73,10 +73,10 @@ create table Categoria (
 create table Clasificacion(
 	idCompeticion varchar(255) not null,
 	emailAtleta varchar(255) not null,
-	dorsal int not null,
-	tiempoSalida int not null,
-	tiempoLlegada int not null,
-	posicion int not null,
+	dorsal int,
+	tiempoSalida int,
+	tiempoLlegada int,
+	posicion int,
 	
 	primary key(idCompeticion,emailAtleta),
 	foreign key(idCompeticion) references Competicion(id)
