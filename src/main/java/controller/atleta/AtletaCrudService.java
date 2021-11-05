@@ -3,6 +3,7 @@ package controller.atleta;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import model.atleta.AtletaDto;
 import model.atleta.TarjetaDto;
@@ -13,6 +14,8 @@ import util.exceptions.ModelException;
 
 
 public interface AtletaCrudService {
+	
+	void addAtleta(AtletaDto atleta) throws AtletaNoValidoException, ModelException;
 	
 	/**
 	 * Permite al atleta inscribirse en una competicion para poder participar en ella.
@@ -40,5 +43,7 @@ public interface AtletaCrudService {
 	List<InscripcionDto> getCompetionesInscritas(AtletaDto atleta);
 
 	String pendingPayWithTransaccion(InscripcionDto inscripcion);
+
+	Optional<AtletaDto> findByAtletaEmail(String email) throws ModelException;
 	
 }

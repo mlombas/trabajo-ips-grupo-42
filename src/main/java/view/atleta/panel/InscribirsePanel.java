@@ -9,6 +9,8 @@ import view.atleta.util.AtrasAtletaButton;
 import view.util.panel.VerCompeticionesPanel;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,8 +26,7 @@ public class InscribirsePanel extends JPanel {
 	private VerCompeticionesPanel competicionesPane;
 	private JButton btnInscribirse;
 	private AtrasAtletaButton btnAtras;
-	
-	private FormularioInscripcionPanel formularioDeInscripcion;
+
 	private JPanel panelButtons;
 
 	/**
@@ -71,8 +72,18 @@ public class InscribirsePanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					CompeticionDto competicion = new CompeticionDto();
 					
-					//showFormularioDeInscripcion(); // TODO flip card
-					formularioDeInscripcion.setCompeticionDto(competicion);
+					try {
+						competicion.id = competicionesPane.getCompeticionId();
+						competicion.cuota = competicionesPane.getCuota();
+						competicion.nombreCarrera = competicionesPane.getNombreCompeticion();
+					} catch (ArrayIndexOutOfBoundsException aiobe) {
+						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						return;
+					}
+
+					// Move to the other card
+					AtletaMain.getInstance().getFormularioInscripcion().setCompeticionDto(competicion);
+					AtletaMain.getInstance().flipCard(AtletaMain.FORMULARIO_INSCRIPCION);
 				}
 			});
 		}
