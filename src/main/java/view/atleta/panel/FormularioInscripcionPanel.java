@@ -144,7 +144,7 @@ public class FormularioInscripcionPanel extends JPanel {
 		}
 		return panelValidarBtn;
 	}
-	
+
 	private JButton getBtnValidarEInscribirse() {
 		if (btnValidarEInscribirse == null) {
 			btnValidarEInscribirse = new JButton("Validar e Inscribirse");
@@ -190,6 +190,7 @@ public class FormularioInscripcionPanel extends JPanel {
 						return;
 					}
 				}
+
 			});
 		}
 		return btnValidarEInscribirse;

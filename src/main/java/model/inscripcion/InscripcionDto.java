@@ -14,8 +14,8 @@ public class InscripcionDto {
 	public double cuotaInscripcion;
 	public String estadoInscripcion;
 	public LocalDate fechaCambioEstado;
-	public int poisicion;
-	public double tiempo;
+//	public int poisicion;
+//	public double tiempo;
 
 	public String getIdCompeticion() {
 		return idCompeticion;
@@ -69,21 +69,21 @@ public class InscripcionDto {
 		this.cuotaInscripcion = cuotaInscripcion;
 	}
 
-	public int getPoisicion() {
-		return poisicion;
-	}
-
-	public void setPoisicion(int poisicion) {
-		this.poisicion = poisicion;
-	}
-
-	public double getTiempo() {
-		return tiempo;
-	}
-
-	public void setTiempo(double tiempo) {
-		this.tiempo = tiempo;
-	}
+//	public int getPoisicion() {
+//		return poisicion;
+//	}
+//
+//	public void setPoisicion(int poisicion) {
+//		this.poisicion = poisicion;
+//	}
+//
+//	public double getTiempo() {
+//		return tiempo;
+//	}
+//
+//	public void setTiempo(double tiempo) {
+//		this.tiempo = tiempo;
+//	}
 
 	public void setIdCompeticion(String idCompeticion) {
 		this.idCompeticion = idCompeticion;
