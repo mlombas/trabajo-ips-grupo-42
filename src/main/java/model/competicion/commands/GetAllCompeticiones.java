@@ -2,18 +2,17 @@ package model.competicion.commands;
 
 import java.util.List;
 
-import giis.demo.util.Database;
 import model.competicion.CompeticionDto;
+import util.database.Database;
 
 public class GetAllCompeticiones {
 	
 	private static final String ALL_COMPETITIONS =
 			"SELECT * " +
 			"FROM competicion " +
-			"WHERE fechaFin >= DATE('now')" +
-			"ORDER BY fecha";
+			"ORDER BY id";
 		
-	private Database db = new Database();
+	private Database db = Database.getInstance();
 	
 	public List<CompeticionDto> execute() {
 		List<CompeticionDto> competitions;

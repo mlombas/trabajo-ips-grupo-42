@@ -11,10 +11,10 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-import giis.demo.util.Database;
 import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
-import util.ModelException;
+import util.database.Database;
+import util.exceptions.ModelException;
 
 public class GetAtletasForCompetition {
 
@@ -27,7 +27,7 @@ public class GetAtletasForCompetition {
 	
 	private CompeticionDto competition;
 	
-	private Database db = new Database();
+	private Database db = Database.getInstance();
 	private Connection c = null;
 	
 	public GetAtletasForCompetition(CompeticionDto competition) {

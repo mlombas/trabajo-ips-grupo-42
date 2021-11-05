@@ -10,23 +10,29 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import view.organizador.panel.CrearCompeticionPanel;
+import view.organizador.panel.GestionarCompeticionesPanel;
+
 public class OrganizadorMain extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	
-	static final String ORGANIZADOR_MENU = "organizadores";
-	static final String CREAR_CARRERA = "crear carrera";
-	static final String BUSCAR_CARRERAS = "buscar carrera";
+	public static final String ORGANIZADOR_MENU = "organizadores";
+	public static final String CREAR_COMPETICION = "crear competicion";
+	public static final String GESTIONAR_COMPETICIONES = "buscar competicion";
+	
+	private static OrganizadorMain organizadorMain;
 	
 	private JPanel cards;
 	
 	private OrganizadorMenu organizadorMenu;
-	private CrearCarreraPanel crearCarreraPanel;
-	private VerCarrerasPanel buscarCarreraPanel;
+	private CrearCompeticionPanel crearCompeticionPane;
+	private GestionarCompeticionesPanel buscarCompeticionPane;
+	
 	/**
 	 * Create the frame.
 	 */
-	public OrganizadorMain() {
+	private OrganizadorMain() {
 		// Setting-up some features of this window.
 		setBounds(0, 0, 1366, 768);
 		
@@ -38,19 +44,26 @@ public class OrganizadorMain extends JPanel {
 		
 		// Create the cards.
 		organizadorMenu = new OrganizadorMenu();
-		crearCarreraPanel = new CrearCarreraPanel(this);
-		buscarCarreraPanel = new VerCarrerasPanel(this);
+		crearCompeticionPane = new CrearCompeticionPanel();
+		buscarCompeticionPane = new GestionarCompeticionesPanel();
 		
 		// Create the panel that contains the cards.
 		cards.add(organizadorMenu, ORGANIZADOR_MENU);
-		cards.add(crearCarreraPanel, CREAR_CARRERA);
-		cards.add(buscarCarreraPanel, BUSCAR_CARRERAS);
+		cards.add(crearCompeticionPane, CREAR_COMPETICION);
+		cards.add(buscarCompeticionPane, GESTIONAR_COMPETICIONES);
 		
 		// Add the card panel to the frame.
 		this.add(cards);
 	}
 	
-	protected void flipCard(String cardId) {
+	public static OrganizadorMain getInstance() {
+		 if (organizadorMain == null)
+			 organizadorMain = new OrganizadorMain();
+		 
+		 return organizadorMain;
+	 }
+	
+	public void flipCard(String cardId) {
         CardLayout cl = (CardLayout) cards.getLayout();
         cl.show(cards, cardId);
 	}
@@ -79,11 +92,11 @@ public class OrganizadorMain extends JPanel {
 		
 		private JButton getBtnCrearCarrera() {
 			if (btnCrearCarrera == null) {
-				btnCrearCarrera = new JButton("Crear Carrera");
+				btnCrearCarrera = new JButton("Crear Competición");
 				
 				btnCrearCarrera.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//flipCard(CREAR_CARRERA);
+						flipCard(CREAR_COMPETICION);
 					}
 				});
 			}
@@ -92,11 +105,11 @@ public class OrganizadorMain extends JPanel {
 		
 		private JButton getBtnVerCarreras() {
 			if (btnVerCarreras == null) {
-				btnVerCarreras = new JButton("Ver Carreras");
+				btnVerCarreras = new JButton("Gestionar Competiciones");
 				
 				btnVerCarreras.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						flipCard(BUSCAR_CARRERAS);
+						flipCard(GESTIONAR_COMPETICIONES);
 					}
 				});
 			}

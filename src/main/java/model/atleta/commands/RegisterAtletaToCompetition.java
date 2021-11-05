@@ -10,13 +10,13 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-import giis.demo.util.Database;
 import model.atleta.AtletaDto;
 import model.competicion.CompeticionDto;
 import model.inscripcion.EstadoInscripcion;
 import model.inscripcion.InscripcionDto;
-import util.AtletaNoValidoException;
-import util.ModelException;
+import util.database.Database;
+import util.exceptions.AtletaNoValidoException;
+import util.exceptions.ModelException;
 
 public class RegisterAtletaToCompetition {
 	
@@ -36,7 +36,7 @@ public class RegisterAtletaToCompetition {
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
 	
-	private Database db = new Database();
+	private Database db = Database.getInstance();
 	private Connection c = null;
 	
 	public RegisterAtletaToCompetition(AtletaDto atleta, CompeticionDto competicion) {

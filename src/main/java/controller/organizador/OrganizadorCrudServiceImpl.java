@@ -5,7 +5,7 @@ import java.util.List;
 import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
 import model.inscripcion.commands.GetAtletasForCompetition;
-import util.ModelException;
+import util.exceptions.ModelException;
 
 public class OrganizadorCrudServiceImpl implements OrganizadorCrudService {
 

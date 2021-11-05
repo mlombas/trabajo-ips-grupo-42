@@ -27,6 +27,8 @@ public class MainWindow extends JFrame {
 	private static final String ATLETAS_MENU = "atletas";
 	private static final String ORGANZIADORES_MENU = "organizadores";
 	
+	private static MainWindow mainWindow;
+	
 	private JPanel cards;
 	
 	private MainMenu mainMenu;
@@ -36,13 +38,13 @@ public class MainWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainWindow() {
+	private MainWindow() {
 		// Setting-up some features of this window.
 		setTitle(TITLE);
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(0, 0, 1366, 768);
+		setBounds(0, 0, 720, 480);
 		setLocationRelativeTo(null);
 		
 		// Main content pane.
@@ -53,8 +55,8 @@ public class MainWindow extends JFrame {
 		
 		// Create the cards.
 		mainMenu = new MainMenu();
-		atletaMain = new AtletaMain();
-		organizadorMain = new OrganizadorMain();
+		atletaMain = AtletaMain.getInstance();
+		organizadorMain = OrganizadorMain.getInstance();
 		// Create the panel that contains the cards.
 		cards.add(mainMenu, MAIN_MENU);
 		cards.add(atletaMain, ATLETAS_MENU);
@@ -74,7 +76,14 @@ public class MainWindow extends JFrame {
 		});
 	}
 	
-	protected void flipCard(String cardId) {
+	public static MainWindow getInstance() {
+		 if (mainWindow == null)
+			 mainWindow = new MainWindow();
+		 
+		 return mainWindow;
+	 }
+	
+	public void flipCard(String cardId) {
         CardLayout cl = (CardLayout) cards.getLayout();
         cl.show(cards, cardId);
 	}

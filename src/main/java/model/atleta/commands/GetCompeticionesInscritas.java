@@ -2,10 +2,10 @@ package model.atleta.commands;
 
 import java.util.List;
 
-import giis.demo.util.ApplicationException;
-import giis.demo.util.Database;
 import model.atleta.AtletaDto;
 import model.inscripcion.InscripcionDto;
+import util.database.Database;
+import util.exceptions.ApplicationException;
 
 public class GetCompeticionesInscritas {
 	
@@ -13,7 +13,7 @@ public class GetCompeticionesInscritas {
 	private static final String COMPETICIONESINSCRITAS = "select * from Inscripcion where emailAtleta = ? order by fechaCambioEstado DESC";
 
 	private AtletaDto atleta;
-	private Database db = new Database();
+	private Database db = Database.getInstance();
 
 	public GetCompeticionesInscritas(AtletaDto atleta) {
 		this.atleta = atleta;

@@ -11,8 +11,8 @@ import model.atleta.commands.PendingPayWithTransaccion;
 import model.atleta.commands.RegisterAtletaToCompetition;
 import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
-import util.AtletaNoValidoException;
-import util.ModelException;
+import util.exceptions.AtletaNoValidoException;
+import util.exceptions.ModelException;
 
 
 public class AtletaCrudServiceImpl implements AtletaCrudService {
