@@ -50,7 +50,7 @@ private static final long serialVersionUID = 1L;
 	
 	public double getCuota() {
 		int index = table.getSelectedRow();
-		return Double.parseDouble(table.getValueAt(index, 5).toString());
+		return Double.parseDouble(table.getValueAt(index, 4).toString());
 	}
 	
 	public String getNombreCompeticion() {
