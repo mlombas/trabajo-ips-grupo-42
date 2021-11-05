@@ -11,6 +11,7 @@ import util.Validate;
 import util.exceptions.AtletaNoValidoException;
 import util.exceptions.ModelException;
 import view.atleta.AtletaMain;
+import view.atleta.util.AtrasAtletaButton;
 
 import java.awt.BorderLayout;
 
@@ -26,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -36,7 +38,6 @@ public class FormularioAtletaPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel panelFormulario;
-	private JButton btnValidarDatos;
 	private JTextField textNombre;
 	private JLabel lblNombre;
 	private JLabel lblDni;
@@ -48,6 +49,8 @@ public class FormularioAtletaPanel extends JPanel {
 	private JRadioButton rdbtnHombre;
 	private JRadioButton rdbtnMujer;
 	private JPanel panelValidarBtn;
+	private JButton btnValidarDatos;
+	private AtrasAtletaButton btnAtras;
 
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
@@ -190,8 +193,16 @@ public class FormularioAtletaPanel extends JPanel {
 		if (panelValidarBtn == null) {
 			panelValidarBtn = new JPanel();
 			panelValidarBtn.add(getBtnValidarDatos());
+			panelValidarBtn.add(getBtnAtras());
 		}
 		return panelValidarBtn;
+	}
+	
+	private Component getBtnAtras() {
+		if (btnAtras == null) {
+			btnAtras = new AtrasAtletaButton(AtletaMain.FORMULARIO_INSCRIPCION);
+		}
+		return btnAtras;
 	}
 	
 	private JButton getBtnValidarDatos() {

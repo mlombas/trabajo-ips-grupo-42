@@ -23,26 +23,29 @@ import javax.swing.BoxLayout;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import net.miginfocom.swing.MigLayout;
 import util.Validate;
 import util.exceptions.AtletaNoValidoException;
 import util.exceptions.ModelException;
 import view.atleta.AtletaMain;
+import view.atleta.util.AtrasAtletaButton;
 
 public class FormularioInscripcionPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel panelFormulario;
-	private JButton btnValidarEInscribirse;
+	private JLabel lblEmail;
+	private JTextField textEmail;
 	private JPanel panelTipoDePago;
 	private ButtonGroup tipoDePago;
 	private JRadioButton rdbtnTransferencia;
 	private JRadioButton rdbtnTarjeta;
 	private JPanel panelValidarBtn;
-	private JLabel lblEmail;
-	private JTextField textEmail;
+	private JButton btnValidarEInscribirse;
+	private AtrasAtletaButton btnAtras;
 	
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
@@ -133,8 +136,16 @@ public class FormularioInscripcionPanel extends JPanel {
 		if (panelValidarBtn == null) {
 			panelValidarBtn = new JPanel();
 			panelValidarBtn.add(getBtnValidarEInscribirse());
+			panelValidarBtn.add(getBtnAtras());
 		}
 		return panelValidarBtn;
+	}
+	
+	private Component getBtnAtras() {
+		if (btnAtras == null) {
+			btnAtras = new AtrasAtletaButton(AtletaMain.INSCRIPCIONES);
+		}
+		return btnAtras;
 	}
 
 	private JButton getBtnValidarEInscribirse() {
