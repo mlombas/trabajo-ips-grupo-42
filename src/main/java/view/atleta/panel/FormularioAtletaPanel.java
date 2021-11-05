@@ -11,7 +11,6 @@ import util.Validate;
 import util.exceptions.AtletaNoValidoException;
 import util.exceptions.ModelException;
 import view.atleta.AtletaMain;
-import view.atleta.dialog.JustificanteDialog;
 
 import java.awt.BorderLayout;
 
@@ -40,19 +39,20 @@ public class FormularioAtletaPanel extends JPanel {
 	private JButton btnValidarDatos;
 	private JTextField textNombre;
 	private JLabel lblNombre;
-	private JPanel panelValidarBtn;
+	private JLabel lblDni;
+	private JTextField textDni;
 	private JLabel lblFechaNacimiento;
 	private JTextField textFechaNacimiento;
 	private JLabel lblSexo;
 	private ButtonGroup sexo = new ButtonGroup();
 	private JRadioButton rdbtnHombre;
+	private JRadioButton rdbtnMujer;
+	private JPanel panelValidarBtn;
 
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
 	private boolean isSelectedTarjeta;
-	private JLabel lblDni;
-	private JTextField textDni;
-	private JRadioButton rdbtnMujer;
+
 	
 	/**
 	 * Create the panel.
@@ -81,13 +81,6 @@ public class FormularioAtletaPanel extends JPanel {
 				arg,
 			    "ERROR - " + arg,
 			    JOptionPane.ERROR_MESSAGE);
-	}
-	
-	private void showJustificante(InscripcionDto inscripcion) {
-		JustificanteDialog justificanteDialog = new JustificanteDialog(inscripcion, isSelectedTarjeta);
-		justificanteDialog.setLocationRelativeTo(null);
-		justificanteDialog.setModal(true);
-		justificanteDialog.setVisible(true);
 	}
 	
 	private JPanel getPanelFormulario() {
@@ -250,7 +243,9 @@ public class FormularioAtletaPanel extends JPanel {
 					try {
 						ModelFactory.forAtletaCrudService().addAtleta(atleta);
 						inscripcion = ModelFactory.forAtletaCrudService().registerAtletaToCompeticion(atleta, competicion);
-						showJustificante(inscripcion);
+						AtletaMain.getInstance().getJustificantePanel().setInscripcionDto(inscripcion);
+						AtletaMain.getInstance().getJustificantePanel().setIsPagoTarjeta(isSelectedTarjeta);
+						AtletaMain.getInstance().flipCard(AtletaMain.JUSTIFICANTE);
 					} catch (AtletaNoValidoException anve) { // manejamos correctamente las excepciones
 						showError(anve.getMessage());
 						AtletaMain.getInstance().startPanel();

@@ -1,6 +1,7 @@
 package view.util.panel;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -21,8 +22,12 @@ private static final long serialVersionUID = 1L;
 	
 	private List<CompeticionDto> competiciones;
 
-	public VerCompeticionesPanel() throws ModelException {
-		this.competiciones = ModelFactory.forCarreraCrudService().GetAllCompeticiones();
+	public VerCompeticionesPanel() {
+		try {
+			this.competiciones = ModelFactory.forCarreraCrudService().GetAllCompeticiones();
+		} catch (ModelException e) {
+			this.competiciones = new ArrayList<>();
+		}
 		
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesListPane(), BorderLayout.CENTER);

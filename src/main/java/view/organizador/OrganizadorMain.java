@@ -34,7 +34,7 @@ public class OrganizadorMain extends JPanel {
 	 * Create the frame.
 	 * @throws ModelException 
 	 */
-	private OrganizadorMain() throws ModelException {
+	private OrganizadorMain() {
 		// Setting-up some features of this window.
 		setBounds(0, 0, 1366, 768);
 		
@@ -58,7 +58,7 @@ public class OrganizadorMain extends JPanel {
 		this.add(cards);
 	}
 	
-	public static OrganizadorMain getInstance() throws ModelException {
+	public static OrganizadorMain getInstance() {
 		 if (organizadorMain == null)
 			 organizadorMain = new OrganizadorMain();
 		 

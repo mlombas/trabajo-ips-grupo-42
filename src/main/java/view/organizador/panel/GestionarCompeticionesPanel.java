@@ -33,7 +33,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private JPanel verClasificacionesPane;
 	private JTextField textCategoria;
 
-	public GestionarCompeticionesPanel() throws ModelException {
+	public GestionarCompeticionesPanel() {
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getBtnPane(), BorderLayout.SOUTH);
@@ -55,7 +55,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		estadoInscripcionDialog.setVisible(true);
 	}
 
-	private VerCompeticionesPanel getCompeticionesPane() throws ModelException {
+	private VerCompeticionesPanel getCompeticionesPane() {
 		if (verCompeticionesPane == null)
 			verCompeticionesPane = new VerCompeticionesPanel();
 		
