@@ -1,9 +1,9 @@
 package view.organizador.panel;
 
 import javax.swing.ButtonGroup;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -12,10 +12,13 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
+import view.organizador.OrganizadorMain;
+import view.organizador.util.AtrasOrganizadorButton;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+
 public class CrearCompeticionPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -33,6 +36,7 @@ public class CrearCompeticionPanel extends JPanel {
 	private JRadioButton rdbtnHombre;
 	private JRadioButton rdbtnMujer;
 	private JPanel panelValidarBtn;
+	private AtrasOrganizadorButton btnAtras;
 
 	
 	/**
@@ -151,8 +155,16 @@ public class CrearCompeticionPanel extends JPanel {
 		if (panelValidarBtn == null) {
 			panelValidarBtn = new JPanel();
 			panelValidarBtn.add(getBtnValidarDatos());
+			panelValidarBtn.add(getBtnAtras());
 		}
 		return panelValidarBtn;
+	}
+	
+	private AtrasOrganizadorButton getBtnAtras() {
+		if (btnAtras == null) {
+			btnAtras = new AtrasOrganizadorButton(OrganizadorMain.ORGANIZADOR_MENU);
+		}
+		return btnAtras;
 	}
 	
 	private JButton getBtnValidarDatos() {
