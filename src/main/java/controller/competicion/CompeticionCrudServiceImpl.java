@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.competicion.CompeticionDto;
 import model.competicion.PosicionDto;
+import model.competicion.commands.CargarTiempos;
 import model.competicion.commands.GetAllCompeticiones;
 import model.competicion.commands.GetClasificacion;
 import model.competicion.commands.GetClasificacionByCategoria;
@@ -23,6 +24,11 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public List<PosicionDto> GetClasificacion(CompeticionDto competicion, String categoria) {
 		return new GetClasificacionByCategoria(competicion, categoria).execute();
+	}
+
+	@Override
+	public List<Integer> cargarTiempos(CompeticionDto comp) {
+		return new CargarTiempos(comp).execute();
 	}
 
 	

@@ -9,4 +9,5 @@ public interface CompeticionCrudService {
 	List<CompeticionDto> GetAllCompeticiones();
 	List<PosicionDto> GetClasificacion(CompeticionDto comp);
 	List<PosicionDto> GetClasificacion(CompeticionDto competicion, String categoria);
+	List<Integer> cargarTiempos(CompeticionDto comp);
 }
