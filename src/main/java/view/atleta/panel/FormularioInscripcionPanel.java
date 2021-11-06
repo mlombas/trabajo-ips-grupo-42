@@ -61,12 +61,6 @@ public class FormularioInscripcionPanel extends JPanel {
 		add(getPanelValidarBtn(), BorderLayout.SOUTH);
 	}
 	
-	public void reset() {
-		getTextEmail().setText("");
-		getRdbtnTarjeta().setSelected(false);
-		getRdbtnTransferencia().setSelected(false);
-	}
-	
 	public void setCompeticionDto(CompeticionDto competicion) {
 		this.competicion = competicion;
 	}
@@ -76,6 +70,12 @@ public class FormularioInscripcionPanel extends JPanel {
 				arg,
 			    "ERROR - " + arg,
 			    JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public void reset() {
+		getTextEmail().setText("");
+		getRdbtnTarjeta().setSelected(false);
+		getRdbtnTransferencia().setSelected(false);
 	}
 	
 	private JPanel getPanelFormulario() {

@@ -20,12 +20,15 @@ create table Competicion (
 	fechaFin date not null, 
 	plazas int not null,
 	estadoCarrera varchar(255) not null,
+	dorsalesReservados int,
+	descripcion varchar(255)
 	
 	check(fechaInicio<=fechaFin), 
 	check(fechaFin<fecha),
 	check(distancia>0),
 	check(plazas>0),
-	check(cuota>0)
+	check(cuota>0),
+	check(dorsalesReservados>0)
 );
 
 create table Atleta (
