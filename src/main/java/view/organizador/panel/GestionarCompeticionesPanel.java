@@ -11,21 +11,11 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-<<<<<<< HEAD
-=======
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.GridLayout;
->>>>>>> refs/heads/main
-
-<<<<<<< HEAD
 import controller.competicion.CompeticionCrudService;
 import controller.competicion.CompeticionCrudServiceImpl;
-=======
 import model.ModelFactory;
 import model.competicion.CategoriaDto;
->>>>>>> refs/heads/main
 import model.competicion.CompeticionDto;
 import util.exceptions.ApplicationException;
 import view.organizador.dialog.VerClasficacionDialog;
@@ -42,17 +32,12 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private JPanel competicionManagementPane;
 	private JButton btnVerEstado;
 	private JButton btnVerClasificaciones;
-<<<<<<< HEAD
-
-=======
 	private AtrasOrganizadorButton btnAtras;
 	
 	private static GestionarCompeticionesPanel instance;
 	
->>>>>>> refs/heads/main
 	private JPanel verClasificacionesPane;
 	private JComboBox<String> cbCategorias;
-	private AtrasOrganizadorButton btnAtras;
 	private JButton btnCargarTiempos;
 	private JButton btnGenerarDorsales;
 
@@ -174,7 +159,6 @@ public class GestionarCompeticionesPanel extends JPanel {
 		}
 		return cbCategorias;
 	}
-<<<<<<< HEAD
 
 	private AtrasOrganizadorButton getBtnAtras_1() {
 		if (btnAtras == null) {
@@ -240,8 +224,8 @@ public class GestionarCompeticionesPanel extends JPanel {
 			btnGenerarDorsales = new JButton("Generar Dorsales");
 		}
 		return btnGenerarDorsales;
-=======
-	
+	}
+
 	public void updateCategorias() {
 		cbCategorias.removeAllItems();
 		cbCategorias.addItem("Absoluta");
@@ -257,6 +241,5 @@ public class GestionarCompeticionesPanel extends JPanel {
 			instance = new GestionarCompeticionesPanel();
 		}
 		return instance;
->>>>>>> refs/heads/main
 	}
 }
