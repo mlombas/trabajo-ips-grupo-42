@@ -82,9 +82,8 @@ public class FormularioAtletaPanel extends JPanel {
 	public void reset() {
 		getTextNombre().setText("");
 		getTextDni().setText("");
-		getRdbtnHombre().setSelected(false);
-		getRdbtnMujer().setSelected(false);
 		getTextFechaNacimiento().setText("");
+		sexo.clearSelection();
 	}
 	
 	private void showError(String arg) {
