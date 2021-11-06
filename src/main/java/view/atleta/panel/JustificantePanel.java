@@ -7,7 +7,6 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 
-import bank_mockup.Bank;
 import model.inscripcion.InscripcionDto;
 import view.atleta.dialog.PagoTarjetaDialog;
 import view.atleta.dialog.PagoTransaccionDialog;
@@ -38,8 +37,6 @@ public class JustificantePanel extends JPanel {
 	
 	private InscripcionDto inscripcion;
 	private boolean isPagoTarjeta;
-	
-	private Bank bank = new Bank();
 	
 	/**
 	 * Create the panel.

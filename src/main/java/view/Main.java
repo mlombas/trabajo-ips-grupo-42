@@ -1,6 +1,7 @@
 package view;
 
-import java.awt.EventQueue;
+import java.awt.*;
+import javax.swing.UIManager;
 
 import util.database.Database;
 
@@ -18,6 +19,14 @@ public class Main {
 			public void run() {
 				try {
 					MainWindow frame = MainWindow.getInstance();
+					
+					// We establish the look and feel
+			         try{
+			             UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
+			         } catch(Exception e){
+			             System.out.println(e);
+			         }
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

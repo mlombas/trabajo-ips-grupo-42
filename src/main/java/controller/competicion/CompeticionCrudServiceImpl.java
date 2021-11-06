@@ -5,6 +5,7 @@ import java.util.List;
 import model.competicion.CompeticionDto;
 import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
+import model.competicion.commands.AddCompeticion;
 import model.competicion.commands.GetAllCompeticiones;
 import model.competicion.commands.GetCategorias;
 import model.competicion.commands.GetClasificacion;
@@ -31,5 +32,9 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public List<CategoriaDto> GetCategoria(String competicionId) {
 		return new GetCategorias(competicionId).execute();
+
+  @Override
+	public boolean addCompeticion(CompeticionDto competicion) throws ModelException {
+		return new AddCompeticion(competicion).execute();
 	}
 }
