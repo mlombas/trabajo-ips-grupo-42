@@ -127,7 +127,7 @@ public class VerInscripcionesPanel extends JPanel {
 		JOptionPane pane = new JOptionPane(message, type, JOptionPane.DEFAULT_OPTION);
 		pane.setOptions(new Object[] { "ACEPTAR" }); 
 		JDialog d = pane.createDialog(pane, title);
-		d.setLocation(200, 200);
+		d.setLocationRelativeTo(null);
 		d.setVisible(true);
 
 	}
