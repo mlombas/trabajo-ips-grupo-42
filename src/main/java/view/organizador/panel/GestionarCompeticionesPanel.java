@@ -33,25 +33,21 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private JButton btnVerEstado;
 	private JButton btnVerClasificaciones;
 	private AtrasOrganizadorButton btnAtras;
-	
-	private static GestionarCompeticionesPanel instance;
-	
+
 	private JPanel verClasificacionesPane;
 	private JComboBox<String> cbCategorias;
 	private JButton btnCargarTiempos;
 	private JButton btnGenerarDorsales;
 
-	private GestionarCompeticionesPanel() {
+	public GestionarCompeticionesPanel() {
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getBtnPane(), BorderLayout.SOUTH);
 	}
-	
+
 	public void refreshCompetitions() {
 		try {
-			verCompeticionesPane.updateCompeticiones(ModelFactory
-													.forCarreraCrudService()
-													.GetAllCompeticiones());
+			verCompeticionesPane.updateCompeticiones(ModelFactory.forCarreraCrudService().GetAllCompeticiones());
 		} catch (ModelException e) {
 			verCompeticionesPane.updateCompeticiones(new ArrayList<CompeticionDto>());
 		}
@@ -93,18 +89,18 @@ public class GestionarCompeticionesPanel extends JPanel {
 			btnVerEstado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					CompeticionDto competicion = new CompeticionDto();
-					
+
 					try {
 						competicion.id = verCompeticionesPane.getCompeticionId();
 					} catch (ArrayIndexOutOfBoundsException aiobe) {
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
 						return;
 					}
-					
-					if(competicion.id.trim().isEmpty()) {
+
+					if (competicion.id.trim().isEmpty()) {
 						return;
 					}
-					
+
 				}
 			});
 		}
@@ -128,15 +124,15 @@ public class GestionarCompeticionesPanel extends JPanel {
 			btnVerClasificaciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					CompeticionDto competicion = new CompeticionDto();
-					
+
 					try {
 						competicion.id = verCompeticionesPane.getCompeticionId();
 					} catch (ArrayIndexOutOfBoundsException aiobe) {
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
 						return;
 					}
-					
-					if(competicion.id.trim().isEmpty()) {
+
+					if (competicion.id.trim().isEmpty()) {
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
 						return;
 					}
@@ -224,18 +220,12 @@ public class GestionarCompeticionesPanel extends JPanel {
 	public void updateCategorias() {
 		cbCategorias.removeAllItems();
 		cbCategorias.addItem("Absoluta");
-		for(CategoriaDto cat : ModelFactory.forCarreraCrudService().GetCategoria(verCompeticionesPane.getCompeticionId())) {
+		for (CategoriaDto cat : ModelFactory.forCarreraCrudService()
+				.GetCategoria(verCompeticionesPane.getCompeticionId())) {
 			cbCategorias.addItem(cat.nombreCategoria);
 			System.out.println(cat.nombreCategoria);
 		}
-		
-		System.out.println("updated");
-	}
 
-	public static GestionarCompeticionesPanel getInstance() {
-		if(instance == null) {
-			instance = new GestionarCompeticionesPanel();
-		}
-		return instance;
+		System.out.println("updated");
 	}
 }

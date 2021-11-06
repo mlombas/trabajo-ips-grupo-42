@@ -9,8 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import model.competicion.CompeticionDto;
-
-import view.organizador.panel.GestionarCompeticionesPanel;
+import view.organizador.OrganizadorMain;
 import view.util.table.CompeticionesToTable;
 
 public class VerCompeticionesPanel extends JPanel {
@@ -51,7 +50,7 @@ public class VerCompeticionesPanel extends JPanel {
       table = new CompeticionesToTable(new ArrayList<CompeticionDto>());
       table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent event) {
-               GestionarCompeticionesPanel.getInstance().updateCategorias();
+               OrganizadorMain.getInstance().getBuscarCompeticionPane().updateCategorias();
             }
         });
 
