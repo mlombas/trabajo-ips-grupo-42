@@ -1,28 +1,17 @@
 package bank_mockup;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
 
+import bank_mockup.BankBackground.Period;
 import bank_mockup.exceptions.BankCodeNotFoundException;
 
+/**
+ * This is actually a facade for BankMockup. It had to be 
+ * done this way in order to minimize code changing across the project
+ * 
+ * @author Mario Lombas
+ */
 public class Bank {
-	private static final int CODE_NUMBER_LENGTH = 5;
-
-	public enum Period {
-		MONTHLY,
-		WEEKLY,
-		BI_WEEKLY,
-		DAILY
-	}
-
-	private HashMap<String, Double> pending;
-	private List<String> paid;
-
-	public Bank() {
-		this.pending = new HashMap<String, Double>();
-	}
 
 	/**
 	 * @param codeSource the code of the account from which the money originates
@@ -31,9 +20,7 @@ public class Bank {
 	 * @return true if all is well
 	 */
 	public boolean payWithTransaction(String codeSource, String codeReceptant) {
-		//Aqui habria que chekar que todo esta bien tambien
-		
-		return true;
+		return BankBackground.getInstance().payWithTransaction(codeSource, codeReceptant);
 	}
 
 	/**
@@ -47,9 +34,7 @@ public class Bank {
 	 * @return true if all is well
 	 */
 	public boolean domiciliatePayment(String code, String location, String postalCode, Period period) {
-		//Aqui chekeariamos que todo estuviera bien
-
-		return true;
+		return BankBackground.getInstance().domiciliatePayment(code, location, postalCode, period);
 	}
 
 	/**
@@ -62,12 +47,7 @@ public class Bank {
 	 * @return true if all the data is correct
 	 */
 	public boolean payWithCard(String number, Date expiration, String ccv) {
-		if(!expiration.after(new Date())) return false;
-		if(ccv.length() != 3) return false;
-		
-		// Aqui iria el chekear que el numero esta bien
-		
-		return true;
+		return BankBackground.getInstance().payWithCard(number, expiration, ccv);
 	}
 
 	/**
@@ -78,9 +58,7 @@ public class Bank {
 	 * @return The code of the newly created transaction
 	 */
 	public String addPendingTransaction(double cuota) {
-		String code = generatePayNumber(CODE_NUMBER_LENGTH);
-		pending.put(code, cuota);
-		return code;
+		return BankBackground.getInstance().addPendingTransaction(cuota);
 	}
 
 	/**
@@ -90,7 +68,20 @@ public class Bank {
 	 * @return true if it exists, false otherwise
 	 */
 	public boolean isCodePending(String code) {
-		return pending.containsKey(code);
+		return BankBackground.getInstance().isCodePending(code);
+	}
+	
+	/**
+	 * Returns the amount due in the pending transaction
+	 * 
+	 * @param code the transaction code
+	 * 
+	 * @return the amount due
+	 * 
+	 * @throws BankCodeNotFoundException if there was no such transaction
+	 */
+	public double getPendingAmount(String code) {
+		return BankBackground.getInstance().getPendingAmount(code);
 	}
 
 	/**
@@ -104,14 +95,7 @@ public class Bank {
 	 * @throws BankCodeNotFoundException if there was no such transaction
 	 **/
 	public boolean payPending(String code, double amount) {
-		if(!isCodePending(code)) throw new BankCodeNotFoundException("No pending transaction found");
-
-		if(pending.get(code) < amount) return false;
-		else {
-			pending.remove(code);
-			paid.add(code);
-			return true;
-		}
+		return BankBackground.getInstance().payPending(code, amount);
 	}
 	
 	/**
@@ -120,19 +104,6 @@ public class Bank {
 	 * @return true if the transaction is paid, false otherwise
 	 */
 	public boolean isPaid(String code) {
-		return paid.contains(code);
-	}
-	
-	private static String generatePayNumber(int length) {
-		String possible = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		Random rng = new Random();
-
-		String creating = "";
-		while(creating.length() < length) {
-			int index = rng.nextInt(possible.length());
-			creating += possible.charAt(index);
-		}
-
-		return creating;
+		return BankBackground.getInstance().isPaid(code);
 	}
 }

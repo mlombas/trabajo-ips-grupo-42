@@ -1,6 +1,7 @@
 package view.organizador.panel;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +26,7 @@ import util.exceptions.ModelException;
 import view.organizador.OrganizadorMain;
 import view.organizador.dialog.VerClasficacionDialog;
 import view.organizador.dialog.VerEstadoInscripcionDialog;
+import view.organizador.dialog.VerProcesadoDialog;
 import view.organizador.util.AtrasOrganizadorButton;
 import view.util.panel.VerCompeticionesPanel;
 
@@ -43,6 +45,8 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private JComboBox<String> cbCategorias;
 	private JButton btnCargarTiempos;
 	private JButton btnGenerarDorsales;
+
+	private JButton btnProcesar;
 
 	public GestionarCompeticionesPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -176,10 +180,38 @@ public class GestionarCompeticionesPanel extends JPanel {
 			competicionManagementPane.setLayout(new GridLayout(2, 0, 0, 0));
 			competicionManagementPane.add(getBtnVerEstado());
 			competicionManagementPane.add(getVerClasificacionesPane());
+			competicionManagementPane.add(getBtnProcesar());
 		}
 		return competicionManagementPane;
 	}
 
+	private JButton getBtnProcesar() {
+		if(btnProcesar == null) {
+			btnProcesar = new JButton("Procesar CSV");
+			btnProcesar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					CompeticionDto competicion = new CompeticionDto();
+
+					try {
+						competicion.id = verCompeticionesPane.getCompeticionId();
+					} catch (ArrayIndexOutOfBoundsException aiobe) {
+						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						return;
+					}
+
+					showProcesado(competicion);
+				}
+
+			});
+		}
+		return btnProcesar;
+	}
+
+	private void showProcesado(CompeticionDto competicion) {
+		VerProcesadoDialog diag = new VerProcesadoDialog(competicion);
+	}
+	
 	private JButton getBtnVerEstado() {
 		if (btnVerEstado == null) {
 			btnVerEstado = new JButton("Ver Estado");
