@@ -85,6 +85,11 @@ public class InscribirsePanel extends JPanel {
 						competicion.id = competicionesPane.getCompeticionId();
 						competicion.cuota = competicionesPane.getCuota();
 						competicion.nombreCarrera = competicionesPane.getNombreCompeticion();
+						
+						if (!competicionesPane.getEstadoCompeticion().equals("inscripción")) {
+							JOptionPane.showMessageDialog(null, "Seleccione una carrera cuyo estado sea INSCRIPCIÓN...");
+							return;
+						}
 					} catch (ArrayIndexOutOfBoundsException aiobe) {
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
 						return;
