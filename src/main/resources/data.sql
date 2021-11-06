@@ -32,9 +32,9 @@ insert into Categoria(nombreCategoria, idCompeticion, edadMinima, edadMaxima, se
 	    	('Juvenil H', 103, 18, 28, 'H'),
 	    	('Juvenil M', 103, 18, 28, 'M');
 			
-insert into Clasificacion(idCompeticion, emailAtleta, dorsal, tiempoSalida, tiempoLlegada, posicion) values
-			('100', 'pedro@gmail.com', '330', '0', '150', '2'),
-			('100', 'elena@gmail.com', '331', '2', '143', '1');
+insert into Clasificacion(idCompeticion, emailAtleta, dorsal, tiempoSalida, tiempoLlegada) values
+			('100', 'pedro@gmail.com', '330', '0', '150'),
+			('100', 'elena@gmail.com', '331', '2', '143');
 			
 insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nombreCompeticion, categoria, fechaInscripcion,
  			cuotaInscripcion, estadoInscripcion, fechaCambioEstado) values
