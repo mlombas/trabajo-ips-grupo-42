@@ -21,8 +21,8 @@ public class InscripcionDto {
 		return idCompeticion;
 	}
 
-	public EstadoInscripcion getEstadoInscripcion() {
-		return estadoInscripcion;
+	public String getEstadoInscripcion() {
+		return "" + estadoInscripcion;
 	}
 
 	public String getFechaCambioEstado() {

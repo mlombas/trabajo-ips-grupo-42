@@ -32,6 +32,7 @@ insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nom
  			('106','elena@gmail.com','Elena', 'dni','Carrera106','Juvenil M','2021-12-05',30,'PARTICIPADO','2021-12-13',2),
  			('106','juanjo@gmail.com','Juanjo', 'dni', 'Carrera106','Juvenil H','2021-12-05',30,'PARTICIPADO','2021-12-13',3),
  			('106','marta@gmail.com','Marta', 'dni','Carrera106','Juvenil M','2021-12-05',30,'PARTICIPADO','2021-12-13',4),
+ 			
  			('100','pedro@gmail.com','Pedro', 'dni','Carrera100','Juvenil H','2021-11-12',30,'PRE_INSCRITO','2021-11-12',330),
  			('100','elena@gmail.com','Elena', 'dni','Carrera100','Juvenil M','2021-11-12',30,'PRE_INSCRITO','2021-11-12',331),
  			('101','pedro@gmail.com','Pedro', 'dni', 'Carrera101','Juvenil H','2021-11-10',30,'PRE_INSCRITO','2021-11-03',1),
