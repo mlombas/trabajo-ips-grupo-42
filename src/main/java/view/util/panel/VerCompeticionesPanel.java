@@ -13,7 +13,7 @@ import javax.swing.event.ListSelectionListener;
 import model.ModelFactory;
 import model.competicion.CompeticionDto;
 import util.exceptions.ModelException;
-import view.organizador.panel.GestionarCompeticionesPanel;
+import view.organizador.OrganizadorMain;
 import view.util.table.CompeticionesToTable;
 
 public class VerCompeticionesPanel extends JPanel {
@@ -48,7 +48,7 @@ private static final long serialVersionUID = 1L;
 			table = new CompeticionesToTable(competiciones);
 			table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 		        public void valueChanged(ListSelectionEvent event) {
-		           GestionarCompeticionesPanel.getInstance().updateCategorias();
+		          OrganizadorMain.getInstance().getBuscarCompeticionPane().updateCategorias();;
 		        }
 		    });
 			scrollCompeticiones = new JScrollPane(table);
