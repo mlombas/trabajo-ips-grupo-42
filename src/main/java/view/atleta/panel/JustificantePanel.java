@@ -1,30 +1,28 @@
-package view.atleta.dialog;
+package view.atleta.panel;
 
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 
-import javax.swing.JDialog;
-
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 
 import bank_mockup.Bank;
-import model.ModelFactory;
 import model.inscripcion.InscripcionDto;
+import view.atleta.dialog.PagoTarjetaDialog;
+import view.atleta.dialog.PagoTransaccionDialog;
 
 import javax.swing.border.LineBorder;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import net.miginfocom.swing.MigLayout;
 
-public class JustificanteDialog extends JDialog {
+public class JustificantePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -39,7 +37,6 @@ public class JustificanteDialog extends JDialog {
 	private JLabel lblAgradecimiento;
 	
 	private InscripcionDto inscripcion;
-	
 	private boolean isPagoTarjeta;
 	
 	private Bank bank = new Bank();
@@ -47,17 +44,21 @@ public class JustificanteDialog extends JDialog {
 	/**
 	 * Create the panel.
 	 */
-	public JustificanteDialog(InscripcionDto inscripcion, boolean isPagoTarjeta) {
+	public JustificantePanel() {
+		setLayout(new BorderLayout(0, 0));
+		add(getLblAgradecimiento(), BorderLayout.NORTH);
+		add(getPanelOkBtn(), BorderLayout.SOUTH);
+	}
+	
+	public void setInscripcionDto(InscripcionDto inscripcion) {
 		this.inscripcion = inscripcion;
-		this.isPagoTarjeta = isPagoTarjeta;
 		
-		getContentPane().setLayout(new BorderLayout(0, 0));
-		setSize(new Dimension(465, 285));
-		setResizable(false);
-		setTitle("Carreras Populares APP - Justificante de Inscripción");
-		getContentPane().add(getLblAgradecimiento(), BorderLayout.NORTH);
-		getContentPane().add(getPanelFormulario(), BorderLayout.CENTER);
-		getContentPane().add(getPanelOkBtn(), BorderLayout.SOUTH);
+		// Cuando se establezca la inscripción...
+		add(getPanelFormulario(), BorderLayout.CENTER);
+	}
+	
+	public void setIsPagoTarjeta(boolean isPagoTarjeta) {
+		this.isPagoTarjeta = isPagoTarjeta;
 	}
 	
 	private void showPagoTarjeta(InscripcionDto inscripcion) {
@@ -65,23 +66,19 @@ public class JustificanteDialog extends JDialog {
 		pagoTarjetaDialog.setLocationRelativeTo(null);
 		pagoTarjetaDialog.setModal(true);
 		pagoTarjetaDialog.setVisible(true);
-		this.dispose();
 	}
 	
 	private void showPagoTransacción(InscripcionDto inscripcion) {
-		String code = ModelFactory.forAtletaCrudService().pendingPayWithTransaccion(inscripcion);
-		JOptionPane.showMessageDialog(this, code);
-	}
-	
-	private void closeDialog() {
-		this.dispose();
+		PagoTransaccionDialog diag = new PagoTransaccionDialog(inscripcion);
+		diag.setLocationRelativeTo(null);
+		diag.setModal(true);
+		diag.setVisible(true);
 	}
 	
 	private JLabel getLblAgradecimiento() {
 		if (lblAgradecimiento == null) {
 			lblAgradecimiento = new JLabel("Gracias por realizar la Inscripción, nos vemos en la carrera!");
 			lblAgradecimiento.setHorizontalAlignment(SwingConstants.CENTER);
-			lblAgradecimiento.setToolTipText("");
 			lblAgradecimiento.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			lblAgradecimiento.setDisplayedMnemonic('N');
 		}
@@ -92,12 +89,12 @@ public class JustificanteDialog extends JDialog {
 		if (panelFormulario == null) {
 			panelFormulario = new JPanel();
 			panelFormulario.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Justificante de Inscripción", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			panelFormulario.setLayout(null);
-			panelFormulario.add(getLblNombre());
-			panelFormulario.add(getLblCompeticion());
-			panelFormulario.add(getLblCategoria());
-			panelFormulario.add(getLblFechaInscripcion());
-			panelFormulario.add(getLblCantidadAbonar());
+			panelFormulario.setLayout(new MigLayout("", "[429px]", "[14px][14px][14px][14px][14px]"));
+			panelFormulario.add(getLblNombre(), "cell 0 0,grow");
+			panelFormulario.add(getLblCompeticion(), "cell 0 1,grow");
+			panelFormulario.add(getLblCategoria(), "cell 0 2,grow");
+			panelFormulario.add(getLblFechaInscripcion(), "cell 0 3,grow");
+			panelFormulario.add(getLblCantidadAbonar(), "cell 0 4,grow");
 		}
 		return panelFormulario;
 	}
@@ -106,9 +103,6 @@ public class JustificanteDialog extends JDialog {
 		if (lblNombre == null) {
 			lblNombre = new JLabel("Nombre: " + inscripcion.nombreAtleta);
 			lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblNombre.setBounds(10, 10, 429, 14);
-			lblNombre.setDisplayedMnemonic('N');
-			lblNombre.setToolTipText("");
 		}
 		return lblNombre;
 	}
@@ -116,10 +110,7 @@ public class JustificanteDialog extends JDialog {
 	private JLabel getLblCompeticion() {
 		if (lblCompeticion == null) {
 			lblCompeticion = new JLabel("Competición: " + inscripcion.idCompeticion);
-			lblCompeticion.setToolTipText("");
 			lblCompeticion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblCompeticion.setDisplayedMnemonic('N');
-			lblCompeticion.setBounds(10, 40, 429, 14);
 		}
 		return lblCompeticion;
 	}
@@ -127,10 +118,7 @@ public class JustificanteDialog extends JDialog {
 	private JLabel getLblCategoria() {
 		if (lblCategoria == null) {
 			lblCategoria = new JLabel("Categoría: " + inscripcion.categoria);
-			lblCategoria.setToolTipText("");
 			lblCategoria.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblCategoria.setDisplayedMnemonic('N');
-			lblCategoria.setBounds(10, 70, 429, 14);
 		}
 		return lblCategoria;
 	}
@@ -138,10 +126,7 @@ public class JustificanteDialog extends JDialog {
 	private JLabel getLblFechaInscripcion() {
 		if (lblFechaInscripcion == null) {
 			lblFechaInscripcion = new JLabel("Fecha de Inscripción: " + inscripcion.fechaInscripcion);
-			lblFechaInscripcion.setToolTipText("");
 			lblFechaInscripcion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblFechaInscripcion.setDisplayedMnemonic('N');
-			lblFechaInscripcion.setBounds(10, 100, 429, 14);
 		}
 		return lblFechaInscripcion;
 	}
@@ -149,10 +134,7 @@ public class JustificanteDialog extends JDialog {
 	private JLabel getLblCantidadAbonar() {
 		if (lblCantidadAbonar == null) {
 			lblCantidadAbonar = new JLabel("Cantidad a abonar: " + inscripcion.cuotaInscripcion);
-			lblCantidadAbonar.setToolTipText("");
 			lblCantidadAbonar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblCantidadAbonar.setDisplayedMnemonic('N');
-			lblCantidadAbonar.setBounds(10, 130, 429, 14);
 		}
 		return lblCantidadAbonar;
 	}

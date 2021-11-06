@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import util.exceptions.ModelException;
 import view.organizador.panel.CrearCompeticionPanel;
 import view.organizador.panel.GestionarCompeticionesPanel;
 
@@ -31,6 +32,7 @@ public class OrganizadorMain extends JPanel {
 	
 	/**
 	 * Create the frame.
+	 * @throws ModelException 
 	 */
 	private OrganizadorMain() {
 		// Setting-up some features of this window.

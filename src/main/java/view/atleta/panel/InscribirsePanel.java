@@ -4,11 +4,14 @@ import javax.swing.JPanel;
 
 import model.ModelFactory;
 import model.competicion.CompeticionDto;
+import util.exceptions.ModelException;
 import view.atleta.AtletaMain;
 import view.atleta.util.AtrasAtletaButton;
 import view.util.panel.VerCompeticionesPanel;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,12 +27,12 @@ public class InscribirsePanel extends JPanel {
 	private VerCompeticionesPanel competicionesPane;
 	private JButton btnInscribirse;
 	private AtrasAtletaButton btnAtras;
-	
-	private FormularioInscripcionPanel formularioDeInscripcion;
+
 	private JPanel panelButtons;
 
 	/**
 	 * Create the panel.
+	 * @throws ModelException 
 	 */
 	public InscribirsePanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -40,14 +43,19 @@ public class InscribirsePanel extends JPanel {
 
 	VerCompeticionesPanel getCompeticionesPane() {
 		if (competicionesPane == null) {
-			List<CompeticionDto> competiciones = ModelFactory
-					.forCarreraCrudService()
-					.GetAllCompeticiones()
-					.stream()
-					.filter(competicion -> LocalDate.parse(competicion.getFecha())
-											.compareTo(LocalDate.now()) > 0)
-					.collect(Collectors.toList());
-			competicionesPane = new VerCompeticionesPanel(competiciones);
+			List<CompeticionDto> competiciones;
+				try {
+					competiciones = ModelFactory
+							.forCarreraCrudService()
+							.GetAllCompeticiones()
+							.stream()
+							.filter(competicion -> LocalDate.parse(competicion.getFecha())
+													.compareTo(LocalDate.now()) > 0)
+							.collect(Collectors.toList());
+					competicionesPane = new VerCompeticionesPanel(competiciones);
+				} catch (ModelException e) {
+					competicionesPane = new VerCompeticionesPanel();
+				}
 		}
 		return competicionesPane;
 	}
@@ -71,8 +79,18 @@ public class InscribirsePanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					CompeticionDto competicion = new CompeticionDto();
 					
-					//showFormularioDeInscripcion(); // TODO flip card
-					formularioDeInscripcion.setCompeticionDto(competicion);
+					try {
+						competicion.id = competicionesPane.getCompeticionId();
+						competicion.cuota = competicionesPane.getCuota();
+						competicion.nombreCarrera = competicionesPane.getNombreCompeticion();
+					} catch (ArrayIndexOutOfBoundsException aiobe) {
+						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						return;
+					}
+
+					// Move to the other card
+					AtletaMain.getInstance().getFormularioInscripcion().setCompeticionDto(competicion);
+					AtletaMain.getInstance().flipCard(AtletaMain.FORMULARIO_INSCRIPCION);
 				}
 			});
 		}

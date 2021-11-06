@@ -7,11 +7,12 @@ import model.competicion.ClasificacionDto;
 import model.competicion.commands.GetAllCompeticiones;
 import model.competicion.commands.GetClasificacion;
 import model.competicion.commands.GetClasificacionByCategoria;
+import util.exceptions.ModelException;
 
 public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 
 	@Override
-	public List<CompeticionDto> GetAllCompeticiones() {
+	public List<CompeticionDto> GetAllCompeticiones() throws ModelException {
 		return new GetAllCompeticiones().execute();
 	}
 
@@ -24,7 +25,4 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	public List<ClasificacionDto> GetClasificacion(CompeticionDto competicion, String categoria) {
 		return new GetClasificacionByCategoria(competicion, categoria).execute();
 	}
-
-	
-	
 }

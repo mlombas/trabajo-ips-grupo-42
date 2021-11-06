@@ -1,6 +1,7 @@
 package view.util.panel;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -9,6 +10,7 @@ import javax.swing.JTable;
 
 import model.ModelFactory;
 import model.competicion.CompeticionDto;
+import util.exceptions.ModelException;
 import view.util.table.CompeticionesToTable;
 
 public class VerCompeticionesPanel extends JPanel {
@@ -21,7 +23,11 @@ private static final long serialVersionUID = 1L;
 	private List<CompeticionDto> competiciones;
 
 	public VerCompeticionesPanel() {
-		this.competiciones = ModelFactory.forCarreraCrudService().GetAllCompeticiones();
+		try {
+			this.competiciones = ModelFactory.forCarreraCrudService().GetAllCompeticiones();
+		} catch (ModelException e) {
+			this.competiciones = new ArrayList<>();
+		}
 		
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesListPane(), BorderLayout.CENTER);
@@ -49,7 +55,7 @@ private static final long serialVersionUID = 1L;
 	
 	public double getCuota() {
 		int index = table.getSelectedRow();
-		return Double.parseDouble(table.getValueAt(index, 5).toString());
+		return Double.parseDouble(table.getValueAt(index, 4).toString());
 	}
 	
 	public String getNombreCompeticion() {

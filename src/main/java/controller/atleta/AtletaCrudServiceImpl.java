@@ -2,9 +2,12 @@ package controller.atleta;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import model.atleta.AtletaDto;
 import model.atleta.TarjetaDto;
+import model.atleta.commands.AddAtleta;
+import model.atleta.commands.FindAtletaByEmail;
 import model.atleta.commands.GetCompeticionesInscritas;
 import model.atleta.commands.PayWithTarjeta;
 import model.atleta.commands.PendingPayWithTransaccion;
@@ -17,6 +20,11 @@ import util.exceptions.ModelException;
 
 public class AtletaCrudServiceImpl implements AtletaCrudService {
 
+	@Override
+	public void addAtleta(AtletaDto atleta) throws AtletaNoValidoException, ModelException {
+		new AddAtleta(atleta).execute();
+	}
+	
 	@Override
 	public InscripcionDto registerAtletaToCompeticion(AtletaDto atleta, CompeticionDto competicion) throws AtletaNoValidoException, ModelException {
 		return new RegisterAtletaToCompetition(atleta, competicion).execute();
@@ -35,6 +43,11 @@ public class AtletaCrudServiceImpl implements AtletaCrudService {
 	@Override
 	public String pendingPayWithTransaccion(InscripcionDto inscripcion) {
 		return new PendingPayWithTransaccion(inscripcion).execute();
+	}
+
+	@Override
+	public Optional<AtletaDto> findByAtletaEmail(String email) throws ModelException {
+		return new FindAtletaByEmail(email).execute();
 	}
 
 }
