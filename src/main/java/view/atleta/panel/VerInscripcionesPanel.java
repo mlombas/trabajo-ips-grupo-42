@@ -119,8 +119,7 @@ public class VerInscripcionesPanel extends JPanel {
 				tcm.removeColumn(tcm.getColumn(1));
 			} catch (ApplicationException e) {
 				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
-			} catch (RuntimeException e) { 
-				e.printStackTrace(); // TODO
+			} catch (RuntimeException e) {
 				showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
 			}
 		}
