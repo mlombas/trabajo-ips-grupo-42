@@ -16,7 +16,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.awt.GridLayout;
 
@@ -40,26 +40,28 @@ public class InscribirsePanel extends JPanel {
 		add(getPanelButtons(), BorderLayout.SOUTH);
 
 	}
+	
+	public void refreshCompetitions() {
+		try {
+			competicionesPane.updateCompeticiones( ModelFactory
+									.forCarreraCrudService()
+									.GetAllCompeticiones()
+									.stream()
+									.filter(competicion -> LocalDate.parse(competicion.getFecha())
+															.compareTo(LocalDate.now()) > 0)
+									.collect(Collectors.toList()));
+		} catch (ModelException e) {
+			competicionesPane.updateCompeticiones(new ArrayList<CompeticionDto>());
+		}
+	}
 
 	VerCompeticionesPanel getCompeticionesPane() {
 		if (competicionesPane == null) {
-			List<CompeticionDto> competiciones;
-				try {
-					competiciones = ModelFactory
-							.forCarreraCrudService()
-							.GetAllCompeticiones()
-							.stream()
-							.filter(competicion -> LocalDate.parse(competicion.getFecha())
-													.compareTo(LocalDate.now()) > 0)
-							.collect(Collectors.toList());
-					competicionesPane = new VerCompeticionesPanel(competiciones);
-				} catch (ModelException e) {
-					competicionesPane = new VerCompeticionesPanel();
-				}
+			competicionesPane = new VerCompeticionesPanel();
+			refreshCompetitions();
 		}
 		return competicionesPane;
 	}
-
 	
 	private JPanel getPanelButtons() {
 		if (panelButtons == null) {

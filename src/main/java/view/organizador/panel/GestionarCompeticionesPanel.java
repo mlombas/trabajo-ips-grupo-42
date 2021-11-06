@@ -6,10 +6,13 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 
+import model.ModelFactory;
 import model.competicion.CompeticionDto;
+import util.exceptions.ModelException;
 import view.organizador.OrganizadorMain;
 import view.organizador.dialog.VerClasficacionDialog;
 import view.organizador.dialog.VerEstadoInscripcionDialog;
@@ -39,6 +42,16 @@ public class GestionarCompeticionesPanel extends JPanel {
 
 	}
 	
+	public void refreshCompetitions() {
+		try {
+			verCompeticionesPane.updateCompeticiones(ModelFactory
+													.forCarreraCrudService()
+													.GetAllCompeticiones());
+		} catch (ModelException e) {
+			verCompeticionesPane.updateCompeticiones(new ArrayList<CompeticionDto>());
+		}
+	}
+	
 	private void showClasificacion(CompeticionDto competicion, String categoria) {
 		VerClasficacionDialog clasificacionDialog = new VerClasficacionDialog(competicion, categoria);
 		clasificacionDialog.setLocationRelativeTo(null);
@@ -55,8 +68,10 @@ public class GestionarCompeticionesPanel extends JPanel {
 	}
 
 	private VerCompeticionesPanel getCompeticionesPane() {
-		if (verCompeticionesPane == null)
+		if (verCompeticionesPane == null) {
 			verCompeticionesPane = new VerCompeticionesPanel();
+			refreshCompetitions();
+		}
 		
 		return verCompeticionesPane;
 	}
