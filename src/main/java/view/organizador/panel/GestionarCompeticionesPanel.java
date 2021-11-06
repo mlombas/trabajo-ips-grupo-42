@@ -16,7 +16,7 @@ import view.organizador.dialog.VerEstadoInscripcionDialog;
 import view.organizador.util.AtrasOrganizadorButton;
 import view.util.panel.VerCompeticionesPanel;
 
-import javax.swing.JTextField;
+import javax.swing.JComboBox;
 
 public class GestionarCompeticionesPanel extends JPanel {
 
@@ -30,7 +30,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private AtrasOrganizadorButton btnAtras;
 	
 	private JPanel verClasificacionesPane;
-	private JTextField textCategoria;
+	private JComboBox<String> cbCategorias;
 
 	public GestionarCompeticionesPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -82,8 +82,8 @@ public class GestionarCompeticionesPanel extends JPanel {
 		if (competicionManagementPane == null) {
 			competicionManagementPane = new JPanel();
 			competicionManagementPane.setLayout(new GridLayout(2, 0, 0, 0));
-			competicionManagementPane.add(getVerClasificacionesPane());
 			competicionManagementPane.add(getBtnVerEstado());
+			competicionManagementPane.add(getVerClasificacionesPane());
 		}
 		return competicionManagementPane;
 	}
@@ -112,7 +112,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 			verClasificacionesPane = new JPanel();
 			verClasificacionesPane.setLayout(new GridLayout(0, 2, 0, 0));
 			verClasificacionesPane.add(getBtnVerClasificaciones());
-			verClasificacionesPane.add(getTextCategoria());
+			verClasificacionesPane.add(getCbCategorias());
 		}
 		return verClasificacionesPane;
 	}
@@ -129,20 +129,18 @@ public class GestionarCompeticionesPanel extends JPanel {
 					if(competicion.id.trim().isEmpty())
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
 					else
-						showClasificacion(competicion, getTextCategoria().getText());
+						showClasificacion(competicion, getCbCategorias().getSelectedItem().toString());
 				}
 			});
 		}
 		return btnVerClasificaciones;
 	}
 	
-	private JTextField getTextCategoria() {
-		if (textCategoria == null) {
-			textCategoria = new JTextField();
-			textCategoria.setToolTipText("Indique la categoría que quiere buscar");
-			textCategoria.setColumns(10);
+	private JComboBox<String> getCbCategorias() {
+		if (cbCategorias == null) {
+			cbCategorias = new JComboBox<String>();
+			cbCategorias.addItem("Absoluta");
 		}
-		return textCategoria;
+		return cbCategorias;
 	}
-	
 }
