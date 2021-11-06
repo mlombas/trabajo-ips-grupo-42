@@ -74,8 +74,7 @@ public class FormularioInscripcionPanel extends JPanel {
 	
 	public void reset() {
 		getTextEmail().setText("");
-		getRdbtnTarjeta().setSelected(false);
-		getRdbtnTransferencia().setSelected(false);
+		tipoDePago.clearSelection();
 	}
 	
 	private JPanel getPanelFormulario() {
