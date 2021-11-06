@@ -340,13 +340,10 @@ public class CrearCompeticionPanel extends JPanel {
 					competicion.distancia = longitud;
 					
 					try {
-						if (ModelFactory.forCarreraCrudService().addCompeticion(competicion)) {
-							// update the competitions TODO
-							
+						if (ModelFactory.forCarreraCrudService().addCompeticion(competicion))
 							JOptionPane.showMessageDialog(null, "Hemos añadido la carrera");
-						} else {
+						else
 							JOptionPane.showMessageDialog(null, "No hemos podido añadir la carrera");
-						}
 						
 						OrganizadorMain.getInstance().startPanel();
 						reset();
