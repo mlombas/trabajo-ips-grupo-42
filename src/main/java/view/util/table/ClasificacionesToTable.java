@@ -22,23 +22,31 @@ public class ClasificacionesToTable extends JTable {
 			fila[2] = posicion.nombre;
 			fila[3] = posicion.categoria;
 			fila[4] = posicion.sexo;
-			if (posicion.dorsal == 0) {
+			if (!posicion.presentado) {
 				fila[0] = "---";
-				fila[1] = "DNS";
+				fila[1] = "NP";
 				fila[5] = "-:--";
 				fila[6] = "-:--";
 				fila[7] = "-:--";
 			} else {
-				fila[1] = posicion.dorsal;
-				fila[6] = posicion.formatTime(posicion.tiempoSalida);
-				if (posicion.tiempoLlegada == 0) {
+				if (posicion.dorsal == 0) {
 					fila[0] = "---";
+					fila[1] = "DNS";
 					fila[5] = "-:--";
-					fila[7] = "DNF";
+					fila[6] = "-:--";
+					fila[7] = "-:--";
 				} else {
-					fila[0] = posicion.posicion;
-					fila[5] = posicion.formatTime(posicion.tiempoLlegada - posicion.tiempoSalida);
-					fila[7] = posicion.formatTime(posicion.tiempoLlegada);
+					fila[1] = posicion.dorsal;
+					fila[6] = posicion.formatTime(posicion.tiempoSalida);
+					if (posicion.tiempoLlegada == 0) {
+						fila[0] = "---";
+						fila[5] = "-:--";
+						fila[7] = "DNF";
+					} else {
+						fila[0] = posicion.posicion;
+						fila[5] = posicion.formatTime(posicion.tiempoLlegada - posicion.tiempoSalida);
+						fila[7] = posicion.formatTime(posicion.tiempoLlegada);
+					}
 				}
 			}
 			model.addRow(fila);

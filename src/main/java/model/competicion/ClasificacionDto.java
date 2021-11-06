@@ -9,6 +9,7 @@ public class ClasificacionDto {
 	public String sexo;
 	public String nombre;
 	public String categoria;
+	public boolean presentado = true;
 
 	public String getCategoria() {
 		return categoria;
