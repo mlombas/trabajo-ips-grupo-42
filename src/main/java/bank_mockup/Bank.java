@@ -17,11 +17,11 @@ public class Bank {
 		DAILY
 	}
 
-	private HashMap<String, Integer> pending;
+	private HashMap<String, Double> pending;
 	private List<String> paid;
 
 	public Bank() {
-		this.pending = new HashMap<String, Integer>();
+		this.pending = new HashMap<String, Double>();
 	}
 
 	/**
@@ -73,13 +73,13 @@ public class Bank {
 	/**
 	 * Creates a new pending transaction for the specified amount
 	 *
-	 * @param amount the amount of the transaction
+	 * @param cuota the amount of the transaction
 	 * 
 	 * @return The code of the newly created transaction
 	 */
-	public String addPendingTransaction(int amount) {
+	public String addPendingTransaction(double cuota) {
 		String code = generatePayNumber(CODE_NUMBER_LENGTH);
-		pending.put(code, amount);
+		pending.put(code, cuota);
 		return code;
 	}
 
@@ -103,7 +103,7 @@ public class Bank {
 	 * 
 	 * @throws BankCodeNotFoundException if there was no such transaction
 	 **/
-	public boolean payPending(String code, int amount) {
+	public boolean payPending(String code, double amount) {
 		if(!isCodePending(code)) throw new BankCodeNotFoundException("No pending transaction found");
 
 		if(pending.get(code) < amount) return false;
