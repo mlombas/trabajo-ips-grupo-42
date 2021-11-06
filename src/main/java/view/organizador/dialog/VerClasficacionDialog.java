@@ -37,7 +37,7 @@ public class VerClasficacionDialog extends JDialog {
 		if (scrollParticipantes == null) {
 			scrollParticipantes = new JScrollPane();
 			List<ClasificacionDto> clasificacion;
-			if (categoria.isBlank()) {
+			if (categoria.equals("Absoluta")) {
 				clasificacion = ModelFactory.forCarreraCrudService().GetClasificacion(competicion);
 				table = new ClasificacionesToTable(clasificacion);
 				scrollParticipantes.setViewportView(table);

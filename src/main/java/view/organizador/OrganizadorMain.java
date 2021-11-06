@@ -47,7 +47,7 @@ public class OrganizadorMain extends JPanel {
 		// Create the cards.
 		organizadorMenu = new OrganizadorMenu();
 		crearCompeticionPane = new CrearCompeticionPanel();
-		buscarCompeticionPane = new GestionarCompeticionesPanel();
+		buscarCompeticionPane = GestionarCompeticionesPanel.getInstance();
 		
 		// Create the panel that contains the cards.
 		cards.add(organizadorMenu, ORGANIZADOR_MENU);

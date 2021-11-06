@@ -5,12 +5,15 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 
 import model.ModelFactory;
+
+import model.competicion.CategoriaDto
 import model.competicion.CompeticionDto;
 import util.exceptions.ModelException;
 import view.organizador.OrganizadorMain;
@@ -19,7 +22,7 @@ import view.organizador.dialog.VerEstadoInscripcionDialog;
 import view.organizador.util.AtrasOrganizadorButton;
 import view.util.panel.VerCompeticionesPanel;
 
-import javax.swing.JTextField;
+import javax.swing.JComboBox;
 
 public class GestionarCompeticionesPanel extends JPanel {
 
@@ -32,10 +35,12 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private JButton btnVerClasificaciones;
 	private AtrasOrganizadorButton btnAtras;
 	
+	private static GestionarCompeticionesPanel instance;
+	
 	private JPanel verClasificacionesPane;
-	private JTextField textCategoria;
+	private JComboBox<String> cbCategorias;
 
-	public GestionarCompeticionesPanel() {
+	private GestionarCompeticionesPanel() {
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getBtnPane(), BorderLayout.SOUTH);
@@ -97,8 +102,8 @@ public class GestionarCompeticionesPanel extends JPanel {
 		if (competicionManagementPane == null) {
 			competicionManagementPane = new JPanel();
 			competicionManagementPane.setLayout(new GridLayout(2, 0, 0, 0));
-			competicionManagementPane.add(getVerClasificacionesPane());
 			competicionManagementPane.add(getBtnVerEstado());
+			competicionManagementPane.add(getVerClasificacionesPane());
 		}
 		return competicionManagementPane;
 	}
@@ -127,7 +132,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 			verClasificacionesPane = new JPanel();
 			verClasificacionesPane.setLayout(new GridLayout(0, 2, 0, 0));
 			verClasificacionesPane.add(getBtnVerClasificaciones());
-			verClasificacionesPane.add(getTextCategoria());
+			verClasificacionesPane.add(getCbCategorias());
 		}
 		return verClasificacionesPane;
 	}
@@ -144,20 +149,35 @@ public class GestionarCompeticionesPanel extends JPanel {
 					if(competicion.id.trim().isEmpty())
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
 					else
-						showClasificacion(competicion, getTextCategoria().getText());
+						showClasificacion(competicion, getCbCategorias().getSelectedItem().toString());
 				}
 			});
 		}
 		return btnVerClasificaciones;
 	}
 	
-	private JTextField getTextCategoria() {
-		if (textCategoria == null) {
-			textCategoria = new JTextField();
-			textCategoria.setToolTipText("Indique la categoría que quiere buscar");
-			textCategoria.setColumns(10);
+	private JComboBox<String> getCbCategorias() {
+		if (cbCategorias == null) {
+			cbCategorias = new JComboBox<String>();
+			cbCategorias.addItem("Absoluta");
 		}
-		return textCategoria;
+		return cbCategorias;
 	}
 	
+	public void updateCategorias() {
+		cbCategorias.removeAllItems();
+		cbCategorias.addItem("Absoluta");
+		for(CategoriaDto cat : ModelFactory.forCarreraCrudService().GetCategoria(verCompeticionesPane.getCompeticionId())) {
+			cbCategorias.addItem(cat.nombreCategoria);
+			System.out.println(cat.nombreCategoria);
+		}
+		System.out.println("updated");
+	}
+
+	public static GestionarCompeticionesPanel getInstance() {
+		if(instance == null) {
+			instance = new GestionarCompeticionesPanel();
+		}
+		return instance;
+	}
 }
