@@ -3,8 +3,10 @@ package controller.competicion;
 import java.util.List;
 
 import model.competicion.CompeticionDto;
+import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.commands.GetAllCompeticiones;
+import model.competicion.commands.GetCategorias;
 import model.competicion.commands.GetClasificacion;
 import model.competicion.commands.GetClasificacionByCategoria;
 import util.exceptions.ModelException;
@@ -24,5 +26,10 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public List<ClasificacionDto> GetClasificacion(CompeticionDto competicion, String categoria) {
 		return new GetClasificacionByCategoria(competicion, categoria).execute();
+	}
+
+	@Override
+	public List<CategoriaDto> GetCategoria(String competicionId) {
+		return new GetCategorias(competicionId).execute();
 	}
 }
