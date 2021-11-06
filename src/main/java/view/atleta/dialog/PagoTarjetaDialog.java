@@ -2,8 +2,6 @@ package view.atleta.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -22,27 +20,22 @@ import model.atleta.TarjetaDto;
 import model.inscripcion.InscripcionDto;
 import util.Util;
 import util.exceptions.ApplicationException;
+import net.miginfocom.swing.MigLayout;
 
 public class PagoTarjetaDialog extends JDialog {
 
-
 	private static final long serialVersionUID = 1L;
+	
 	private JPanel pnTarjetaCredito;
 	private JButton btnValidarPago;
-	private JPanel pnNumero;
-	private JLabel lblNmeroDeLa;
-	private JTextField tfNumero;
-	private JPanel pnFecha;
-	private JLabel lbFecha;
-	private JTextField tfFecha;
-	private JPanel pnCvc;
-	private JLabel lbCvc;
-	private JTextField tfCvc;
 	private InscripcionDto inscripcion;
+	private JLabel lblNumeroTarjeta;
+	private JTextField textFieldNumeroTarjeta;
+	private JLabel lblCVC;
+	private JTextField textFieldCVC;
+	private JLabel lbFechaCaducidad;
+	private JTextField textFieldFechaCaducidad;
 	
-	/**
-	 * Create the frame.
-	 */
 	public PagoTarjetaDialog(InscripcionDto inscripcion) {
 		setResizable(false);
 		setSize(new Dimension(465, 285));
@@ -56,10 +49,13 @@ public class PagoTarjetaDialog extends JDialog {
 	private JPanel getPnTarjetaCredito() {
 		if (pnTarjetaCredito == null) {
 			pnTarjetaCredito = new JPanel();
-			pnTarjetaCredito.setLayout(new GridLayout(3, 1, 0, 0));
-			pnTarjetaCredito.add(getPnNumero());
-			pnTarjetaCredito.add(getPnFecha());
-			pnTarjetaCredito.add(getPnCvc());
+			pnTarjetaCredito.setLayout(new MigLayout("", "[grow,fill]", "[grow][][][][][][][grow]"));
+			pnTarjetaCredito.add(getLblNumeroTarjeta(), "flowy,cell 0 1,grow");
+			pnTarjetaCredito.add(getTextFieldNumeroTarjeta(), "cell 0 2,grow");
+			pnTarjetaCredito.add(getLbFechaCaducidad(), "cell 0 3,grow");
+			pnTarjetaCredito.add(getTextFieldFechaCaducidad(), "cell 0 4,grow");
+			pnTarjetaCredito.add(getLblCVC(), "flowy,cell 0 5,grow");
+			pnTarjetaCredito.add(getTextFieldCVC(), "cell 0 6,grow");
 		}
 		return pnTarjetaCredito;
 	}
@@ -82,17 +78,21 @@ public class PagoTarjetaDialog extends JDialog {
 		} else if (!checkFecha()) {
 			showMessage("Fecha de caducidad no válida", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 		} else if (!checkCvc()) {
-			showMessage("Cvc no válido", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+			showMessage("CVC no válido", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			try {
 				TarjetaDto tarjeta = new TarjetaDto();
-				tarjeta.number = tfNumero.getText();
-				tarjeta.cvc = tfCvc.getText();
-				tarjeta.expiration = Util.isoStringToDate(tfFecha.getText());
+				tarjeta.number = textFieldNumeroTarjeta.getText();
+				tarjeta.cvc = textFieldCVC.getText();
+				tarjeta.expiration = Util.isoStringToDate(textFieldFechaCaducidad.getText());
 				AtletaCrudService acs = new AtletaCrudServiceImpl();
 				LocalDate date = acs.payWithTarjeta(inscripcion, tarjeta);
-				showMessage("El pago con los siguientes datos se ha confirmado:\nNombre: " + inscripcion.nombreAtleta + " \nCarrera: " + inscripcion.nombreCompeticion
-						+ "\nCuota: " + inscripcion.cuotaInscripcion + "\nFecha de pago: " + date, "\nInformacion", JOptionPane.INFORMATION_MESSAGE);
+				showMessage("El pago con los siguientes datos se ha confirmado:\nNombre: " + inscripcion.nombreAtleta + 
+							" \nCarrera: " + inscripcion.nombreCompeticion + 
+							"\nCuota: " + inscripcion.cuotaInscripcion + 
+							"\nFecha de pago: " + date, 
+								"\nInformacion", 
+								JOptionPane.INFORMATION_MESSAGE);
 				this.dispose();
 			} catch (ApplicationException e) {
 				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
@@ -114,100 +114,69 @@ public class PagoTarjetaDialog extends JDialog {
 	}
 
 	private boolean checkCvc() {
-		if (tfCvc.getText().strip().isEmpty() || tfCvc.getText().length() != 3)
+		if (textFieldCVC.getText().strip().isEmpty() || textFieldCVC.getText().length() != 3)
 			return false;
 		return true;
 	}
 
 	private boolean checkFecha() {
-		if (tfFecha.getText().strip().isEmpty())
+		if (textFieldFechaCaducidad.getText().strip().isEmpty())
 			return false;
 		return true;
 	}
 
 	private boolean checkNumber() {
-		if (tfNumero.getText().strip().isEmpty()) {
+		if (textFieldNumeroTarjeta.getText().strip().isEmpty()) {
 			return false;
 		}
+		
 		return true;
 	}
-
-	private JPanel getPnNumero() {
-		if (pnNumero == null) {
-			pnNumero = new JPanel();
-			FlowLayout fl_pnNumero = new FlowLayout(FlowLayout.CENTER, 5, 35);
-			pnNumero.setLayout(fl_pnNumero);
-			pnNumero.add(getLblNmeroDeLa());
-			pnNumero.add(getTfNumero());
+	
+	private JLabel getLblNumeroTarjeta() {
+		if (lblNumeroTarjeta == null) {
+			lblNumeroTarjeta = new JLabel("Número de la tarjeta:");
+			lblNumeroTarjeta.setHorizontalAlignment(SwingConstants.LEFT);
 		}
-		return pnNumero;
+		return lblNumeroTarjeta;
+	}
+	
+	private JTextField getTextFieldNumeroTarjeta() {
+		if (textFieldNumeroTarjeta == null) {
+			textFieldNumeroTarjeta = new JTextField();
+			textFieldNumeroTarjeta.setColumns(20);
+		}
+		return textFieldNumeroTarjeta;
+	}
+	
+	private JLabel getLbFechaCaducidad() {
+		if (lbFechaCaducidad == null) {
+			lbFechaCaducidad = new JLabel("Fecha de caducidad:");
+		}
+		return lbFechaCaducidad;
+	}
+	
+	private JTextField getTextFieldFechaCaducidad() {
+		if (textFieldFechaCaducidad == null) {
+			textFieldFechaCaducidad = new JTextField();
+			textFieldFechaCaducidad.setColumns(20);
+		}
+		return textFieldFechaCaducidad;
+	}
+	
+	private JLabel getLblCVC() {
+		if (lblCVC == null) {
+			lblCVC = new JLabel("CVC:");
+		}
+		return lblCVC;
+	}
+	
+	private JTextField getTextFieldCVC() {
+		if (textFieldCVC == null) {
+			textFieldCVC = new JTextField();
+			textFieldCVC.setColumns(20);
+		}
+		return textFieldCVC;
 	}
 
-	private JLabel getLblNmeroDeLa() {
-		if (lblNmeroDeLa == null) {
-			lblNmeroDeLa = new JLabel("Número de la tarjeta:");
-			lblNmeroDeLa.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblNmeroDeLa;
-	}
-
-	private JTextField getTfNumero() {
-		if (tfNumero == null) {
-			tfNumero = new JTextField();
-			tfNumero.setColumns(20);
-		}
-		return tfNumero;
-	}
-
-	private JPanel getPnFecha() {
-		if (pnFecha == null) {
-			pnFecha = new JPanel();
-			FlowLayout flowLayout = (FlowLayout) pnFecha.getLayout();
-			flowLayout.setVgap(35);
-			pnFecha.add(getLbFecha());
-			pnFecha.add(getTfFecha());
-		}
-		return pnFecha;
-	}
-
-	private JLabel getLbFecha() {
-		if (lbFecha == null) {
-			lbFecha = new JLabel("Fecha de caducidad:");
-		}
-		return lbFecha;
-	}
-
-	private JTextField getTfFecha() {
-		if (tfFecha == null) {
-			tfFecha = new JTextField();
-			tfFecha.setColumns(20);
-		}
-		return tfFecha;
-	}
-
-	private JPanel getPnCvc() {
-		if (pnCvc == null) {
-			pnCvc = new JPanel();
-			FlowLayout flowLayout = (FlowLayout) pnCvc.getLayout();
-			flowLayout.setVgap(35);
-			pnCvc.add(getLblNewLabel_1());
-			pnCvc.add(getTfCvc());
-		}
-		return pnCvc;
-	}
-
-	private JLabel getLblNewLabel_1() {
-		if (lbCvc == null) {
-			lbCvc = new JLabel("CVC:");
-		}
-		return lbCvc;
-	}
-
-	private JTextField getTfCvc() {
-		if (tfCvc == null) {
-			tfCvc = new JTextField();
-			tfCvc.setColumns(20);
-		}
-		return tfCvc;
-	}
 }

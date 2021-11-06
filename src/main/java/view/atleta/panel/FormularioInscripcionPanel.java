@@ -61,6 +61,12 @@ public class FormularioInscripcionPanel extends JPanel {
 		add(getPanelValidarBtn(), BorderLayout.SOUTH);
 	}
 	
+	public void reset() {
+		getTextEmail().setText("");
+		getRdbtnTarjeta().setSelected(false);
+		getRdbtnTransferencia().setSelected(false);
+	}
+	
 	public void setCompeticionDto(CompeticionDto competicion) {
 		this.competicion = competicion;
 	}
@@ -162,13 +168,15 @@ public class FormularioInscripcionPanel extends JPanel {
 						atleta.email = email;
 					else {
 						showError("Email no válido");
-						getTextEmail().setText("");
+						reset();
 						return;
 					} // Show warning
 					
 					// Verificamos que se ha elegido un tipo de pago
-					if (tipoDePago.getSelection() == null)
+					if (tipoDePago.getSelection() == null) {
 						JOptionPane.showMessageDialog(null, "Seleccione un tipo de pago...");
+						return;
+					}
 					
 					InscripcionDto inscripcion = null;
 					try {
@@ -189,10 +197,12 @@ public class FormularioInscripcionPanel extends JPanel {
 					} catch (AtletaNoValidoException anve) { // manejamos correctamente las excepciones
 						showError(anve.getMessage());
 						AtletaMain.getInstance().startPanel();
+						reset();
 						return;
 					} catch (ModelException me) {
 						showError("Lo siento, algo ha salido mal...");
 						AtletaMain.getInstance().startPanel();
+						reset();
 						return;
 					}
 				}
