@@ -33,11 +33,12 @@ public class CargarTiempos {
 	}
 	
 	public List<Integer> execute() {
+		List<Integer> lista = new ArrayList<Integer>();
 		
-		List<Integer> result = new ArrayList<Integer>();
+		int[] result = new int[2];
 		
-		result.add(0, 0);
-		result.add(1, 0);
+		result[0] = 0;
+		result[1] = 0;
 		
 		List<CompeticionDto> competi = db.executeQueryPojo(CompeticionDto.class, GETCOMPETICION, competicion.id);
 		
@@ -45,21 +46,32 @@ public class CargarTiempos {
 		
 		try {
 			
-			CSVTable<String, String> tabla = CSVCreator.read("src/main/java/util/Tiempos" + competicion.id +".csv");
+			CSVTable<String, String> tabla = CSVCreator.read("src/main/java/util/Tiempos" + competicion.id +".csv",";");
 			for (List<String> row : tabla) {
 				String dorsal = row.get(0);
 				
 				List<InscripcionDto> inscripcion =  db.executeQueryPojo(InscripcionDto.class, GETINSCRIPCIONBYDORSAL, competicion.id, dorsal);
 				
 				if(inscripcion.size() > 0) {
-					int tiempoSalida = Integer.valueOf(row.get(1));
-					int tiempoLlegada = Integer.valueOf(row.get(2));
+					if(row.get(1).equals("-")) {
+						db.executeUpdate(UPDATECLASIFICACION, null, null, competicion.id, inscripcion.get(0).emailAtleta);
+					} else if (row.get(2).equals("-")) {
+						int tiempoSalida = Integer.valueOf(row.get(1));
+						
+						db.executeUpdate(UPDATECLASIFICACION, tiempoSalida, null, competicion.id, inscripcion.get(0).emailAtleta);
+					} else {
+						int tiempoSalida = Integer.valueOf(row.get(1));
+						int tiempoLlegada = Integer.valueOf(row.get(2));
+						
+						db.executeUpdate(UPDATECLASIFICACION, tiempoSalida, tiempoLlegada, competicion.id, inscripcion.get(0).emailAtleta);
+					}
 					
-					db.executeUpdate(UPDATECLASIFICACION, tiempoSalida, tiempoLlegada, competicion.id, inscripcion.get(0).emailAtleta);
+					result[0] += 1;
 					
-					result.add(0, result.get(0) + 1);
 				} else {
-					result.add(1, result.get(1) + 1);
+					
+					result[1] += 1;
+					
 				}
 				
 				
@@ -69,16 +81,19 @@ public class CargarTiempos {
 			throw new ApplicationException("Fichero de tiempos no encontrado");
 		}
 		
-		return result;
+		lista.add(result[0]);
+		lista.add(result[1]);
+		
+		return lista;
 		
 	}
 
 	private void checkCompeticion(List<CompeticionDto> competicion) {
 		if(competicion.size() == 0) {
-			throw new IllegalArgumentException("La competición no existe");
+			throw new ApplicationException("La competición no existe");
 		}
 		if(!competicion.get(0).estadoCarrera.equals("finalizada")) {
-			throw new IllegalArgumentException("La competición no ha finalizado");
+			throw new ApplicationException("La competición no ha finalizado");
 		}		
 		this.competicion = competicion.get(0);
 	}
