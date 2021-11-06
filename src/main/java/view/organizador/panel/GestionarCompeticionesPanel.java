@@ -46,7 +46,6 @@ public class GestionarCompeticionesPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getBtnPane(), BorderLayout.SOUTH);
-
 	}
 	
 	public void refreshCompetitions() {
@@ -185,6 +184,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 			cbCategorias.addItem(cat.nombreCategoria);
 			System.out.println(cat.nombreCategoria);
 		}
+		
 		System.out.println("updated");
 	}
 

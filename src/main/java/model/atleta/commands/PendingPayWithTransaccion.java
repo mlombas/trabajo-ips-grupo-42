@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import bank_mockup.Bank;
+import model.inscripcion.EstadoInscripcion;
 import model.inscripcion.InscripcionDto;
 import util.database.Database;
 import util.exceptions.ApplicationException;
@@ -46,7 +47,7 @@ public class PendingPayWithTransaccion {
 		if(ins.size() <= 0) {
 			throw new ApplicationException("No existe una inscripcion en esta competicion");
 		}
-		if(!ins.get(0).estadoInscripcion.equals("Pre-inscrito")) {
+		if(!ins.get(0).estadoInscripcion.equals(EstadoInscripcion.INSCRITO)) {
 			throw new ApplicationException("La inscripcion ya ha sido pagada");
 		}
 	}
