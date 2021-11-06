@@ -1,7 +1,6 @@
 package view.organizador.panel;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -65,9 +64,13 @@ public class GestionarCompeticionesPanel extends JPanel {
 	public void updateCategorias() {
 		cbCategorias.removeAllItems();
 		cbCategorias.addItem("Absoluta");
-		for (CategoriaDto cat : ModelFactory.forCarreraCrudService()
-				.GetCategoria(verCompeticionesPane.getCompeticionId())) {
-			cbCategorias.addItem(cat.nombreCategoria);
+		try {
+			for (CategoriaDto cat : ModelFactory.forCarreraCrudService()
+					.GetCategoria(verCompeticionesPane.getCompeticionId())) {
+				cbCategorias.addItem(cat.nombreCategoria);
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO nico
 		}
 	}
 
@@ -190,6 +193,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 
 			List<Integer> integers = ccs.generarDorsales(competicion);
 			refreshCompetitions();
+			
 			showMessage(
 					"Se han generado los dorsales no reservados  de la carrera" + competicion.nombreCarrera
 							+ ": \nDorsales generados: " + integers.get(0),
@@ -198,6 +202,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		} catch (ApplicationException e) {
 			showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
 		} catch (RuntimeException e) {
+			e.printStackTrace();
 			showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
 		}
 		
