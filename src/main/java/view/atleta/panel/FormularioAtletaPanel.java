@@ -79,6 +79,14 @@ public class FormularioAtletaPanel extends JPanel {
 		this.isSelectedTarjeta = isSelectedTarjeta;
 	}
 	
+	public void reset() {
+		getTextNombre().setText("");
+		getTextDni().setText("");
+		getRdbtnHombre().setSelected(false);
+		getRdbtnMujer().setSelected(false);
+		getTextFechaNacimiento().setText("");
+	}
+	
 	private void showError(String arg) {
 		JOptionPane.showMessageDialog(this,
 				arg,
@@ -257,14 +265,17 @@ public class FormularioAtletaPanel extends JPanel {
 						AtletaMain.getInstance().getJustificantePanel().setInscripcionDto(inscripcion);
 						AtletaMain.getInstance().getJustificantePanel().setIsPagoTarjeta(isSelectedTarjeta);
 						AtletaMain.getInstance().flipCard(AtletaMain.JUSTIFICANTE);
+						reset();
 					} catch (AtletaNoValidoException anve) { // manejamos correctamente las excepciones
 						showError(anve.getMessage());
 						AtletaMain.getInstance().startPanel();
+						reset();
 						return;
 					} catch (ModelException me) {
 						me.printStackTrace();
 						showError("Lo siento, algo ha salido mal...");
 						AtletaMain.getInstance().startPanel();
+						reset();
 						return;
 					}
 				}

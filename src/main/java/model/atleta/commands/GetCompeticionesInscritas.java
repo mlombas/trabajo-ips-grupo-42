@@ -24,7 +24,7 @@ public class GetCompeticionesInscritas {
 
 		checkExistsEmail();
 		
-		List<InscripcionDto> inscripciones = db.executeQueryPojo(InscripcionDto.class,  COMPETICIONESINSCRITAS, atleta.email);
+		List<InscripcionDto> inscripciones = db.executeQueryPojo(InscripcionDto.class, COMPETICIONESINSCRITAS, atleta.email);
 		return inscripciones;
 
 	}

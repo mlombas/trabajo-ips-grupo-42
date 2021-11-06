@@ -94,8 +94,8 @@ public class PagoTarjetaDialog extends JDialog {
 							"\nFecha de pago: " + date, 
 								"\nInformacion", 
 								JOptionPane.INFORMATION_MESSAGE);
-				this.dispose();
 				AtletaMain.getInstance().startPanel();
+				this.dispose();
 			} catch (ApplicationException e) {
 				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
 			} catch (RuntimeException e) { 
