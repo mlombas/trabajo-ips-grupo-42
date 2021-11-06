@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -15,15 +16,10 @@ import javax.swing.JPanel;
 import controller.competicion.CompeticionCrudService;
 import controller.competicion.CompeticionCrudServiceImpl;
 import model.ModelFactory;
-import java.util.ArrayList;
 import model.competicion.CategoriaDto;
 import model.competicion.CompeticionDto;
 import util.exceptions.ApplicationException;
-import view.organizador.OrganizadorMain;
 import util.exceptions.ModelException;
-
-import view.organizador.dialog.VerClasficacionDialog;
-import view.organizador.dialog.VerEstadoInscripcionDialog;
 import view.organizador.util.AtrasOrganizadorButton;
 import view.util.panel.VerCompeticionesPanel;
 
@@ -61,24 +57,10 @@ public class GestionarCompeticionesPanel extends JPanel {
 		}
 	}
 
-	private void showClasificacion(CompeticionDto competicion, String categoria) {
-		VerClasficacionDialog clasificacionDialog = new VerClasficacionDialog(competicion, categoria);
-		clasificacionDialog.setLocationRelativeTo(null);
-		clasificacionDialog.setModal(true);
-		clasificacionDialog.setVisible(true);
-
-	}
-
-	private void showEstadoInscripcion(CompeticionDto competicion) {
-		VerEstadoInscripcionDialog estadoInscripcionDialog = new VerEstadoInscripcionDialog(competicion);
-		estadoInscripcionDialog.setLocationRelativeTo(null);
-		estadoInscripcionDialog.setModal(true);
-		estadoInscripcionDialog.setVisible(true);
-	}
-
 	private VerCompeticionesPanel getCompeticionesPane() {
 		if (verCompeticionesPane == null) {
 			verCompeticionesPane = new VerCompeticionesPanel();
+		}
 		return verCompeticionesPane;
 	}
 
@@ -119,7 +101,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 						return;
 					}
 					
-					if(competicion.id.trim().isEmpty())
+					if(competicion.id.trim().isEmpty()) {
 						return;
 					}
 					
@@ -154,7 +136,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 						return;
 					}
 					
-					if(competicion.id.trim().isEmpty())
+					if(competicion.id.trim().isEmpty()) {
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
 						return;
 					}
