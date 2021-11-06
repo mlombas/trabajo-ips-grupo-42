@@ -13,8 +13,7 @@ public class AddAtleta {
 		
 	private static final String ADD_ATLETA = "insert into Atleta(dni, email, nombre, fechaNacimiento, sexo) VALUES (?, ?, ?, ?, ?)";
 	
-	private AtletaDto atleta;
-	
+	private AtletaDto atleta;	
 	private Database db = Database.getInstance();
 	
 	public AddAtleta(AtletaDto atleta) {
