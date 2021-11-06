@@ -20,12 +20,15 @@ create table Competicion (
 	fechaFin date not null, 
 	plazas int not null,
 	estadoCarrera varchar(255) not null,
+	dorsalesReservados int,
+	descripcion varchar(255)
 	
 	check(fechaInicio<=fechaFin), 
 	check(fechaFin<fecha),
 	check(distancia>0),
 	check(plazas>0),
-	check(cuota>0)
+	check(cuota>0),
+	check(dorsalesReservados>0)
 );
 
 create table Atleta (
@@ -76,7 +79,6 @@ create table Clasificacion(
 	dorsal int,
 	tiempoSalida int,
 	tiempoLlegada int,
-	posicion int,
 	
 	primary key(idCompeticion,emailAtleta),
 	foreign key(idCompeticion) references Competicion(id)

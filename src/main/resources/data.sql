@@ -33,16 +33,23 @@ insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nom
  			
 insert into Categoria(nombreCategoria, idCompeticion, edadMinima, edadMaxima, sexo) values 
 			('Juvenil H', 100, 18, 28, 'H'),
+<<<<<<< HEAD
 	    ('Juvenil M', 100, 18, 28, 'M'),
 	    ('Juvenil H', 105, 18, 28, 'H'),
 	    ('Juvenil M', 105, 18, 28, 'M'),
 	    ('Juvenil H', 101, 18, 28, 'H'),
 	    ('Juvenil H', 103, 18, 28, 'H'),
 	    ('Juvenil M', 103, 18, 28, 'M');
+=======
+	    	('Juvenil M', 100, 18, 28, 'M'),
+	    	('Juvenil H', 101, 18, 28, 'H'),
+	    	('Juvenil H', 103, 18, 28, 'H'),
+	    	('Juvenil M', 103, 18, 28, 'M');
+>>>>>>> refs/heads/main
 			
-insert into Clasificacion(idCompeticion, emailAtleta, dorsal, tiempoSalida, tiempoLlegada, posicion) values
-			('100', 'pedro@gmail.com', '330', '0', '150', '2'),
-			('100', 'elena@gmail.com', '331', '2', '143', '1');
+insert into Clasificacion(idCompeticion, emailAtleta, dorsal, tiempoSalida, tiempoLlegada) values
+			('100', 'pedro@gmail.com', '330', '0', '150'),
+			('100', 'elena@gmail.com', '331', '2', '143');
 			
 insert into Clasificacion(idCompeticion, emailAtleta, dorsal) values
 			('105','pedro@gmail.com',330),

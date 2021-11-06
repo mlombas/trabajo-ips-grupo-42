@@ -31,7 +31,7 @@ public class CSVReader {
 		while(reader.hasNextLine())
 			table.addRow(
 					Arrays.asList(
-						reader.nextLine().split(line)
+						reader.nextLine().split(splitPattern)
 					));
 		
 		return table;

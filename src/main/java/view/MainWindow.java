@@ -4,26 +4,25 @@ import java.awt.BorderLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import view.atleta.AtletaMain;
 import view.organizador.OrganizadorMain;
+import view.util.listener.BackHomeScreenAdapter;
+import view.util.listener.DefaultClosingAdapter;
 
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class MainWindow extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	public static final String TITLE = "CarrerasPopulares APP";
-	private static final String EXIT_DIALOG = "Estás seguro que quieres cerrar la aplicación?";
-	private static final String MAIN_MENU = "home";
+	public static final String EXIT_DIALOG = "Estás seguro que quieres cerrar la aplicación?";
+	public static final String MAIN_MENU = "home";
 	private static final String ATLETAS_MENU = "atletas";
 	private static final String ORGANZIADORES_MENU = "organizadores";
 	
@@ -66,14 +65,7 @@ public class MainWindow extends JFrame {
 		getContentPane().add(cards);
 		
 		// Close operation.
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				if(JOptionPane.showConfirmDialog(null, EXIT_DIALOG, TITLE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					System.exit(0);
-				}
-			}
-		});
+		addWindowListener(DefaultClosingAdapter.getInstance());
 	}
 	
 	public static MainWindow getInstance() {
@@ -85,6 +77,15 @@ public class MainWindow extends JFrame {
 	
 	public void flipCard(String cardId) {
         CardLayout cl = (CardLayout) cards.getLayout();
+        
+        if (cardId.equals(ATLETAS_MENU) || cardId.equals(ORGANZIADORES_MENU)) {
+        	removeWindowListener(DefaultClosingAdapter.getInstance());
+        	addWindowListener(BackHomeScreenAdapter.getInstance());
+        } else if (cardId.equals(MAIN_MENU)) {
+        	removeWindowListener(BackHomeScreenAdapter.getInstance());
+        	addWindowListener(DefaultClosingAdapter.getInstance());
+        }
+        
         cl.show(cards, cardId);
 	}
 	
