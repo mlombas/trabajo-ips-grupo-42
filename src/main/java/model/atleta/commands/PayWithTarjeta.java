@@ -5,6 +5,7 @@ import java.util.List;
 
 import bank_mockup.Bank;
 import model.atleta.TarjetaDto;
+import model.inscripcion.EstadoInscripcion;
 import model.inscripcion.InscripcionDto;
 import util.database.Database;
 import util.exceptions.ApplicationException;
@@ -27,8 +28,6 @@ public class PayWithTarjeta {
 	}
 
 	public LocalDate execute() {
-		
-		
 		//chekear que no sean nulos los dtos
 		checkArguments();
 		
@@ -57,7 +56,7 @@ public class PayWithTarjeta {
 		if(ins.size() <= 0) {
 			throw new ApplicationException("No existe una inscripcion en esta competicion");
 		}
-		if(!ins.get(0).estadoInscripcion.equals("PRE-INSCRITO")) {
+		if(!ins.get(0).estadoInscripcion.equals(EstadoInscripcion.PRE_INSCRITO)) {
 			throw new ApplicationException("La inscripcion ya ha sido pagada");
 		}
 	}
