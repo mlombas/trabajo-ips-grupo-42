@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.competicion.CompeticionDto;
+import model.inscripcion.EstadoInscripcion;
 import model.inscripcion.InscripcionDto;
 import util.database.Database;
 import util.exceptions.ModelException;
@@ -62,7 +63,7 @@ public class GetAtletasForCompetition {
 					// DO nothing
 				}
 				
-				inscripcion.estadoInscripcion = rs.getString(5);
+				inscripcion.estadoInscripcion = EstadoInscripcion.valueOf(rs.getString(5));
 				
 				inscripciones.add(inscripcion);
 			}

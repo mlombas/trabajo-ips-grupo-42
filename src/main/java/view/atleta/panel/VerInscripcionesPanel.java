@@ -145,4 +145,5 @@ public class VerInscripcionesPanel extends JPanel {
 		}
 		return tabCompeticiones;
 	}
+	
 }

@@ -25,7 +25,7 @@ public class AtletaMain extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	public static final String ATLETAS_MENU = "atletas";
-	public static final String INSCRIPCIONES = "inscripciones";
+	public static final String INSCRIBIRSE = "inscribirse";
 	public static final String VER_INSCRIPCIONES = "ver inscripciones";
 	public static final String FORMULARIO_INSCRIPCION = "formulario";
 	public static final String VER_CARRERAS = "carreras";
@@ -37,7 +37,7 @@ public class AtletaMain extends JPanel {
 	private JPanel cards;
 	
 	private AtletaMenu atletaMenu;
-	private InscribirsePanel inscripcionesPanel;
+	private InscribirsePanel inscribirsePanel;
 	private VerInscripcionesPanel verInscripcionesPanel;
 	private VerCompeticionesPanel verCompeticionesPanel;
 	private FormularioInscripcionPanel formularioInscripcionPanel;
@@ -60,7 +60,7 @@ public class AtletaMain extends JPanel {
 		
 		// Create the cards.
 		atletaMenu = new AtletaMenu();
-		inscripcionesPanel = new InscribirsePanel();
+		inscribirsePanel = new InscribirsePanel();
 		verInscripcionesPanel = new VerInscripcionesPanel();
 		verCompeticionesPanel = getVerCompeticionesPanel();
 		formularioInscripcionPanel = new FormularioInscripcionPanel();
@@ -69,7 +69,7 @@ public class AtletaMain extends JPanel {
 		
 		// Create the panel that contains the cards.
 		cards.add(atletaMenu, ATLETAS_MENU);
-		cards.add(inscripcionesPanel, INSCRIPCIONES);
+		cards.add(inscribirsePanel, INSCRIBIRSE);
 		cards.add(verInscripcionesPanel, VER_INSCRIPCIONES);
 		cards.add(verCompeticionesPanel, VER_CARRERAS);
 		cards.add(formularioInscripcionPanel, FORMULARIO_INSCRIPCION);
@@ -139,7 +139,8 @@ public class AtletaMain extends JPanel {
 				
 				btnInscribirse.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						flipCard(INSCRIPCIONES);
+						inscribirsePanel.refreshCompetitions();
+						flipCard(INSCRIBIRSE);
 					}
 				});
 			}

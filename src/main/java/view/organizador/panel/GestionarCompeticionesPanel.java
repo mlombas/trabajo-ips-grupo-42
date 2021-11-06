@@ -15,9 +15,13 @@ import javax.swing.JPanel;
 import controller.competicion.CompeticionCrudService;
 import controller.competicion.CompeticionCrudServiceImpl;
 import model.ModelFactory;
+import java.util.ArrayList;
 import model.competicion.CategoriaDto;
 import model.competicion.CompeticionDto;
 import util.exceptions.ApplicationException;
+import view.organizador.OrganizadorMain;
+import util.exceptions.ModelException;
+
 import view.organizador.dialog.VerClasficacionDialog;
 import view.organizador.dialog.VerEstadoInscripcionDialog;
 import view.organizador.util.AtrasOrganizadorButton;
@@ -45,7 +49,16 @@ public class GestionarCompeticionesPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getBtnPane(), BorderLayout.SOUTH);
-
+	}
+	
+	public void refreshCompetitions() {
+		try {
+			verCompeticionesPane.updateCompeticiones(ModelFactory
+													.forCarreraCrudService()
+													.GetAllCompeticiones());
+		} catch (ModelException e) {
+			verCompeticionesPane.updateCompeticiones(new ArrayList<CompeticionDto>());
+		}
 	}
 
 	private void showClasificacion(CompeticionDto competicion, String categoria) {
@@ -64,9 +77,8 @@ public class GestionarCompeticionesPanel extends JPanel {
 	}
 
 	private VerCompeticionesPanel getCompeticionesPane() {
-		if (verCompeticionesPane == null)
+		if (verCompeticionesPane == null) {
 			verCompeticionesPane = new VerCompeticionesPanel();
-
 		return verCompeticionesPane;
 	}
 
@@ -98,16 +110,16 @@ public class GestionarCompeticionesPanel extends JPanel {
 
 			btnVerEstado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					CompeticionDto competicion = new CompeticionDto();
+					
 					try {
-						CompeticionDto competicion = new CompeticionDto();
 						competicion.id = verCompeticionesPane.getCompeticionId();
-
-						if (competicion.id.trim().isEmpty())
-							return;
-						else
-							showEstadoInscripcion(competicion);
 					} catch (ArrayIndexOutOfBoundsException aiobe) {
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						return;
+					}
+					
+					if(competicion.id.trim().isEmpty())
 						return;
 					}
 					
@@ -133,15 +145,16 @@ public class GestionarCompeticionesPanel extends JPanel {
 
 			btnVerClasificaciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					CompeticionDto competicion = new CompeticionDto();
+					
 					try {
-						CompeticionDto competicion = new CompeticionDto();
 						competicion.id = verCompeticionesPane.getCompeticionId();
-
-						if (competicion.id.trim().isEmpty())
-							JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
-						else
-							showClasificacion(competicion, getCbCategorias().getSelectedItem().toString());
 					} catch (ArrayIndexOutOfBoundsException aiobe) {
+						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						return;
+					}
+					
+					if(competicion.id.trim().isEmpty())
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
 						return;
 					}
@@ -233,6 +246,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 			cbCategorias.addItem(cat.nombreCategoria);
 			System.out.println(cat.nombreCategoria);
 		}
+		
 		System.out.println("updated");
 	}
 

@@ -2,6 +2,7 @@ package model.competicion;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Objects;
 
 import util.Util;
 
@@ -98,6 +99,39 @@ public class CompeticionDto {
 	
 	public void setEstadoCarrera(String estadoCarrera) {
 		this.estadoCarrera = estadoCarrera;
+	}
+
+	public int getDorsalesReservados() {
+		return dorsalesReservados;
+	}
+
+	public void setDorsalesReservados(int dorsalesReservados) {
+		this.dorsalesReservados = dorsalesReservados;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CompeticionDto other = (CompeticionDto) obj;
+		return Objects.equals(id, other.id);
 	}
 	
 }
