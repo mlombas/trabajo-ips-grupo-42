@@ -35,9 +35,9 @@ public class CompeticionesToTable extends JTable {
 	}
 	
 	public void addRow(CompeticionDto competicion) {
-		// Check not to add repeated
+		// Check not to add repeated --> in that case remove it to update...
 		if (competiciones.contains(competicion))
-			return;
+			model.removeRow(competiciones.indexOf(competicion));
 		competiciones.add(competicion);
 		
 		Object[] fila = new Object[columnNames.length];
