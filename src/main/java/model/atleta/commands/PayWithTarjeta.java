@@ -39,7 +39,7 @@ public class PayWithTarjeta {
 		checkTartjeta();
 		
 		LocalDate dt = LocalDate.now();
-		db.executeUpdate(UPDATEINSCRIPCION, "Inscrito", dt, inscripcion.idCompeticion, inscripcion.emailAtleta);
+		db.executeUpdate(UPDATEINSCRIPCION, "INSCRITO", dt, inscripcion.idCompeticion, inscripcion.emailAtleta);
 		
 		return  dt;
 	}

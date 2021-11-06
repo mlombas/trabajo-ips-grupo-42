@@ -154,8 +154,44 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private JButton getBtnGenerarDorsales() {
 		if (btnGenerarDorsales == null) {
 			btnGenerarDorsales = new JButton("Generar Dorsales");
+			btnGenerarDorsales.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						CompeticionDto competicion = new CompeticionDto();
+						competicion.id = verCompeticionesPane.getCompeticionId();
+						competicion.nombreCarrera = verCompeticionesPane.getNombreCompeticion();
+
+						if (competicion.id.trim().isEmpty())
+							JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						else
+							generarDorsales(competicion);
+					} catch (ArrayIndexOutOfBoundsException aiobe) {
+						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						return;
+					}
+				}
+			});
 		}
 		return btnGenerarDorsales;
+	}
+	
+	private void generarDorsales(CompeticionDto competicion) {
+		try {
+			CompeticionCrudService ccs = new CompeticionCrudServiceImpl();
+
+			List<Integer> integers = ccs.generarDorsales(competicion);
+			refreshCompetitions();
+			showMessage(
+					"Se han generado los dorsales no reservados  de la carrera" + competicion.nombreCarrera
+							+ ": \nDorsales generados: " + integers.get(0),
+					"\nInformacion", JOptionPane.INFORMATION_MESSAGE);
+			
+		} catch (ApplicationException e) {
+			showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
+		} catch (RuntimeException e) {
+			showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
+		}
+		
 	}
 	
 	private AtrasOrganizadorButton getBtnAtras() {
