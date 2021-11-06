@@ -140,6 +140,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		if (cbCategorias == null) {
 			cbCategorias = new JComboBox<String>();
 			cbCategorias.addItem("Absoluta");
+			cbCategorias.addItem("Juvenil H");
 		}
 		return cbCategorias;
 	}
