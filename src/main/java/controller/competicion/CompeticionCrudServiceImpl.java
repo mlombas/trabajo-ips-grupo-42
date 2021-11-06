@@ -32,6 +32,7 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public List<CategoriaDto> GetCategoria(String competicionId) {
 		return new GetCategorias(competicionId).execute();
+	}
 
   @Override
 	public boolean addCompeticion(CompeticionDto competicion) throws ModelException {
