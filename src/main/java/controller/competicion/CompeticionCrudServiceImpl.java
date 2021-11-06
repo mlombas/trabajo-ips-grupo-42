@@ -8,6 +8,7 @@ import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
 import model.competicion.commands.AddCompeticion;
 import model.competicion.commands.CargarTiempos;
+import model.competicion.commands.GenerarDorsales;
 import model.competicion.commands.GetAllCompeticiones;
 import model.competicion.commands.GetCategorias;
 import model.competicion.commands.GetClasificacion;
@@ -44,6 +45,11 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public List<Integer> cargarTiempos(CompeticionDto comp) {
 		return new CargarTiempos(comp).execute();
+	}
+
+	@Override
+	public List<Integer> generarDorsales(CompeticionDto comp) {
+		return new GenerarDorsales(comp).execute();
 	}
 }
 

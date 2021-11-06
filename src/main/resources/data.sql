@@ -12,7 +12,11 @@ insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, cuota, fecha,
 	('104','Carrera104','montaña','35 km',90,'2021-11-25','2021-11-01','2021-11-24',50,'inscripción'),
 	('105','Carrera105','montaña','7 km',35,'2021-12-25','2021-12-01','2021-12-24',50,'finalizada'),
 	('106','Carrera106','asfalto','2 km',30,'2021-12-13','2021-12-01','2021-12-10',80,'finalizada');
-
+	
+	
+insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, cuota, fecha, fechaInicio, fechaFin, plazas, estadoCarrera, dorsalesReservados) values 
+	('107','Carrera107','asfalto','2 km',30,'2021-12-13','2021-11-23','2021-12-07',80,'inscripcion_cerrada',20);
+	
 insert into Atleta(email, dni, nombre, fechaNacimiento, sexo) values
 	('pedro@gmail.com','12121212','Pedro','2001-01-01','H'),
 	('elena@gmail.com','10101010','Elena','2001-02-02','M'),
@@ -45,6 +49,8 @@ insert into Categoria(nombreCategoria, idCompeticion, edadMinima, edadMaxima, se
 	    ('Juvenil M', 105, 18, 28, 'M'),
 	    ('Juvenil H', 106, 18, 28, 'H'),
 	    ('Juvenil M', 106, 18, 28, 'M'),
+		('Juvenil H', 107, 18, 28, 'H'),
+	    ('Juvenil M', 107, 18, 28, 'M'),
 	    ('Juvenil H', 101, 18, 28, 'H'),
 	    ('Juvenil H', 103, 18, 28, 'H'),
 	    ('Juvenil M', 103, 18, 28, 'M');
@@ -68,7 +74,16 @@ insert into Clasificacion(idCompeticion, emailAtleta, dorsal) values
 insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nombreCompeticion, categoria, fechaInscripcion,
  			cuotaInscripcion, estadoInscripcion, fechaCambioEstado) values
 			('100','juanjo@gmail.com','Juanjo', 'dni','Carrera100','Juvenil H','2021-11-12',30,'PRE_INSCRITO','2021-11-12'),
-			('100','javi@gmail.com','Javi', 'dni','Carrera100','Juvenil H','2021-11-12',30,'PRE_INSCRITO','2021-11-12');
+			('100','javi@gmail.com','Javi', 'dni','Carrera100','Juvenil H','2021-11-12',30,'PRE_INSCRITO','2021-11-12'),
+			
+			('107','juanjo@gmail.com','Juanjo', 'dni', 'Carrera107','Juvenil H','2021-12-04',30,'INSCRITO','2021-12-04'),
+			('107','pedro@gmail.com','Pedro', 'dni','Carrera107','Juvenil H','2021-12-04',30,'INSCRITO','2021-12-04'),
+ 			('107','elena@gmail.com','Elena', 'dni','Carrera107','Juvenil M','2021-12-04',30,'PRE_INSCRITO','2021-12-04'),
+ 			('107','marta@gmail.com','Marta', 'dni','Carrera107','Juvenil M','2021-12-05',30,'INSCRITO','2021-12-05'),
+ 			('107','javi@gmail.com','Javi', 'dni', 'Carrera107','Juvenil H','2021-12-06',30,'INSCRITO','2021-12-06');
+			
+
+ 			
 						
 insert into Clasificacion(idCompeticion, emailAtleta) values
 			('100', 'juanjo@gmail.com');
