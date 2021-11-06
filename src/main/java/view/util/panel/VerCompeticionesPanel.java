@@ -41,20 +41,25 @@ public class VerCompeticionesPanel extends JPanel {
 		int index = table.getSelectedRow();
 		return table.getModel().getValueAt(index, 1).toString();
 	}
+	
+	public String getEstadoCompeticion() {
+		int index = table.getSelectedRow();
+		return table.getModel().getValueAt(index, 9).toString();
+	}
   
-  private JScrollPane getCompeticionesListPane() {
-    if(scrollCompeticiones == null) {
-      table = new CompeticionesToTable(new ArrayList<CompeticionDto>());
+    private JScrollPane getCompeticionesListPane() {
+        if(scrollCompeticiones == null) {
+          table = new CompeticionesToTable(new ArrayList<CompeticionDto>());
 
-      scrollCompeticiones = new JScrollPane();
-      scrollCompeticiones.setViewportView(table);
-    }
+        scrollCompeticiones = new JScrollPane();
+        scrollCompeticiones.setViewportView(table);
+      }
       
-    return scrollCompeticiones;
-  }
+      return scrollCompeticiones;
+    }
   
-  public CompeticionesToTable getTable(){
-	  return table;
-  };
+    public CompeticionesToTable getTable(){
+	    return table;
+    }
 	
 }

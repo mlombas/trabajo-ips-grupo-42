@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 
 import model.ModelFactory;
 import model.inscripcion.InscripcionDto;
+import view.atleta.AtletaMain;
 
 public class PagoTransaccionDialog extends JDialog {
 
@@ -47,6 +48,7 @@ public class PagoTransaccionDialog extends JDialog {
 			btnCerrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					PagoTransaccionDialog.this.dispose();
+					AtletaMain.getInstance().startPanel();
 				}
 			});
 		}
