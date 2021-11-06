@@ -1,35 +1,36 @@
 package view.organizador.panel;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.awt.event.ActionEvent;
-import java.awt.GridLayout;
-
+import controller.competicion.CompeticionCrudService;
+import controller.competicion.CompeticionCrudServiceImpl;
 import model.ModelFactory;
-
+import java.util.ArrayList;
 import model.competicion.CategoriaDto;
 import model.competicion.CompeticionDto;
-
+import util.exceptions.ApplicationException;
+import view.organizador.OrganizadorMain;
 import util.exceptions.ModelException;
 
-import view.organizador.OrganizadorMain;
 import view.organizador.dialog.VerClasficacionDialog;
 import view.organizador.dialog.VerEstadoInscripcionDialog;
 import view.organizador.util.AtrasOrganizadorButton;
 import view.util.panel.VerCompeticionesPanel;
 
-import javax.swing.JComboBox;
-
 public class GestionarCompeticionesPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private VerCompeticionesPanel verCompeticionesPane;
 	private JPanel btnPane;
 	private JPanel competicionManagementPane;
@@ -41,6 +42,8 @@ public class GestionarCompeticionesPanel extends JPanel {
 	
 	private JPanel verClasificacionesPane;
 	private JComboBox<String> cbCategorias;
+	private JButton btnCargarTiempos;
+	private JButton btnGenerarDorsales;
 
 	private GestionarCompeticionesPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -57,7 +60,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 			verCompeticionesPane.updateCompeticiones(new ArrayList<CompeticionDto>());
 		}
 	}
-	
+
 	private void showClasificacion(CompeticionDto competicion, String categoria) {
 		VerClasficacionDialog clasificacionDialog = new VerClasficacionDialog(competicion, categoria);
 		clasificacionDialog.setLocationRelativeTo(null);
@@ -65,7 +68,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		clasificacionDialog.setVisible(true);
 
 	}
-	
+
 	private void showEstadoInscripcion(CompeticionDto competicion) {
 		VerEstadoInscripcionDialog estadoInscripcionDialog = new VerEstadoInscripcionDialog(competicion);
 		estadoInscripcionDialog.setLocationRelativeTo(null);
@@ -76,29 +79,21 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private VerCompeticionesPanel getCompeticionesPane() {
 		if (verCompeticionesPane == null) {
 			verCompeticionesPane = new VerCompeticionesPanel();
-			refreshCompetitions();
-		}
-		
 		return verCompeticionesPane;
 	}
-	
+
 	private JPanel getBtnPane() {
 		if (btnPane == null) {
 			btnPane = new JPanel();
 			btnPane.setLayout(new GridLayout(0, 2, 0, 0));
 			btnPane.add(getCompeticionManagementPane());
-			btnPane.add(getBtnAtras());
+			btnPane.add(getBtnCargarTiempos());
+			btnPane.add(getBtnGenerarDorsales());
+			btnPane.add(getBtnAtras_1());
 		}
 		return btnPane;
 	}
-	
-	private AtrasOrganizadorButton getBtnAtras() {
-		if (btnAtras == null) {
-			btnAtras = new AtrasOrganizadorButton(OrganizadorMain.ORGANIZADOR_MENU);
-		}
-		return btnAtras;
-	}
-	
+
 	private JPanel getCompeticionManagementPane() {
 		if (competicionManagementPane == null) {
 			competicionManagementPane = new JPanel();
@@ -108,11 +103,11 @@ public class GestionarCompeticionesPanel extends JPanel {
 		}
 		return competicionManagementPane;
 	}
-	
+
 	private JButton getBtnVerEstado() {
 		if (btnVerEstado == null) {
 			btnVerEstado = new JButton("Ver Estado");
-			
+
 			btnVerEstado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					CompeticionDto competicion = new CompeticionDto();
@@ -126,14 +121,14 @@ public class GestionarCompeticionesPanel extends JPanel {
 					
 					if(competicion.id.trim().isEmpty())
 						return;
-					else
-						showEstadoInscripcion(competicion);
+					}
+					
 				}
 			});
 		}
 		return btnVerEstado;
 	}
-	
+
 	private JPanel getVerClasificacionesPane() {
 		if (verClasificacionesPane == null) {
 			verClasificacionesPane = new JPanel();
@@ -143,11 +138,11 @@ public class GestionarCompeticionesPanel extends JPanel {
 		}
 		return verClasificacionesPane;
 	}
-	
+
 	private JButton getBtnVerClasificaciones() {
 		if (btnVerClasificaciones == null) {
 			btnVerClasificaciones = new JButton("Ver Clasificaciones");
-			
+
 			btnVerClasificaciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					CompeticionDto competicion = new CompeticionDto();
@@ -161,14 +156,15 @@ public class GestionarCompeticionesPanel extends JPanel {
 					
 					if(competicion.id.trim().isEmpty())
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
-					else
-						showClasificacion(competicion, getCbCategorias().getSelectedItem().toString());
+						return;
+					}
+
 				}
 			});
 		}
 		return btnVerClasificaciones;
 	}
-	
+
 	private JComboBox<String> getCbCategorias() {
 		if (cbCategorias == null) {
 			cbCategorias = new JComboBox<String>();
@@ -176,7 +172,73 @@ public class GestionarCompeticionesPanel extends JPanel {
 		}
 		return cbCategorias;
 	}
-	
+
+	private AtrasOrganizadorButton getBtnAtras_1() {
+		if (btnAtras == null) {
+			btnAtras = new AtrasOrganizadorButton("organizadores");
+		}
+		return btnAtras;
+	}
+
+	private JButton getBtnCargarTiempos() {
+		if (btnCargarTiempos == null) {
+			btnCargarTiempos = new JButton("CargarTiempos");
+			btnCargarTiempos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						CompeticionDto competicion = new CompeticionDto();
+						competicion.id = verCompeticionesPane.getCompeticionId();
+						competicion.nombreCarrera = verCompeticionesPane.getNombreCompeticion();
+
+						if (competicion.id.trim().isEmpty())
+							JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						else
+							cargarTiempos(competicion);
+					} catch (ArrayIndexOutOfBoundsException aiobe) {
+						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						return;
+					}
+				}
+			});
+		}
+		return btnCargarTiempos;
+	}
+
+	private void cargarTiempos(CompeticionDto competicion) {
+		try {
+			CompeticionCrudService ccs = new CompeticionCrudServiceImpl();
+
+			List<Integer> integers = ccs.cargarTiempos(competicion);
+			showMessage(
+					"Se han cargado los tiempos de la competición " + competicion.nombreCarrera
+							+ ": \nTiempos cargados correctamente: " + integers.get(0)
+							+ "\nTiempos que no ha sido posible cargar: " + integers.get(1),
+					"\nInformacion", JOptionPane.INFORMATION_MESSAGE);
+		} catch (ApplicationException e) {
+			showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
+		}
+
+	}
+
+	private void showMessage(String message, String title, int type) {
+		JOptionPane pane = new JOptionPane(message, type, JOptionPane.DEFAULT_OPTION);
+		pane.setOptions(new Object[] { "ACEPTAR" });
+		JDialog d = pane.createDialog(pane, title);
+		d.setLocation(200, 200);
+		d.setVisible(true);
+
+	}
+
+	private JButton getBtnGenerarDorsales() {
+		if (btnGenerarDorsales == null) {
+			btnGenerarDorsales = new JButton("Generar Dorsales");
+		}
+		return btnGenerarDorsales;
+	}
+
 	public void updateCategorias() {
 		cbCategorias.removeAllItems();
 		cbCategorias.addItem("Absoluta");
