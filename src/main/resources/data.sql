@@ -40,6 +40,7 @@ insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nom
  			
 insert into Categoria(nombreCategoria, idCompeticion, edadMinima, edadMaxima, sexo) values 
 		('Juvenil H', 100, 18, 28, 'H'),
+		('Juvenil M', 100, 18, 28, 'M'),
 	    ('Juvenil H', 105, 18, 28, 'H'),
 	    ('Juvenil M', 105, 18, 28, 'M'),
 	    ('Juvenil H', 106, 18, 28, 'H'),

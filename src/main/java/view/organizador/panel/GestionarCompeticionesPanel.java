@@ -12,6 +12,8 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import controller.competicion.CompeticionCrudService;
 import controller.competicion.CompeticionCrudServiceImpl;
@@ -20,6 +22,7 @@ import model.competicion.CategoriaDto;
 import model.competicion.CompeticionDto;
 import util.exceptions.ApplicationException;
 import util.exceptions.ModelException;
+import view.organizador.OrganizadorMain;
 import view.organizador.dialog.VerClasficacionDialog;
 import view.organizador.dialog.VerEstadoInscripcionDialog;
 import view.organizador.util.AtrasOrganizadorButton;
@@ -61,10 +64,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		for (CategoriaDto cat : ModelFactory.forCarreraCrudService()
 				.GetCategoria(verCompeticionesPane.getCompeticionId())) {
 			cbCategorias.addItem(cat.nombreCategoria);
-			System.out.println(cat.nombreCategoria);
 		}
-
-		System.out.println("updated");
 	}
 
 	private void showClasificacion(CompeticionDto competicion, String categoria) {
@@ -111,6 +111,11 @@ public class GestionarCompeticionesPanel extends JPanel {
 		if (verCompeticionesPane == null) {
 			verCompeticionesPane = new VerCompeticionesPanel();
 			refreshCompetitions();
+			verCompeticionesPane.getTable().getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	            public void valueChanged(ListSelectionEvent event) {
+	                OrganizadorMain.getInstance().getBuscarCompeticionPane().updateCategorias();
+	             }
+	         });
 		}
 		return verCompeticionesPane;
 	}
