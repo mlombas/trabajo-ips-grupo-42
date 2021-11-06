@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 
 import model.ModelFactory;
 import model.competicion.CompeticionDto;
-import model.competicion.PosicionDto;
+import model.competicion.ClasificacionDto;
 import view.util.table.ClasificacionesToTable;
 
 public class VerClasficacionDialog extends JDialog {
@@ -36,8 +36,8 @@ public class VerClasficacionDialog extends JDialog {
 	private Component getCompeticionesListPane() {
 		if (scrollParticipantes == null) {
 			scrollParticipantes = new JScrollPane();
-			List<PosicionDto> clasificacion;
-			if (categoria.isBlank()) {
+			List<ClasificacionDto> clasificacion;
+			if (categoria.equals("Absoluta")) {
 				clasificacion = ModelFactory.forCarreraCrudService().GetClasificacion(competicion);
 				table = new ClasificacionesToTable(clasificacion);
 				scrollParticipantes.setViewportView(table);

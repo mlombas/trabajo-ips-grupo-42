@@ -10,8 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+
+import util.exceptions.ModelException;
+import view.atleta.panel.FormularioAtletaPanel;
 import view.atleta.panel.FormularioInscripcionPanel;
 import view.atleta.panel.InscribirsePanel;
+import view.atleta.panel.JustificantePanel;
 import view.atleta.panel.VerInscripcionesPanel;
 import view.atleta.util.AtrasAtletaButton;
 import view.util.panel.VerCompeticionesPanel;
@@ -25,6 +29,8 @@ public class AtletaMain extends JPanel {
 	public static final String VER_INSCRIPCIONES = "ver inscripciones";
 	public static final String FORMULARIO_INSCRIPCION = "formulario";
 	public static final String VER_CARRERAS = "carreras";
+	public static final String FORMULARIO_ATLETA = "formulario atleta";
+	public static final String JUSTIFICANTE = "justificante";
 	
 	private static AtletaMain atletaMain;
 	
@@ -35,9 +41,12 @@ public class AtletaMain extends JPanel {
 	private VerInscripcionesPanel verInscripcionesPanel;
 	private VerCompeticionesPanel verCompeticionesPanel;
 	private FormularioInscripcionPanel formularioInscripcionPanel;
+	private FormularioAtletaPanel formularioAtletaPanel;
+	private JustificantePanel justificantePanel;
 	
 	/**
 	 * Create the frame.
+	 * @throws ModelException 
 	 */
 	private AtletaMain() {
 		// Setting-up some features of this window.
@@ -55,12 +64,17 @@ public class AtletaMain extends JPanel {
 		verInscripcionesPanel = new VerInscripcionesPanel();
 		verCompeticionesPanel = getVerCompeticionesPanel();
 		formularioInscripcionPanel = new FormularioInscripcionPanel();
+		formularioAtletaPanel = new FormularioAtletaPanel();
+		justificantePanel = new JustificantePanel();
 		
 		// Create the panel that contains the cards.
 		cards.add(atletaMenu, ATLETAS_MENU);
 		cards.add(inscripcionesPanel, INSCRIPCIONES);
 		cards.add(verInscripcionesPanel, VER_INSCRIPCIONES);
 		cards.add(verCompeticionesPanel, VER_CARRERAS);
+		cards.add(formularioInscripcionPanel, FORMULARIO_INSCRIPCION);
+		cards.add(formularioAtletaPanel, FORMULARIO_ATLETA);
+		cards.add(justificantePanel, JUSTIFICANTE);
 		
 		// Add the card panel to the frame.
 		this.add(cards);
@@ -149,10 +163,21 @@ public class AtletaMain extends JPanel {
 	private VerCompeticionesPanel getVerCompeticionesPanel() {
 		if (verCompeticionesPanel == null) {
 			verCompeticionesPanel = new VerCompeticionesPanel();
-			verCompeticionesPanel.add(new AtrasAtletaButton(AtletaMain.ATLETAS_MENU),
-					BorderLayout.SOUTH);
+			verCompeticionesPanel.add(new AtrasAtletaButton(AtletaMain.ATLETAS_MENU), BorderLayout.SOUTH);
 		}
 		return verCompeticionesPanel;
+	}
+	
+	public FormularioInscripcionPanel getFormularioInscripcion() {
+		return formularioInscripcionPanel;
+	}
+
+	public FormularioAtletaPanel getFormularioAtletaPanel() {
+		return formularioAtletaPanel;
+	}
+	
+	public JustificantePanel getJustificantePanel() {
+		return justificantePanel;
 	}
 
 }

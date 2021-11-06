@@ -14,6 +14,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
+import java.util.Optional;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -22,30 +23,32 @@ import javax.swing.BoxLayout;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import net.miginfocom.swing.MigLayout;
 import util.Validate;
 import util.exceptions.AtletaNoValidoException;
 import util.exceptions.ModelException;
-import view.atleta.dialog.JustificanteDialog;
+import view.atleta.AtletaMain;
+import view.atleta.util.AtrasAtletaButton;
 
 public class FormularioInscripcionPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel panelFormulario;
-	private ButtonGroup tipoDePago;
-	private JButton btnValidarEInscribirse;
+	private JLabel lblEmail;
+	private JTextField textEmail;
 	private JPanel panelTipoDePago;
+	private ButtonGroup tipoDePago;
 	private JRadioButton rdbtnTransferencia;
 	private JRadioButton rdbtnTarjeta;
 	private JPanel panelValidarBtn;
-	private JLabel lblEmail;
-	private JTextField textEmail;
+	private JButton btnValidarEInscribirse;
+	private AtrasAtletaButton btnAtras;
 	
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
-	private InscripcionDto inscripcion;
 
 	/**
 	 * Create the panel.
@@ -62,22 +65,11 @@ public class FormularioInscripcionPanel extends JPanel {
 		this.competicion = competicion;
 	}
 	
-	public void setInscripcionDto(InscripcionDto inscripcion) {
-		this.inscripcion = inscripcion;
-	}
-	
 	private void showError(String arg) {
 		JOptionPane.showMessageDialog(this,
 				arg,
 			    "ERROR - " + arg,
 			    JOptionPane.ERROR_MESSAGE);
-	}
-	
-	private void showJustificante(InscripcionDto inscripcion) {
-		JustificanteDialog justificanteDialog = new JustificanteDialog(inscripcion, getRdbtnTarjeta().isSelected());
-		justificanteDialog.setLocationRelativeTo(null);
-		justificanteDialog.setModal(true);
-		justificanteDialog.setVisible(true);
 	}
 	
 	private JPanel getPanelFormulario() {
@@ -144,10 +136,18 @@ public class FormularioInscripcionPanel extends JPanel {
 		if (panelValidarBtn == null) {
 			panelValidarBtn = new JPanel();
 			panelValidarBtn.add(getBtnValidarEInscribirse());
+			panelValidarBtn.add(getBtnAtras());
 		}
 		return panelValidarBtn;
 	}
 	
+	private Component getBtnAtras() {
+		if (btnAtras == null) {
+			btnAtras = new AtrasAtletaButton(AtletaMain.INSCRIPCIONES);
+		}
+		return btnAtras;
+	}
+
 	private JButton getBtnValidarEInscribirse() {
 		if (btnValidarEInscribirse == null) {
 			btnValidarEInscribirse = new JButton("Validar e Inscribirse");
@@ -166,34 +166,37 @@ public class FormularioInscripcionPanel extends JPanel {
 						return;
 					} // Show warning
 					
-					// TODO findAtleta
-					
-					try {
-						competicion.id = inscripcion.idCompeticion;
-						competicion.cuota = inscripcion.cuotaInscripcion;
-						competicion.nombreCarrera = inscripcion.nombreCompeticion;
-					} catch(ArrayIndexOutOfBoundsException aiobe) {
-						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
-						return;
-					}
+					// Verificamos que se ha elegido un tipo de pago
+					if (tipoDePago.getSelection() == null)
+						JOptionPane.showMessageDialog(null, "Seleccione un tipo de pago...");
 					
 					InscripcionDto inscripcion = null;
 					try {
-						inscripcion = ModelFactory.forAtletaCrudService().registerAtletaToCompeticion(atleta, competicion);
+						Optional<AtletaDto> temp = ModelFactory.forAtletaCrudService().findByAtletaEmail(atleta.email);
+						
+						if (temp.isEmpty()) {
+							AtletaMain.getInstance().getFormularioAtletaPanel().setCompeticionDto(competicion);
+							AtletaMain.getInstance().getFormularioAtletaPanel().setAtletaDto(atleta);
+							AtletaMain.getInstance().getFormularioAtletaPanel().setIsSelectedTarjeta(rdbtnTarjeta.isSelected());
+							AtletaMain.getInstance().flipCard(AtletaMain.FORMULARIO_ATLETA);
+						} else {
+							atleta = temp.get();
+							inscripcion = ModelFactory.forAtletaCrudService().registerAtletaToCompeticion(atleta, competicion);
+							AtletaMain.getInstance().getJustificantePanel().setInscripcionDto(inscripcion);
+							AtletaMain.getInstance().getJustificantePanel().setIsPagoTarjeta(rdbtnTarjeta.isSelected());
+							AtletaMain.getInstance().flipCard(AtletaMain.JUSTIFICANTE);
+						}
 					} catch (AtletaNoValidoException anve) { // manejamos correctamente las excepciones
 						showError(anve.getMessage());
-						// TODO close
+						AtletaMain.getInstance().startPanel();
 						return;
 					} catch (ModelException me) {
-						me.printStackTrace();
 						showError("Lo siento, algo ha salido mal...");
-						// TODO close
+						AtletaMain.getInstance().startPanel();
 						return;
 					}
-					
-					// TODO close
-					showJustificante(inscripcion);
 				}
+
 			});
 		}
 		return btnValidarEInscribirse;
