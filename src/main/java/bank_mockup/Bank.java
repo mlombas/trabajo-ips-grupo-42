@@ -92,6 +92,21 @@ public class Bank {
 	public boolean isCodePending(String code) {
 		return pending.containsKey(code);
 	}
+	
+	/**
+	 * Returns the amount due in the pending transaction
+	 * 
+	 * @param code the transaction code
+	 * 
+	 * @return the amount due
+	 * 
+	 * @throws BankCodeNotFoundException if there was no such transaction
+	 */
+	public double getPendingAmount(String code) {
+		if(!isCodePending(code)) throw new BankCodeNotFoundException("No pending transaction found");
+		
+		return pending.get(code);
+	}
 
 	/**
 	 * Tries to pay a pending transaction
