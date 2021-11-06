@@ -11,8 +11,8 @@ public class InscripcionDto {
 	public String nombreCompeticion;
 	public String categoria;
 	public LocalDate fechaInscripcion;
-	public double cuotaInscripcion;
 	public EstadoInscripcion estadoInscripcion;
+	public double cuotaInscripcion;
 	public LocalDate fechaCambioEstado;
 //	public int poisicion;
 //	public double tiempo;

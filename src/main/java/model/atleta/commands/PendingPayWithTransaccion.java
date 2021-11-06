@@ -1,6 +1,6 @@
 package model.atleta.commands;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import bank_mockup.Bank;
@@ -30,8 +30,7 @@ public class PendingPayWithTransaccion {
 		checkArguments();
 		checkCanPay();
 		
-		Date dt = new Date(System.currentTimeMillis());
-		db.executeUpdate(UPDATEINSCRIPCION, "Pago-pendiente", dt, inscripcion.idCompeticion, inscripcion.emailAtleta);
+		db.executeUpdate(UPDATEINSCRIPCION, "PAGO_PENDIENTE", LocalDate.now(), inscripcion.idCompeticion, inscripcion.emailAtleta);
 		
 		String code = addTransaction();
 		return code;

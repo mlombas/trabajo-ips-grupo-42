@@ -120,7 +120,7 @@ public class VerInscripcionesPanel extends JPanel {
 			} catch (ApplicationException e) {
 				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
 			} catch (RuntimeException e) { 
-				e.printStackTrace(); 
+				e.printStackTrace(); // TODO
 				showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
 			}
 		}
