@@ -5,10 +5,13 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 
+import model.ModelFactory;
+import model.competicion.CategoriaDto;
 import model.competicion.CompeticionDto;
 import view.organizador.OrganizadorMain;
 import view.organizador.dialog.VerClasficacionDialog;
@@ -29,10 +32,12 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private JButton btnVerClasificaciones;
 	private AtrasOrganizadorButton btnAtras;
 	
+	private static GestionarCompeticionesPanel instance;
+	
 	private JPanel verClasificacionesPane;
 	private JComboBox<String> cbCategorias;
 
-	public GestionarCompeticionesPanel() {
+	private GestionarCompeticionesPanel() {
 		setLayout(new BorderLayout(0, 0));
 		add(getCompeticionesPane(), BorderLayout.CENTER);
 		add(getBtnPane(), BorderLayout.SOUTH);
@@ -140,8 +145,24 @@ public class GestionarCompeticionesPanel extends JPanel {
 		if (cbCategorias == null) {
 			cbCategorias = new JComboBox<String>();
 			cbCategorias.addItem("Absoluta");
-			cbCategorias.addItem("Juvenil H");
 		}
 		return cbCategorias;
+	}
+	
+	public void updateCategorias() {
+		cbCategorias.removeAllItems();
+		cbCategorias.addItem("Absoluta");
+		for(CategoriaDto cat : ModelFactory.forCarreraCrudService().GetCategoria(verCompeticionesPane.getCompeticionId())) {
+			cbCategorias.addItem(cat.nombreCategoria);
+			System.out.println(cat.nombreCategoria);
+		}
+		System.out.println("updated");
+	}
+
+	public static GestionarCompeticionesPanel getInstance() {
+		if(instance == null) {
+			instance = new GestionarCompeticionesPanel();
+		}
+		return instance;
 	}
 }

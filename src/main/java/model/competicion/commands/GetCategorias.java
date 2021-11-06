@@ -7,7 +7,7 @@ import util.database.Database;
 
 public class GetCategorias {
 
-	private static String OBTENER_CATEGORIAS = "select nombreCategoria from Categorias where idCompeticion = ?";
+	private static String OBTENER_CATEGORIAS = "select nombreCategoria from Categoria where idCompeticion = ?";
 	
 	private Database db = Database.getInstance();
 	private String competicionId;
