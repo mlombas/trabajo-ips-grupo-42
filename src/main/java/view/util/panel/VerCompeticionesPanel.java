@@ -6,12 +6,10 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import model.competicion.CompeticionDto;
 
-import util.exceptions.ModelException;
 import view.organizador.panel.GestionarCompeticionesPanel;
 import view.util.table.CompeticionesToTable;
 
