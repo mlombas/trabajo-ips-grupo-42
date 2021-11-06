@@ -13,9 +13,11 @@ import java.awt.GridLayout;
 
 import model.ModelFactory;
 
-import model.competicion.CategoriaDto
+import model.competicion.CategoriaDto;
 import model.competicion.CompeticionDto;
+
 import util.exceptions.ModelException;
+
 import view.organizador.OrganizadorMain;
 import view.organizador.dialog.VerClasficacionDialog;
 import view.organizador.dialog.VerEstadoInscripcionDialog;
@@ -115,7 +117,13 @@ public class GestionarCompeticionesPanel extends JPanel {
 			btnVerEstado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					CompeticionDto competicion = new CompeticionDto();
-					competicion.id = verCompeticionesPane.getCompeticionId();
+					
+					try {
+						competicion.id = verCompeticionesPane.getCompeticionId();
+					} catch (ArrayIndexOutOfBoundsException aiobe) {
+						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						return;
+					}
 					
 					if(competicion.id.trim().isEmpty())
 						return;
@@ -144,7 +152,13 @@ public class GestionarCompeticionesPanel extends JPanel {
 			btnVerClasificaciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					CompeticionDto competicion = new CompeticionDto();
-					competicion.id = verCompeticionesPane.getCompeticionId();
+					
+					try {
+						competicion.id = verCompeticionesPane.getCompeticionId();
+					} catch (ArrayIndexOutOfBoundsException aiobe) {
+						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						return;
+					}
 					
 					if(competicion.id.trim().isEmpty())
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
