@@ -16,19 +16,19 @@ create table Competicion (
 	distancia varchar(255) not null,
 	cuota decimal(10,2) not null,
 	fecha date not null, 
-	fechaInicio date not null, 
-	fechaFin date not null, 
-	plazas int not null,
+	fechaInicio date, 
+	fechaFin date, 
+	plazas int,
 	estadoCarrera varchar(255) not null,
 	dorsalesReservados int,
-	descripcion varchar(255)
+	descripcion varchar(255),
 	
 	check(fechaInicio<=fechaFin), 
 	check(fechaFin<fecha),
 	check(distancia>0),
 	check(plazas>0),
-	check(cuota>0),
-	check(dorsalesReservados>0)
+	check(cuota>=0),
+	check(dorsalesReservados>=0)
 );
 
 create table Atleta (

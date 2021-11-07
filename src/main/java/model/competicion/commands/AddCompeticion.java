@@ -3,7 +3,6 @@ package model.competicion.commands;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.UUID;
 
 import model.competicion.CompeticionDto;
 import util.database.Database;
@@ -12,8 +11,8 @@ import util.exceptions.ModelException;
 public class AddCompeticion {
 
 	private static final String ADD_COMPETICION = "insert into "
-			+ "Competicion(id, nombreCarrera, tipoCarrera, distancia, cuota, fecha, plazas, dorsalesReservados, descripcion) "
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ "Competicion(id, nombreCarrera, tipoCarrera, distancia, cuota, fecha, plazas, dorsalesReservados, descripcion, estadoCarrera) "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private CompeticionDto competicion;
 	private Database db = Database.getInstance();
@@ -28,7 +27,7 @@ public class AddCompeticion {
 			
 			PreparedStatement pst = c.prepareStatement(ADD_COMPETICION);
 			
-			pst.setString(1, UUID.randomUUID().toString());
+			pst.setString(1, competicion.id);
 			pst.setString(2, competicion.nombreCarrera);
 			pst.setString(3, competicion.tipoCarrera);
 			pst.setInt(4, competicion.distancia);
@@ -37,6 +36,7 @@ public class AddCompeticion {
 			pst.setInt(7, competicion.plazas);
 			pst.setInt(8, competicion.dorsalesReservados);
 			pst.setString(9, competicion.descripcion);
+			pst.setString(10, competicion.estadoCarrera);
 			
 			int ans = pst.executeUpdate();
 			

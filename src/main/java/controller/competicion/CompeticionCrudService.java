@@ -20,6 +20,9 @@ public interface CompeticionCrudService {
 	List<CategoriaDto> GetCategoria(String competicionId);
 	
 	boolean addCompeticion(CompeticionDto competicion) throws ModelException;
-	
+  
+	boolean removeCarrera(String competicionId) throws ModelException;
+  
 	List<Integer> generarDorsales(CompeticionDto comp);
+  
 }
