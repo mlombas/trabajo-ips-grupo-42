@@ -1,18 +1,20 @@
 package model.atleta.commands;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import bank_mockup.Bank;
+import model.competicion.CompeticionDto;
+import model.inscripcion.EstadoInscripcion;
 import model.inscripcion.InscripcionDto;
 import util.database.Database;
 import util.exceptions.ApplicationException;
 
 public class PendingPayWithTransaccion {
 	
-	private static final String UPDATEINSCRIPCION = "update Inscripcion set estadoInscripcion = ?, fechaCambioEstado = ? where idCompeticion = ? and emailAtleta = ? ";
-	private static final String GETINSCRIPCION = "select * from Inscripcion where idCompeticion = ? and emailAtleta = ? ";
-	private static final String GETCUOTA = "select cuota from carrera where id = ?";
+	private static final String UPDATEINSCRIPCION = "update inscripcion set estadoInscripcion = ?, fechaCambioEstado = ? where idCompeticion = ? and emailAtleta = ? ";
+	private static final String GETINSCRIPCION = "select * from inscripcion where idCompeticion = ? and emailAtleta = ? ";
+	private static final String GETCOMPETICION = "select * from competicion where id = ?";
 	
 	private InscripcionDto inscripcion;
 	
@@ -28,15 +30,14 @@ public class PendingPayWithTransaccion {
 		checkArguments();
 		checkCanPay();
 		
-		Date dt = new Date(System.currentTimeMillis());
-		db.executeUpdate(UPDATEINSCRIPCION, "Pago-pendiente", dt, inscripcion.idCompeticion, inscripcion.emailAtleta);
+		db.executeUpdate(UPDATEINSCRIPCION, "PAGO_PENDIENTE", LocalDate.now(), inscripcion.idCompeticion, inscripcion.emailAtleta);
 		
 		String code = addTransaction();
 		return code;
 	}
 	
 	private String addTransaction() {
-		int cuota = db.executeQueryPojo(Integer.class, GETCUOTA, inscripcion.idCompeticion).get(0);
+		double cuota = db.executeQueryPojo(CompeticionDto.class, GETCOMPETICION, inscripcion.idCompeticion).get(0).cuota;
 		String code = bank.addPendingTransaction(cuota);
 		return code;
 	}
@@ -46,7 +47,7 @@ public class PendingPayWithTransaccion {
 		if(ins.size() <= 0) {
 			throw new ApplicationException("No existe una inscripcion en esta competicion");
 		}
-		if(!ins.get(0).estadoInscripcion.equals("Pre-inscrito")) {
+		if(!ins.get(0).estadoInscripcion.equals(EstadoInscripcion.PRE_INSCRITO)) {
 			throw new ApplicationException("La inscripcion ya ha sido pagada");
 		}
 	}

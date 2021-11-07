@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 
 import model.inscripcion.InscripcionDto;
+import view.atleta.AtletaMain;
 import view.atleta.dialog.PagoTarjetaDialog;
 import view.atleta.dialog.PagoTransaccionDialog;
 
@@ -70,6 +71,7 @@ public class JustificantePanel extends JPanel {
 		diag.setLocationRelativeTo(null);
 		diag.setModal(true);
 		diag.setVisible(true);
+		AtletaMain.getInstance().flipCard(AtletaMain.ATLETAS_MENU);
 	}
 	
 	private JLabel getLblAgradecimiento() {

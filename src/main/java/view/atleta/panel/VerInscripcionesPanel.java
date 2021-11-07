@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import controller.atleta.AtletaCrudService;
@@ -107,19 +108,20 @@ public class VerInscripcionesPanel extends JPanel {
 			try {
 				AtletaCrudService acs = new AtletaCrudServiceImpl();
 				AtletaDto atleta = new AtletaDto();
-				atleta.email = tfEmail.getText();
-				
+				atleta.email = tfEmail.getText();			
 				List<InscripcionDto> inscripciones = acs.getCompetionesInscritas(atleta);
-				TableModel tmodel = new InscripcionesToTable(inscripciones).getModel();
-				getTabCompeticiones().setModel(tmodel);
 				
+				TableModel model = new InscripcionesToTable(inscripciones).getModel();
+				getTabCompeticiones().setModel(model);
+				
+				// We hide the DNI field
+				TableColumnModel tcm = getTabCompeticiones().getColumnModel();
+				tcm.removeColumn(tcm.getColumn(1));
 			} catch (ApplicationException e) {
 				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
-			} catch (RuntimeException e) { 
-				e.printStackTrace(); 
+			} catch (RuntimeException e) {
 				showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
 			}
-			
 		}
 	}
 
@@ -127,7 +129,7 @@ public class VerInscripcionesPanel extends JPanel {
 		JOptionPane pane = new JOptionPane(message, type, JOptionPane.DEFAULT_OPTION);
 		pane.setOptions(new Object[] { "ACEPTAR" }); 
 		JDialog d = pane.createDialog(pane, title);
-		d.setLocation(200, 200);
+		d.setLocationRelativeTo(null);
 		d.setVisible(true);
 
 	}

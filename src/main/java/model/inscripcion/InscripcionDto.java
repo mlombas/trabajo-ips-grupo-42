@@ -11,8 +11,8 @@ public class InscripcionDto {
 	public String nombreCompeticion;
 	public String categoria;
 	public LocalDate fechaInscripcion;
+	public EstadoInscripcion estadoInscripcion;
 	public double cuotaInscripcion;
-	public String estadoInscripcion;
 	public LocalDate fechaCambioEstado;
 //	public int poisicion;
 //	public double tiempo;
@@ -22,7 +22,7 @@ public class InscripcionDto {
 	}
 
 	public String getEstadoInscripcion() {
-		return estadoInscripcion;
+		return "" + estadoInscripcion;
 	}
 
 	public String getFechaCambioEstado() {
@@ -90,7 +90,7 @@ public class InscripcionDto {
 	}
 
 	public void setEstadoInscripcion(String estadoInscripcion) {
-		this.estadoInscripcion = estadoInscripcion;
+		this.estadoInscripcion = EstadoInscripcion.valueOf(estadoInscripcion);
 	}
 
 	public void setFechaCambioEstado(String fechaCambioEstado) {

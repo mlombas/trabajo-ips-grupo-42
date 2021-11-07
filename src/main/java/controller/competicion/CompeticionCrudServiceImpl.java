@@ -1,11 +1,14 @@
+
 package controller.competicion;
 
 import java.util.List;
 
-import model.competicion.CompeticionDto;
 import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
+import model.competicion.CompeticionDto;
 import model.competicion.commands.AddCompeticion;
+import model.competicion.commands.CargarTiempos;
+import model.competicion.commands.GenerarDorsales;
 import model.competicion.commands.GetAllCompeticiones;
 import model.competicion.commands.GetCategorias;
 import model.competicion.commands.GetClasificacion;
@@ -38,10 +41,20 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
   @Override
 	public boolean addCompeticion(CompeticionDto competicion) throws ModelException {
 		return new AddCompeticion(competicion).execute();
-	}
-
+  }
+  
 	@Override
 	public boolean removeCarrera(String competicionId) throws ModelException {
 		return new RemoveCompeticion(competicionId).execute();
+  
+	@Override
+	public List<Integer> cargarTiempos(CompeticionDto comp) {
+		return new CargarTiempos(comp).execute();
+	}
+
+	@Override
+	public List<Integer> generarDorsales(CompeticionDto comp) {
+		return new GenerarDorsales(comp).execute();
 	}
 }
+

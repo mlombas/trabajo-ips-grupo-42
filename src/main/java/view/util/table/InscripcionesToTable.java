@@ -14,15 +14,18 @@ public class InscripcionesToTable extends JTable {
 	public InscripcionesToTable(List<InscripcionDto> inscripciones) {
 		setDefaultEditor(Object.class, null); // hacer que no sea editable
 		
-		String[] columnNames = {"nombre", "categoria", "fechaInscripcion", "estadoInscripcion"};
+		String[] columnNames = {"nombre_competicion", "dni_atleta", "nombre_atleta", "categoria", "fechaInscripcion", "estadoInscripcion"};
 		DefaultTableModel model = new DefaultTableModel(null, columnNames);
 		
 		for(InscripcionDto inscripcion : inscripciones) {
 			Object[] fila = new Object[columnNames.length];
-			fila[0] = inscripcion.nombreAtleta;
-			fila[1] = inscripcion.categoria;
-			fila[2] = inscripcion.fechaInscripcion;
-			fila[3] = inscripcion.estadoInscripcion;
+			
+			fila[0] = inscripcion.nombreCompeticion;
+			fila[1] = inscripcion.dniAtleta;
+			fila[2] = inscripcion.nombreAtleta;
+			fila[3] = inscripcion.categoria;
+			fila[4] = inscripcion.fechaInscripcion;
+			fila[5] = inscripcion.estadoInscripcion;
 			
 			model.addRow(fila);
 		}

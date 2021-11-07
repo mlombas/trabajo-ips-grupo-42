@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import model.competicion.CompeticionDto;
 import model.competicion.CompeticionDto;
 
 import view.organizador.panel.GestionarCompeticionesPanel;
@@ -45,21 +47,25 @@ public class VerCompeticionesPanel extends JPanel {
 		int index = table.getSelectedRow();
 		return table.getModel().getValueAt(index, 1).toString();
 	}
+	
+	public String getEstadoCompeticion() {
+		int index = table.getSelectedRow();
+		return table.getModel().getValueAt(index, 9).toString();
+	}
   
-  private JScrollPane getCompeticionesListPane() {
-    if(scrollCompeticiones == null) {
-      table = new CompeticionesToTable(new ArrayList<CompeticionDto>());
-      table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            public void valueChanged(ListSelectionEvent event) {
-               GestionarCompeticionesPanel.getInstance().updateCategorias();
-            }
-        });
+    private JScrollPane getCompeticionesListPane() {
+        if(scrollCompeticiones == null) {
+          table = new CompeticionesToTable(new ArrayList<CompeticionDto>());
 
-      scrollCompeticiones = new JScrollPane();
-      scrollCompeticiones.setViewportView(table);
-    }
+        scrollCompeticiones = new JScrollPane();
+        scrollCompeticiones.setViewportView(table);
+      }
       
-    return scrollCompeticiones;
-  }
+      return scrollCompeticiones;
+    }
+  
+    public CompeticionesToTable getTable(){
+	    return table;
+    }
 	
 }

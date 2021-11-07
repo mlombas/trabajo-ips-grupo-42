@@ -66,7 +66,7 @@ public class RegisterAtletaToCompetition {
 			inscripcion.categoria = getCategoria();
 			inscripcion.fechaInscripcion = LocalDate.now();
 			inscripcion.cuotaInscripcion = competicion.cuota;
-			inscripcion.estadoInscripcion = EstadoInscripcion.PRE_INSCRITO.toString();
+			inscripcion.estadoInscripcion = EstadoInscripcion.PRE_INSCRITO;
 			inscripcion.fechaCambioEstado = LocalDate.now();
 			inscripcion.nombreCompeticion = competicion.nombreCarrera;
 			
@@ -76,7 +76,7 @@ public class RegisterAtletaToCompetition {
 			pst.setString(4, inscripcion.categoria);
 			pst.setString(5, inscripcion.fechaInscripcion.toString());
 			pst.setDouble(6, inscripcion.cuotaInscripcion);
-			pst.setString(7, inscripcion.estadoInscripcion);
+			pst.setString(7, inscripcion.estadoInscripcion.toString());
 			pst.setString(8, inscripcion.fechaCambioEstado.toString());
 			pst.setString(9, inscripcion.nombreCompeticion);
 			

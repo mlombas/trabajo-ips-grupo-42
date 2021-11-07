@@ -74,8 +74,7 @@ public class FormularioInscripcionPanel extends JPanel {
 	
 	public void reset() {
 		getTextEmail().setText("");
-		getRdbtnTarjeta().setSelected(false);
-		getRdbtnTransferencia().setSelected(false);
+		tipoDePago.clearSelection();
 	}
 	
 	private JPanel getPanelFormulario() {
@@ -187,12 +186,14 @@ public class FormularioInscripcionPanel extends JPanel {
 							AtletaMain.getInstance().getFormularioAtletaPanel().setAtletaDto(atleta);
 							AtletaMain.getInstance().getFormularioAtletaPanel().setIsSelectedTarjeta(rdbtnTarjeta.isSelected());
 							AtletaMain.getInstance().flipCard(AtletaMain.FORMULARIO_ATLETA);
+							reset();
 						} else {
 							atleta = temp.get();
 							inscripcion = ModelFactory.forAtletaCrudService().registerAtletaToCompeticion(atleta, competicion);
 							AtletaMain.getInstance().getJustificantePanel().setInscripcionDto(inscripcion);
 							AtletaMain.getInstance().getJustificantePanel().setIsPagoTarjeta(rdbtnTarjeta.isSelected());
 							AtletaMain.getInstance().flipCard(AtletaMain.JUSTIFICANTE);
+							reset();
 						}
 					} catch (AtletaNoValidoException anve) { // manejamos correctamente las excepciones
 						showError(anve.getMessage());

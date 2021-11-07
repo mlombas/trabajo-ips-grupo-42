@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.table.TableColumnModel;
 
 import model.ModelFactory;
 import model.competicion.CompeticionDto;
@@ -53,6 +54,11 @@ public class VerEstadoInscripcionDialog extends JDialog {
 			try {
 				inscripciones = ModelFactory.forOrganizadorCrudService().getAtletasForCompetition(competicion);
 				table = new InscripcionesToTable(inscripciones);
+				
+				// We hide the NAME_COMPETITION field
+				TableColumnModel tcm = table.getColumnModel();
+				tcm.removeColumn(tcm.getColumn(0));
+				
 				competicionesPane.setViewportView(table);
 			} catch (ModelException e) {
 				JOptionPane.showMessageDialog(null, "Algo ha salido mal...");

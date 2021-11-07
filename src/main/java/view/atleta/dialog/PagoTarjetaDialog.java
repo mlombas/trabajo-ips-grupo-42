@@ -20,6 +20,7 @@ import model.atleta.TarjetaDto;
 import model.inscripcion.InscripcionDto;
 import util.Util;
 import util.exceptions.ApplicationException;
+import view.atleta.AtletaMain;
 import net.miginfocom.swing.MigLayout;
 
 public class PagoTarjetaDialog extends JDialog {
@@ -93,6 +94,7 @@ public class PagoTarjetaDialog extends JDialog {
 							"\nFecha de pago: " + date, 
 								"\nInformacion", 
 								JOptionPane.INFORMATION_MESSAGE);
+				AtletaMain.getInstance().startPanel();
 				this.dispose();
 			} catch (ApplicationException e) {
 				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
@@ -108,7 +110,7 @@ public class PagoTarjetaDialog extends JDialog {
 		JOptionPane pane = new JOptionPane(message, type, JOptionPane.DEFAULT_OPTION);
 		pane.setOptions(new Object[] { "ACEPTAR" }); 
 		JDialog d = pane.createDialog(pane, title);
-		d.setLocation(200, 200);
+		d.setLocationRelativeTo(null);
 		d.setVisible(true);
 
 	}
