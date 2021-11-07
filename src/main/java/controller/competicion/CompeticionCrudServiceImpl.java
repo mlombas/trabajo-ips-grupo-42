@@ -10,6 +10,7 @@ import model.competicion.commands.GetAllCompeticiones;
 import model.competicion.commands.GetCategorias;
 import model.competicion.commands.GetClasificacion;
 import model.competicion.commands.GetClasificacionByCategoria;
+import model.competicion.commands.RemoveCompeticion;
 import util.exceptions.ModelException;
 
 public class CompeticionCrudServiceImpl implements CompeticionCrudService {
@@ -37,5 +38,10 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
   @Override
 	public boolean addCompeticion(CompeticionDto competicion) throws ModelException {
 		return new AddCompeticion(competicion).execute();
+	}
+
+	@Override
+	public boolean removeCarrera(String competicionId) throws ModelException {
+		return new RemoveCompeticion(competicionId).execute();
 	}
 }

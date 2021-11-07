@@ -19,4 +19,6 @@ public interface CompeticionCrudService {
 	
 	boolean addCompeticion(CompeticionDto competicion) throws ModelException;
 
+	boolean removeCarrera(String competicionId) throws ModelException;
+
 }

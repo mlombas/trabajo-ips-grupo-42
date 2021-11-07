@@ -13,7 +13,7 @@ import java.awt.GridLayout;
 
 import model.ModelFactory;
 
-import model.competicion.CategoriaDto
+import model.competicion.CategoriaDto;
 import model.competicion.CompeticionDto;
 import util.exceptions.ModelException;
 import view.organizador.OrganizadorMain;
