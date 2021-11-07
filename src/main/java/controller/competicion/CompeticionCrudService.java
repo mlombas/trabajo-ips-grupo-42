@@ -2,10 +2,11 @@ package controller.competicion;
 
 import java.util.List;
 
+import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
+import model.competicion.PlazoInscripcionDto;
 import util.exceptions.ModelException;
-import model.competicion.CategoriaDto;
 
 
 public interface CompeticionCrudService {
@@ -22,4 +23,7 @@ public interface CompeticionCrudService {
 	boolean addCompeticion(CompeticionDto competicion) throws ModelException;
 	
 	List<Integer> generarDorsales(CompeticionDto comp);
+	
+	List<PlazoInscripcionDto> addPlazo (CompeticionDto comp, PlazoInscripcionDto plazo);
+
 }

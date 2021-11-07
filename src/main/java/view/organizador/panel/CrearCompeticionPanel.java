@@ -265,6 +265,10 @@ public class CrearCompeticionPanel extends JPanel {
 	private JButton getBtnPlazos() {
 		if (btnPlazos == null) {
 			btnPlazos = new JButton("Configurar Plazos");
+			btnPlazos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
 		}
 		return btnPlazos;
 	}

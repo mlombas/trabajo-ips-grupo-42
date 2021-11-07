@@ -8,26 +8,21 @@ drop table Atleta;
 drop table Inscripcion;
 drop table Categoria;
 drop table Clasificacion;
+drop table Plazo;
 
 create table Competicion (
 	id varchar(255) primary key not null, 
 	nombreCarrera varchar(255) not null,
 	tipoCarrera varchar(255) not null,
 	distancia varchar(255) not null,
-	cuota decimal(10,2) not null,
-	fecha date not null, 
-	fechaInicio date not null, 
-	fechaFin date not null, 
+	fecha date not null,  
 	plazas int not null,
 	estadoCarrera varchar(255) not null,
 	dorsalesReservados int,
-	descripcion varchar(255)
+	descripcion varchar(255),
 	
-	check(fechaInicio<=fechaFin), 
-	check(fechaFin<fecha),
 	check(distancia>0),
 	check(plazas>0),
-	check(cuota>0),
 	check(dorsalesReservados>0)
 );
 
@@ -84,5 +79,19 @@ create table Clasificacion(
 	foreign key(idCompeticion) references Competicion(id)
 	foreign key(emailAtleta) references Atleta(email),
 	foreign key(dorsal) references Inscripcion(dorsal)
+);
+
+create table Plazo(
+	id varchar(255) not null,
+	idCompeticion varchar(255) not null,
+	fechaInicio date not null, 
+	fechaFin date not null,
+	cuota decimal(10,2) not null,
+	
+	primary key (id,idCompeticion),
+	foreign key(idCompeticion) references Competicion(id),
+	
+	check(fechaInicio<=fechaFin), 
+	check(cuota>0)
 );
 
