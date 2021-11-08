@@ -15,8 +15,11 @@ create table Competicion (
 	nombreCarrera varchar(255) not null,
 	tipoCarrera varchar(255) not null,
 	distancia varchar(255) not null,
-	fecha date not null,  
+	fecha date not null,
 	plazas int not null,
+	cuota decimal(10,2),
+	fechaInicio date, 
+	fechaFin date, 
 	estadoCarrera varchar(255) not null,
 	dorsalesReservados int,
 	descripcion varchar(255),
@@ -94,4 +97,3 @@ create table Plazo(
 	check(fechaInicio<=fechaFin), 
 	check(cuota>0)
 );
-

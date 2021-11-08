@@ -13,6 +13,7 @@ import view.util.listener.BackHomeScreenAdapter;
 import view.util.listener.DefaultClosingAdapter;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,6 +45,7 @@ public class MainWindow extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(0, 0, 720, 480);
+		setMinimumSize(new Dimension(720, 480));
 		setLocationRelativeTo(null);
 		
 		// Main content pane.

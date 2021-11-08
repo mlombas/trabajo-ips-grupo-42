@@ -22,10 +22,13 @@ import java.awt.Font;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JTextArea;
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.UUID;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class CrearCompeticionPanel extends JPanel {
 
@@ -43,24 +46,47 @@ public class CrearCompeticionPanel extends JPanel {
 	private JSpinner spinnerNumeroPlazas;
 	private JLabel lblNumeroDorsalesReservados;
 	private JSpinner spinnerDorsalesReservados;
-	private JPanel panelCategorias;
-	private JPanel panelPlazos;
-	private JButton btnCategorias;
-	private JButton btnPlazos;
-	private JPanel panelValidarBtn;
+	private JPanel panelButtons;
 	private AtrasOrganizadorButton btnAtras;
 	private JLabel lblFecha;
 	private JLabel lblLongitud;
 	private JTextField textFecha;
 	private JSpinner spinnerLongitud;
+	private JPanel panelCrearAdicional;
+	private JButton btnCategorias;
+	private JButton btnPlazos;
+	
+	private String competicionId;
+	private boolean isPlazosCreated = false;
+	private boolean isCategoriasCreated = false;
+	private JButton btnOk;
 
 	/**
 	 * Create the panel.
 	 */
 	public CrearCompeticionPanel() {
 		setLayout(new BorderLayout(0, 0));
-		add(getPanelFormulario(), BorderLayout.CENTER);
-		add(getPanelValidarBtn(), BorderLayout.SOUTH);
+		add(getPanelFormulario(), BorderLayout.NORTH);
+		add(getPanelCrearAdicional(), BorderLayout.CENTER);
+		add(getPanelButtons(), BorderLayout.SOUTH);
+		
+		// RESET EVERYTHING
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				if (competicionId != null)
+					if (!isPlazosCreated || !isCategoriasCreated) {
+						try {
+							if (ModelFactory.forCarreraCrudService().removeCarrera(competicionId))
+								JOptionPane.showMessageDialog(null, "Hemos eliminado la carrera");
+						} catch (ModelException me) {
+							JOptionPane.showMessageDialog(null, "Lo siento, algo ha salido mal");
+						}
+					}
+				
+				reset();
+			}
+		});
 	}
 	
 	private void showError(String arg) {
@@ -78,29 +104,33 @@ public class CrearCompeticionPanel extends JPanel {
 		getSpinnerDorsalesReservados().setValue(0);
 		getSpinnerNumeroPlazas().setValue(0);
 		getTextFecha().setText("");
+		getSpinnerLongitud().setValue(0);
+		
+		getBtnCategorias().setEnabled(false);
+		getBtnPlazos().setEnabled(false);
+		getBtnOk().setEnabled(false);
 	}
 	
 	private JPanel getPanelFormulario() {
 		if (panelFormulario == null) {
 			panelFormulario = new JPanel();
-			panelFormulario.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Formulario de Inscripción a la Carrera", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-			panelFormulario.setLayout(new MigLayout("", "[grow,center][grow,center]", "[grow][][][][grow][][][][][][grow][grow][grow]"));
-			panelFormulario.add(getLblNombre(), "flowx,cell 0 1 2 1,alignx left,growy");
-			panelFormulario.add(getTextNombre(), "cell 0 2,grow");
-			panelFormulario.add(getTextTipo(), "cell 1 2,grow");
-			panelFormulario.add(getLblDescripcion(), "cell 0 3 2 1,alignx left");
-			panelFormulario.add(getTextAreaDescripcion(), "cell 0 4 2 2,grow");
-			panelFormulario.add(getLblNumeroDorsalesReservados(), "cell 0 6,alignx left");
-			panelFormulario.add(getLblNumeroPlazas(), "cell 1 6,alignx left");
-			panelFormulario.add(getSpinnerDorsalesReservados(), "cell 0 7,growx");
-			panelFormulario.add(getLblTipo(), "cell 1 1,alignx left,aligny center");
-			panelFormulario.add(getSpinnerNumeroPlazas(), "cell 1 7,growx");
-			panelFormulario.add(getLblFecha(), "cell 0 8,growx");
-			panelFormulario.add(getLblLongitud(), "cell 1 8,growx");
-			panelFormulario.add(getTextFecha(), "cell 0 9,growx");
-			panelFormulario.add(getSpinnerLongitud(), "cell 1 9,growx");
-			panelFormulario.add(getPanelCategorias(), "cell 0 10 2 1,grow");
-			panelFormulario.add(getPanelPlazos(), "cell 0 11 2 1,grow");
+			panelFormulario.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Formulario de la Competici\u00F3n", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panelFormulario.setLayout(new MigLayout("", "[grow,center][grow,center]", "[][][][grow][][][][][][]"));
+			panelFormulario.add(getLblNombre(), "flowx,cell 0 0 2 1,alignx left,growy");
+			panelFormulario.add(getTextNombre(), "cell 0 1,grow");
+			panelFormulario.add(getTextTipo(), "cell 1 1,grow");
+			panelFormulario.add(getLblDescripcion(), "cell 0 2 2 1,alignx left");
+			panelFormulario.add(getTextAreaDescripcion(), "cell 0 3 2 2,grow");
+			panelFormulario.add(getLblNumeroDorsalesReservados(), "cell 0 5,alignx left");
+			panelFormulario.add(getLblNumeroPlazas(), "cell 1 5,alignx left");
+			panelFormulario.add(getSpinnerDorsalesReservados(), "cell 0 6,growx");
+			panelFormulario.add(getLblTipo(), "cell 1 0,alignx left,aligny center");
+			panelFormulario.add(getSpinnerNumeroPlazas(), "cell 1 6,growx");
+			panelFormulario.add(getLblFecha(), "cell 0 7,growx");
+			panelFormulario.add(getLblLongitud(), "cell 1 7,growx");
+			panelFormulario.add(getTextFecha(), "cell 0 8,growx");
+			panelFormulario.add(getSpinnerLongitud(), "cell 1 8,growx");
+			panelFormulario.add(getBtnValidarDatos(), "cell 0 9 2 1,growx");
 		}
 		return panelFormulario;
 	}
@@ -237,64 +267,15 @@ public class CrearCompeticionPanel extends JPanel {
 		return spinnerLongitud;
 	}
 	
-	private JPanel getPanelCategorias() {
-		if (panelCategorias == null) {
-			panelCategorias = new JPanel();
-			panelCategorias.setLayout(new GridLayout(0, 1, 0, 0));
-			panelCategorias.add(getBtnCategorias());
-		}
-		return panelCategorias;
-	}
-	
-	private JPanel getPanelPlazos() {
-		if (panelPlazos == null) {
-			panelPlazos = new JPanel();
-			panelPlazos.setLayout(new GridLayout(0, 1, 0, 0));
-			panelPlazos.add(getBtnPlazos());
-		}
-		return panelPlazos;
-	}
-	
-	private JButton getBtnCategorias() {
-		if (btnCategorias == null) {
-			btnCategorias = new JButton("Configurar Categorías");
-		}
-		return btnCategorias;
-	}
-	
-	private JButton getBtnPlazos() {
-		if (btnPlazos == null) {
-			btnPlazos = new JButton("Configurar Plazos");
-			btnPlazos.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				}
-			});
-		}
-		return btnPlazos;
-	}
-	
-	private JPanel getPanelValidarBtn() {
-		if (panelValidarBtn == null) {
-			panelValidarBtn = new JPanel();
-			panelValidarBtn.add(getBtnValidarDatos());
-			panelValidarBtn.add(getBtnAtras());
-		}
-		return panelValidarBtn;
-	}
-	
-	private AtrasOrganizadorButton getBtnAtras() {
-		if (btnAtras == null) {
-			btnAtras = new AtrasOrganizadorButton(OrganizadorMain.ORGANIZADOR_MENU);
-		}
-		return btnAtras;
-	}
-	
 	private JButton getBtnValidarDatos() {
 		if (btnValidarDatos == null) {
 			btnValidarDatos = new JButton("Validar mis Datos");
 			btnValidarDatos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					CompeticionDto competicion = new CompeticionDto();
+					
+					// Establecemos el ID
+					competicion.id = UUID.randomUUID().toString();
 					
 					// Validamos el nombre
 					String nombre = getTextNombre().getText();
@@ -329,29 +310,40 @@ public class CrearCompeticionPanel extends JPanel {
 					
 					// Validamos el numero de plazas
 					int plazas = (int) getSpinnerNumeroPlazas().getValue();
+					if (plazas <= 0) {
+						JOptionPane.showMessageDialog(null, "Las plazas tiene que ser mayor que 0...");
+						return;
+					} // Show warning
 					competicion.plazas = plazas;
 					
 					// Validamos la fecha
 					String fecha = getTextFecha().getText();
 					competicion.fecha = Validate.validateFecha(fecha);
-					if(competicion.fecha == null) {
+					if(competicion.fecha == null || competicion.fecha.isBefore(LocalDate.now())) {
 						JOptionPane.showMessageDialog(null, "Fecha no valida...");
 						return;
 					} // Show warning
 					
 					// Validamos la longitud de la carrera
 					int longitud = (int) getSpinnerLongitud().getValue();
+					if (longitud <= 0) {
+						JOptionPane.showMessageDialog(null, "La longitud tiene que ser mayor que 0...");
+						return;
+					} // Show warning
 					competicion.distancia = longitud;
 					
+					// Establecemos el estado de la competicion
+					competicion.estadoCarrera = "creándose"; // TEMP
+					
 					try {
-						if (ModelFactory.forCarreraCrudService().addCompeticion(competicion))
-							JOptionPane.showMessageDialog(null, "Hemos añadido la carrera");
-						else
+						if (ModelFactory.forCarreraCrudService().addCompeticion(competicion)) {
+							competicionId = competicion.id;
+							JOptionPane.showMessageDialog(null, "Hemos creado la carrera, ahora configura el resto de opciones");
+							getBtnCategorias().setEnabled(true);
+							getBtnPlazos().setEnabled(true);
+						}else
 							JOptionPane.showMessageDialog(null, "No hemos podido añadir la carrera");
-						
-						OrganizadorMain.getInstance().startPanel();
-						reset();
-					} catch (ModelException e1) {
+					} catch (ModelException me) {
 						showError("Lo siento, algo ha salido mal...");
 						OrganizadorMain.getInstance().startPanel();
 						reset();
@@ -362,5 +354,79 @@ public class CrearCompeticionPanel extends JPanel {
 		}
 		return btnValidarDatos;
 	}
-
+	
+	private JPanel getPanelCrearAdicional() {
+		if (panelCrearAdicional == null) {
+			panelCrearAdicional = new JPanel();
+			panelCrearAdicional.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Datos adicionales de la Competici\u00F3n", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+			panelCrearAdicional.setLayout(new MigLayout("", "[grow]", "[grow][fill][fill][grow]"));
+			panelCrearAdicional.add(getBtnCategorias(), "cell 0 2,grow");
+			panelCrearAdicional.add(getBtnPlazos(), "cell 0 1,grow");
+		}
+		return panelCrearAdicional;
+	}
+	
+	private JButton getBtnCategorias() {
+		if (btnCategorias == null) {
+			btnCategorias = new JButton("Configurar Categorías");
+			btnCategorias.setEnabled(false);
+		}
+		return btnCategorias;
+	}
+	
+	private JButton getBtnPlazos() {
+		if (btnPlazos == null) {
+			btnPlazos = new JButton("Configurar Plazos");
+			btnPlazos.setEnabled(false);
+		}
+		return btnPlazos;
+	}
+	
+	private JPanel getPanelButtons() {
+		if (panelButtons == null) {
+			panelButtons = new JPanel();
+			panelButtons.add(getBtnOk());
+			panelButtons.add(getBtnAtras());
+		}
+		return panelButtons;
+	}
+	
+	private AtrasOrganizadorButton getBtnAtras() {
+		if (btnAtras == null) {
+			btnAtras = new AtrasOrganizadorButton(OrganizadorMain.ORGANIZADOR_MENU);
+			
+			btnAtras.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (competicionId != null)
+						if (!isPlazosCreated || !isCategoriasCreated) {
+							try {
+								if (ModelFactory.forCarreraCrudService().removeCarrera(competicionId))
+									JOptionPane.showMessageDialog(null, "Hemos eliminado la carrera");
+							} catch (ModelException me) {
+								showError("Lo siento, algo ha salido mal...");
+								OrganizadorMain.getInstance().startPanel();
+								reset();
+								return;
+							}
+						}
+				}
+			});
+		}
+		return btnAtras;
+	}
+	
+	private JButton getBtnOk() {
+		if (btnOk == null) {
+			btnOk = new JButton("OK");
+			btnOk.setEnabled(false);
+			
+			btnOk.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(null, "Hemos añadido la carrera");
+					OrganizadorMain.getInstance().startPanel();
+				}
+			});
+		}
+		return btnOk;
+	}
 }

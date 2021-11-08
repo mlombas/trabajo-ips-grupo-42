@@ -4,6 +4,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import view.MainWindow;
+import view.atleta.AtletaMain;
+import view.organizador.OrganizadorMain;
 
 public class BackHomeScreenAdapter extends WindowAdapter {
 
@@ -22,6 +24,8 @@ public class BackHomeScreenAdapter extends WindowAdapter {
 	
 	@Override
 	public void windowClosing(WindowEvent e) {
+		AtletaMain.getInstance().startPanel();
+		OrganizadorMain.getInstance().startPanel();
 		MainWindow.getInstance().flipCard(MainWindow.MAIN_MENU);
 	}
 	
