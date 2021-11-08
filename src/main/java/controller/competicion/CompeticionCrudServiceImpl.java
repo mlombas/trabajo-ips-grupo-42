@@ -48,7 +48,8 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public boolean removeCarrera(String competicionId) throws ModelException {
 		return new RemoveCompeticion(competicionId).execute();
-  
+	}
+	
 	@Override
 	public List<Integer> cargarTiempos(CompeticionDto comp) {
 		return new CargarTiempos(comp).execute();
