@@ -6,8 +6,10 @@ import java.util.List;
 import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
+import model.competicion.commands.AddCategoria;
 import model.competicion.commands.AddCompeticion;
 import model.competicion.commands.CargarTiempos;
+import model.competicion.commands.DeleteAllCategorias;
 import model.competicion.commands.GenerarDorsales;
 import model.competicion.commands.GetAllCompeticiones;
 import model.competicion.commands.GetCategorias;
@@ -38,15 +40,16 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 		return new GetCategorias(competicionId).execute();
 	}
 
-  @Override
+	@Override
 	public boolean addCompeticion(CompeticionDto competicion) throws ModelException {
 		return new AddCompeticion(competicion).execute();
-  }
-  
+	}
+
 	@Override
 	public boolean removeCarrera(String competicionId) throws ModelException {
 		return new RemoveCompeticion(competicionId).execute();
-  
+	}
+
 	@Override
 	public List<Integer> cargarTiempos(CompeticionDto comp) {
 		return new CargarTiempos(comp).execute();
@@ -56,5 +59,15 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	public List<Integer> generarDorsales(CompeticionDto comp) {
 		return new GenerarDorsales(comp).execute();
 	}
-}
+	
+	@Override
+	public boolean addCategoria(CategoriaDto cat) throws ModelException {
+		return new AddCategoria(cat).execute();
+	}
 
+	@Override
+	public void deleteAllCategorias(String idCompeticion) throws ModelException {
+		 new DeleteAllCategorias(idCompeticion).execute();
+		
+	}
+}

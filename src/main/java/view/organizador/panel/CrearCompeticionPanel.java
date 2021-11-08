@@ -14,6 +14,7 @@ import net.miginfocom.swing.MigLayout;
 import util.Validate;
 import util.exceptions.ModelException;
 import view.organizador.OrganizadorMain;
+import view.organizador.dialog.ConfigurarCategoriasDialog;
 import view.organizador.util.AtrasOrganizadorButton;
 
 import java.awt.BorderLayout;
@@ -370,10 +371,26 @@ public class CrearCompeticionPanel extends JPanel {
 		if (btnCategorias == null) {
 			btnCategorias = new JButton("Configurar Categorías");
 			btnCategorias.setEnabled(false);
+			btnCategorias.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					showConfigurarCategorias();
+					
+				}
+			});
 		}
 		return btnCategorias;
 	}
 	
+	protected void showConfigurarCategorias() {
+		ConfigurarCategoriasDialog configurarCategoriasDialog = new ConfigurarCategoriasDialog(competicionId);
+		configurarCategoriasDialog.setLocationRelativeTo(null);
+		configurarCategoriasDialog.setModal(true);
+		configurarCategoriasDialog.setVisible(true);
+		
+	}
+
 	private JButton getBtnPlazos() {
 		if (btnPlazos == null) {
 			btnPlazos = new JButton("Configurar Plazos");
