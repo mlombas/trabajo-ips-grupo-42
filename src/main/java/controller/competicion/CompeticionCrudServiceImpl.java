@@ -38,15 +38,16 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 		return new GetCategorias(competicionId).execute();
 	}
 
-  @Override
+	@Override
 	public boolean addCompeticion(CompeticionDto competicion) throws ModelException {
 		return new AddCompeticion(competicion).execute();
-  }
-  
+	}
+
 	@Override
 	public boolean removeCarrera(String competicionId) throws ModelException {
 		return new RemoveCompeticion(competicionId).execute();
-  
+	}
+
 	@Override
 	public List<Integer> cargarTiempos(CompeticionDto comp) {
 		return new CargarTiempos(comp).execute();
@@ -57,4 +58,3 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 		return new GenerarDorsales(comp).execute();
 	}
 }
-
