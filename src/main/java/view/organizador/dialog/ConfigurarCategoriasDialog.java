@@ -24,6 +24,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 
 public class ConfigurarCategoriasDialog extends JDialog {
@@ -63,6 +65,55 @@ public class ConfigurarCategoriasDialog extends JDialog {
 		getContentPane().add(getPnAtrasConfirmar(), BorderLayout.SOUTH);
 		getContentPane().add(getPnCentro(), BorderLayout.CENTER);
 
+		this.addWindowListener(new WindowListener() {
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				try {
+					ModelFactory.forCarreraCrudService().deleteAllCategorias(idCompeticion);
+				} catch (ModelException e1) {
+					e1.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(null, "Todas las categorías han sido eliminadas con éxito");
+				backToCrearCompeticion();
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 	private JSpinner getSpinnerEdadMax() {
@@ -89,7 +140,7 @@ public class ConfigurarCategoriasDialog extends JDialog {
 	private JRadioButton getRdbtnHombre() {
 		if (rdbtnHombre == null)
 			rdbtnHombre = new JRadioButton("Hombre");
-			rdbtnHombre.setSelected(true);
+		rdbtnHombre.setSelected(true);
 		return rdbtnHombre;
 	}
 
