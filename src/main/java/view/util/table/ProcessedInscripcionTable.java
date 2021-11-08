@@ -1,6 +1,5 @@
 package view.util.table;
 
-import java.awt.Component;
 import java.util.List;
 
 import javax.swing.JTable;

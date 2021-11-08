@@ -5,14 +5,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -26,8 +24,6 @@ import model.inscripcion.InscripcionDto;
 import util.csv.CSVCreator;
 import util.csv.CSVTable;
 import util.exceptions.ModelException;
-import view.organizador.OrganizadorMain;
-import view.organizador.util.AtrasOrganizadorButton;
 import view.util.table.ProcessedInscripcionTable;
 
 public class VerProcesadoDialog extends JDialog {

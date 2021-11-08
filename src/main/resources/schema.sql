@@ -26,7 +26,7 @@ create table Competicion (
 	
 	check(distancia>0),
 	check(plazas>0),
-	check(dorsalesReservados>0)
+	check(dorsalesReservados>=0)
 );
 
 create table Atleta (

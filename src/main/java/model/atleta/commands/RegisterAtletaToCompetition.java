@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 import model.atleta.AtletaDto;
@@ -32,7 +31,7 @@ public class RegisterAtletaToCompetition {
 	private static final String GET_CATEGORIA = "select nombreCategoria "
 												+ "from Categoria "
 												+ "where edadMinima <= ? "
-													+ "and edadMaxima > ? "
+													+ "and edadMaxima >= ? "
 													+ "and sexo = ? "
 													+ "and idCompeticion = ?";
 	

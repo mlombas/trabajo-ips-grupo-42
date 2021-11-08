@@ -48,8 +48,6 @@ public class CrearCompeticionPanel extends JPanel {
 	private JSpinner spinnerNumeroPlazas;
 	private JLabel lblNumeroDorsalesReservados;
 	private JSpinner spinnerDorsalesReservados;
-	private JPanel panelButtons;
-	private AtrasOrganizadorButton btnAtras;
 	private JLabel lblFecha;
 	private JLabel lblLongitud;
 	private JTextField textFecha;
@@ -57,11 +55,14 @@ public class CrearCompeticionPanel extends JPanel {
 	private JPanel panelCrearAdicional;
 	private JButton btnCategorias;
 	private JButton btnPlazos;
+	private JPanel panelButtons;
+	private AtrasOrganizadorButton btnAtras;
+	private JButton btnOk;
 
-	private String competicionId;
+	private CompeticionDto competicion = new CompeticionDto();
 	private boolean isPlazosCreated = false;
 	private boolean isCategoriasCreated = false;
-	private JButton btnOk;
+	private boolean isCompeticionSuccessfullyCreated = false;
 
 	/**
 	 * Create the panel.
@@ -76,14 +77,16 @@ public class CrearCompeticionPanel extends JPanel {
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentHidden(ComponentEvent e) {
-				if (competicionId != null)
-					if (!isPlazosCreated || !isCategoriasCreated) {
-						try {
-							if (ModelFactory.forCarreraCrudService().removeCarrera(competicionId))
-								JOptionPane.showMessageDialog(null, "Hemos eliminado la carrera");
-						} catch (ModelException me) {
-							JOptionPane.showMessageDialog(null, "Lo siento, algo ha salido mal");
-						}
+				if (competicion.id != null && !isCompeticionSuccessfullyCreated)
+					try {
+						if (isPlazosCreated)
+							ModelFactory.forCarreraCrudService().deletePlazosByIdCompetición(competicion.id);
+						if (isCategoriasCreated)
+							ModelFactory.forCarreraCrudService().deleteAllCategorias(competicion.id);
+						if (ModelFactory.forCarreraCrudService().removeCarrera(competicion.id))
+							JOptionPane.showMessageDialog(null, "Hemos eliminado la carrera");
+					} catch (Exception me) {
+						JOptionPane.showMessageDialog(null, "Lo siento, algo ha salido mal");
 					}
 
 				reset();
@@ -96,6 +99,8 @@ public class CrearCompeticionPanel extends JPanel {
 	}
 
 	public void reset() {
+		competicion = new CompeticionDto();
+		
 		getTextNombre().setText("");
 		getTextTipo().setText("");
 		getTextAreaDescripcion().setText("");
@@ -108,6 +113,14 @@ public class CrearCompeticionPanel extends JPanel {
 		getBtnCategorias().setEnabled(false);
 		getBtnPlazos().setEnabled(false);
 		getBtnOk().setEnabled(false);
+	}
+	
+	public void setPlazosCreated(boolean isPlazosCreated) {
+		this.isPlazosCreated = isPlazosCreated;
+	}
+
+	public void setCategoriasCreated(boolean isCategoriasCreated) {
+		this.isCategoriasCreated = isCategoriasCreated;
 	}
 
 	private JPanel getPanelFormulario() {
@@ -255,7 +268,7 @@ public class CrearCompeticionPanel extends JPanel {
 			lblLongitud.setHorizontalAlignment(SwingConstants.LEFT);
 			lblLongitud.setToolTipText("Establece la longitud de la carrera en KM");
 			lblLongitud.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblLongitud.setDisplayedMnemonic('N');
+			lblLongitud.setDisplayedMnemonic('L');
 		}
 		return lblLongitud;
 	}
@@ -273,8 +286,6 @@ public class CrearCompeticionPanel extends JPanel {
 			btnValidarDatos = new JButton("Validar mis Datos");
 			btnValidarDatos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					CompeticionDto competicion = new CompeticionDto();
-
 					// Establecemos el ID
 					competicion.id = UUID.randomUUID().toString();
 
@@ -338,7 +349,6 @@ public class CrearCompeticionPanel extends JPanel {
 
 					try {
 						if (ModelFactory.forCarreraCrudService().addCompeticion(competicion)) {
-							competicionId = competicion.id;
 							JOptionPane.showMessageDialog(null,
 									"Hemos creado la carrera, ahora configura el resto de opciones");
 							getBtnCategorias().setEnabled(true);
@@ -372,18 +382,14 @@ public class CrearCompeticionPanel extends JPanel {
 	private JButton getBtnCategorias() {
 		if (btnCategorias == null) {
 			btnCategorias = new JButton("Configurar Categorías");
-			btnCategorias.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					
-				}
-			});
 			btnCategorias.setEnabled(false);
 			btnCategorias.addActionListener(new ActionListener() {
-				
-				@Override
 				public void actionPerformed(ActionEvent e) {
 					showConfigurarCategorias();
 					
+					// In case PLAZOS and CATEGORIAS are created
+					if (isPlazosCreated && isCategoriasCreated)
+						getBtnOk().setEnabled(true);
 				}
 			});
 		}
@@ -391,14 +397,14 @@ public class CrearCompeticionPanel extends JPanel {
 	}
 
 	private void showCrearPlazos(CompeticionDto competicion) {
-		CrearPlazosDialog plazosDialog = new CrearPlazosDialog(competicion);
+		CrearPlazosDialog plazosDialog = new CrearPlazosDialog(this, competicion);
 		plazosDialog.setLocationRelativeTo(null);
 		plazosDialog.setModal(true);
 		plazosDialog.setVisible(true);
   }
 	
 	protected void showConfigurarCategorias() {
-		ConfigurarCategoriasDialog configurarCategoriasDialog = new ConfigurarCategoriasDialog(competicionId);
+		ConfigurarCategoriasDialog configurarCategoriasDialog = new ConfigurarCategoriasDialog(this, competicion.id);
 		configurarCategoriasDialog.setLocationRelativeTo(null);
 		configurarCategoriasDialog.setModal(true);
 		configurarCategoriasDialog.setVisible(true);
@@ -408,16 +414,16 @@ public class CrearCompeticionPanel extends JPanel {
 	private JButton getBtnPlazos() {
 		if (btnPlazos == null) {
 			btnPlazos = new JButton("Configurar Plazos");
+			btnPlazos.setEnabled(false);
 			btnPlazos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					CompeticionDto competicion = new CompeticionDto();
-
-					competicion.id = competicionId;
-
 					showCrearPlazos(competicion);
+					
+					// In case PLAZOS and CATEGORIAS are created
+					if (isPlazosCreated && isCategoriasCreated)
+						getBtnOk().setEnabled(true);
 				}
 			});
-			btnPlazos.setEnabled(false);
 		}
 		return btnPlazos;
 	}
@@ -437,18 +443,7 @@ public class CrearCompeticionPanel extends JPanel {
 
 			btnAtras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (competicionId != null)
-						if (!isPlazosCreated || !isCategoriasCreated) {
-							try {
-								if (ModelFactory.forCarreraCrudService().removeCarrera(competicionId))
-									JOptionPane.showMessageDialog(null, "Hemos eliminado la carrera");
-							} catch (ModelException me) {
-								showError("Lo siento, algo ha salido mal...");
-								OrganizadorMain.getInstance().startPanel();
-								reset();
-								return;
-							}
-						}
+					OrganizadorMain.getInstance().startPanel();
 				}
 			});
 		}
@@ -462,6 +457,19 @@ public class CrearCompeticionPanel extends JPanel {
 
 			btnOk.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					competicion.estadoCarrera = "inscripción"; // TODO hacer dinámico
+					try {
+						ModelFactory.forCarreraCrudService().updateCompeticion(competicion);
+					} catch (ModelException e1) {
+						showError("Lo siento, algo ha salido mal...");
+						OrganizadorMain.getInstance().startPanel();
+						reset();
+						return;
+					}
+					
+					isCompeticionSuccessfullyCreated = true;
+					
+					
 					JOptionPane.showMessageDialog(null, "Hemos añadido la carrera");
 					OrganizadorMain.getInstance().startPanel();
 				}
