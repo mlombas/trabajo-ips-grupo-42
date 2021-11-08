@@ -28,7 +28,7 @@ public class AddCategoria {
 			throw new ModelException("Por favor, proporciona un nombre para la competicion");
 		}
 		if (cat.edadMaxima < cat.edadMinima) {
-			throw new ModelException("La edad máxima no puede ser menor que la minima");
+			throw new ModelException("La edad máxima no puede ser menor que la mínima");
 		}
 		if (!existsCompeticion()) {
 			throw new ModelException("La competicion no existe");
