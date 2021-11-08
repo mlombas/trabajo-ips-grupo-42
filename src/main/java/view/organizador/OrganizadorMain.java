@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import util.exceptions.ModelException;
-import view.organizador.panel.ConfigurarCategoriasPanel;
 import view.organizador.panel.CrearCompeticionPanel;
 import view.organizador.panel.GestionarCompeticionesPanel;
 
@@ -31,7 +30,6 @@ public class OrganizadorMain extends JPanel {
 	private OrganizadorMenu organizadorMenu;
 	private CrearCompeticionPanel crearCompeticionPane;
 	private GestionarCompeticionesPanel buscarCompeticionPane;
-	private ConfigurarCategoriasPanel configurarCategoriasPane;
 
 	/**
 	 * Create the frame.
@@ -52,13 +50,11 @@ public class OrganizadorMain extends JPanel {
 		organizadorMenu = new OrganizadorMenu();
 		crearCompeticionPane = new CrearCompeticionPanel();
 		buscarCompeticionPane = new GestionarCompeticionesPanel();
-		configurarCategoriasPane = new ConfigurarCategoriasPanel();
-
+		
 		// Create the panel that contains the cards.
 		cards.add(organizadorMenu, ORGANIZADOR_MENU);
 		cards.add(crearCompeticionPane, CREAR_COMPETICION);
 		cards.add(buscarCompeticionPane, GESTIONAR_COMPETICIONES);
-		cards.add(configurarCategoriasPane,  CONFIGURAR_CATEGORÍAS);
 
 		// Add the card panel to the frame.
 		this.add(cards);

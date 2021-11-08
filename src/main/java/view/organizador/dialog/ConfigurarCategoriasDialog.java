@@ -1,20 +1,26 @@
-package view.organizador.panel;
+package view.organizador.dialog;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class ConfigurarCategoriasPanel extends JPanel {
+public class ConfigurarCategoriasDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,19 +44,22 @@ public class ConfigurarCategoriasPanel extends JPanel {
 	private JRadioButton rdbtnDiscapacitados;
 	private JSpinner spinnerEdadMax;
 
-	public ConfigurarCategoriasPanel() {
-		setLayout(new BorderLayout(0, 0));
-
-		add(getLblConfCategorias(), BorderLayout.NORTH);
-		add(getPnAtrasConfirmar(), BorderLayout.SOUTH);
-		add(getPnCentro(), BorderLayout.CENTER);
+	public ConfigurarCategoriasDialog() {
+		getContentPane().setLayout(new BorderLayout(0, 0));
+		setSize(new Dimension(465, 285));
+		setLocationRelativeTo(null);
+		setResizable(true);
+		getContentPane().add(getLblConfCategorias(), BorderLayout.NORTH);
+		getContentPane().add(getPnAtrasConfirmar(), BorderLayout.SOUTH);
+		getContentPane().add(getPnCentro(), BorderLayout.CENTER);
 
 	}
 
-	private Component getSpinnerEdadMax() {
+	private JSpinner getSpinnerEdadMax() {
 		if (spinnerEdadMax == null) {
 			spinnerEdadMax = new JSpinner();
-			spinnerEdadMax.setModel(new SpinnerNumberModel(new Integer(18), null, null, new Integer(1)));
+			spinnerEdadMax.setPreferredSize(new Dimension(60, 20));
+			spinnerEdadMax.setModel(new SpinnerNumberModel(18, 18, null, 1));
 		}
 		return spinnerEdadMax;
 	}
@@ -80,11 +89,15 @@ public class ConfigurarCategoriasPanel extends JPanel {
 			pnBotonesTipo.add(getRdbtnHombre());
 			pnBotonesTipo.add(getRdbtnMujer());
 			pnBotonesTipo.add(getRdbtnDiscapacitados());
+			ButtonGroup group = new ButtonGroup();
+			group.add(getRdbtnHombre());
+			group.add(getRdbtnMujer());
+			group.add(getRdbtnDiscapacitados());
 		}
 		return pnBotonesTipo;
 	}
 
-	private Component getLblEdadMax() {
+	private JLabel getLblEdadMax() {
 		if (lblEdadMax == null) {
 			lblEdadMax = new JLabel("EdadMáxima");
 		}
@@ -101,7 +114,8 @@ public class ConfigurarCategoriasPanel extends JPanel {
 	private JSpinner getSpinnerEdadMin() {
 		if (spinnerEdadMin == null) {
 			spinnerEdadMin = new JSpinner();
-			spinnerEdadMin.setModel(new SpinnerNumberModel(new Integer(18), new Integer(18), null, new Integer(1)));
+			spinnerEdadMin.setPreferredSize(new Dimension(60, 20));
+			spinnerEdadMax.setModel(new SpinnerNumberModel(18, 18, null, 1));
 		}
 		return spinnerEdadMin;
 	}
@@ -150,6 +164,11 @@ public class ConfigurarCategoriasPanel extends JPanel {
 	private JButton getBtnAtras() {
 		if (btnAtras == null) {
 			btnAtras = new JButton("Atrás");
+			btnAtras.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					backToCrearCompeticion();
+				}
+			});
 		}
 		return btnAtras;
 	}
@@ -157,8 +176,18 @@ public class ConfigurarCategoriasPanel extends JPanel {
 	private JButton getBtnConfirmar() {
 		if (btnConfirmar == null) {
 			btnConfirmar = new JButton("Confirmar");
+			btnConfirmar.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					backToCrearCompeticion();
+				}
+			});
 		}
 		return btnConfirmar;
+	}
+
+	protected void backToCrearCompeticion() {
+		dispose();
 	}
 
 	private JPanel getPnAtrasConfirmar() {
@@ -188,8 +217,17 @@ public class ConfigurarCategoriasPanel extends JPanel {
 	}
 
 	private JButton getBtnValidar() {
-		if (btnValidar == null)
+		if (btnValidar == null) {
 			btnValidar = new JButton("Validar");
+			btnValidar.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+			});
+		}
 		return btnValidar;
 	}
 

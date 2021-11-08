@@ -6,6 +6,7 @@ import java.util.List;
 import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
+import model.competicion.commands.AddCategoria;
 import model.competicion.commands.AddCompeticion;
 import model.competicion.commands.CargarTiempos;
 import model.competicion.commands.GenerarDorsales;
@@ -56,5 +57,9 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public List<Integer> generarDorsales(CompeticionDto comp) {
 		return new GenerarDorsales(comp).execute();
+	}
+	
+	public boolean addCategoria(CategoriaDto cat) {
+		return new AddCategoria(cat).execute();
 	}
 }
