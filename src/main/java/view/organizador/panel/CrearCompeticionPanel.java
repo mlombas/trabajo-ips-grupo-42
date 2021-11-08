@@ -443,20 +443,7 @@ public class CrearCompeticionPanel extends JPanel {
 
 			btnAtras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (competicion.id != null)
-						try {
-							if (isPlazosCreated)
-								ModelFactory.forCarreraCrudService().deletePlazosByIdCompetición(competicion.id);
-							if (isCategoriasCreated)
-								ModelFactory.forCarreraCrudService().deleteAllCategorias(competicion.id);
-							if (ModelFactory.forCarreraCrudService().removeCarrera(competicion.id))
-								JOptionPane.showMessageDialog(null, "Hemos eliminado la carrera");
-						} catch (ModelException me) {
-							showError("Lo siento, algo ha salido mal...");
-							OrganizadorMain.getInstance().startPanel();
-							reset();
-							return;
-						}
+					OrganizadorMain.getInstance().startPanel();
 				}
 			});
 		}
