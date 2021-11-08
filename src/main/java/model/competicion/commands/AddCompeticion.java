@@ -11,8 +11,8 @@ import util.exceptions.ModelException;
 public class AddCompeticion {
 
 	private static final String ADD_COMPETICION = "insert into "
-			+ "Competicion(id, nombreCarrera, tipoCarrera, distancia, cuota, fecha, plazas, dorsalesReservados, descripcion, estadoCarrera) "
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ "Competicion(id, nombreCarrera, tipoCarrera, distancia, fecha, plazas, dorsalesReservados, descripcion, estadoCarrera) "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private CompeticionDto competicion;
 	private Database db = Database.getInstance();
@@ -31,12 +31,11 @@ public class AddCompeticion {
 			pst.setString(2, competicion.nombreCarrera);
 			pst.setString(3, competicion.tipoCarrera);
 			pst.setInt(4, competicion.distancia);
-			pst.setDouble(5, competicion.cuota);
-			pst.setString(6, competicion.fecha.toString());
-			pst.setInt(7, competicion.plazas);
-			pst.setInt(8, competicion.dorsalesReservados);
-			pst.setString(9, competicion.descripcion);
-			pst.setString(10, competicion.estadoCarrera);
+			pst.setString(5, competicion.fecha.toString());
+			pst.setInt(6, competicion.plazas);
+			pst.setInt(7, competicion.dorsalesReservados);
+			pst.setString(8, competicion.descripcion);
+			pst.setString(9, competicion.estadoCarrera);
 			
 			int ans = pst.executeUpdate();
 			

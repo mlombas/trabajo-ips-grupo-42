@@ -6,12 +6,17 @@ import java.util.List;
 import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
+import model.competicion.PlazoInscripcionDto;
 import model.competicion.commands.AddCategoria;
 import model.competicion.commands.AddCompeticion;
+import model.competicion.commands.AddPlazo;
 import model.competicion.commands.CargarTiempos;
+import model.competicion.commands.CheckPlazosByIdCompeticion;
+import model.competicion.commands.DeletePlazosByIdCompetición;
 import model.competicion.commands.DeleteAllCategorias;
 import model.competicion.commands.GenerarDorsales;
 import model.competicion.commands.GetAllCompeticiones;
+import model.competicion.commands.GetAllPlazos;
 import model.competicion.commands.GetCategorias;
 import model.competicion.commands.GetClasificacion;
 import model.competicion.commands.GetClasificacionByCategoria;
@@ -49,7 +54,7 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	public boolean removeCarrera(String competicionId) throws ModelException {
 		return new RemoveCompeticion(competicionId).execute();
 	}
-
+  
 	@Override
 	public List<Integer> cargarTiempos(CompeticionDto comp) {
 		return new CargarTiempos(comp).execute();
@@ -58,6 +63,27 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public List<Integer> generarDorsales(CompeticionDto comp) {
 		return new GenerarDorsales(comp).execute();
+	}
+
+	@Override
+	public List<PlazoInscripcionDto> addPlazo(CompeticionDto comp, PlazoInscripcionDto plazo) {
+		return new AddPlazo(comp,plazo).execute();
+	}
+
+	@Override
+	public void deletePlazosByIdCompetición(String competicionId) {
+		new DeletePlazosByIdCompetición(competicionId).execute();
+	}
+
+	@Override
+	public void checkPlazosByIdCompeticion(String competicionId) {
+		new CheckPlazosByIdCompeticion(competicionId).execute();
+		
+	}
+
+	@Override
+	public List<PlazoInscripcionDto> getAllPlazos(String competicionId) {
+		return new GetAllPlazos(competicionId).execute();
 	}
 	
 	@Override

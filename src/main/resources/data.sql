@@ -4,18 +4,27 @@ delete from Atleta;
 delete from Inscripcion;
 delete from Clasificacion;
 
-insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, cuota, fecha, fechaInicio, fechaFin, plazas, estadoCarrera) values 
-	('100','Carrera100','asfalto','2 km',30,'2021-11-25','2021-11-01','2021-11-24',50,'inscripción'),
-	('101','Carrera101','montaña','2 km',30,'2021-11-25','2021-11-01','2021-11-24',50,'inscripción'),
-	('102','Carrera102','asfalto','4 km',30,'2021-11-25','2021-11-01','2021-11-24',50,'inscripción'),
-	('103','Carrera103','asfalto','8 km',45,'2022-11-25','2022-11-01','2022-11-24',50,'inscripción'),
-	('104','Carrera104','montaña','35 km',90,'2021-11-25','2021-11-01','2021-11-24',50,'inscripción'),
-	('105','Carrera105','montaña','7 km',35,'2021-12-25','2021-12-01','2021-12-24',50,'finalizada'),
-	('106','Carrera106','asfalto','2 km',30,'2021-12-13','2021-12-01','2021-12-10',80,'finalizada');
+insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, fecha, plazas, estadoCarrera) values 
+	('100','Carrera100','asfalto','2 km','2021-11-25',50,'inscripción'),
+	('101','Carrera101','montaña','2 km','2021-11-25',50,'inscripción'),
+	('102','Carrera102','asfalto','4 km','2021-11-25',50,'inscripción'),
+	('103','Carrera103','asfalto','8 km','2022-11-25',50,'inscripción'),
+	('104','Carrera104','montaña','35 km','2021-11-25',50,'inscripción'),
+	('105','Carrera105','montaña','7 km','2021-12-25',50,'finalizada'),
+	('106','Carrera106','asfalto','2 km','2021-12-13',80,'finalizada');
 	
+insert into Plazo(id, idCompeticion, fechaInicio, fechaFin, cuota) values
+	('Plazo1','100','2021-11-16','2021-11-20',30),
+	('Plazo1','101','2021-11-16','2021-11-20',30),
+	('Plazo1','102','2021-11-16','2021-11-20',30),
+	('Plazo1','103','2021-11-16','2021-11-20',30),
+	('Plazo1','104','2021-11-16','2021-11-20',30),
+	('Plazo1','105','2021-11-16','2021-11-20',30),
+	('Plazo1','106','2021-12-01','2021-12-10',30),
+	('Plazo1','107','2021-12-01','2021-12-10',30);
 	
-insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, cuota, fecha, fechaInicio, fechaFin, plazas, estadoCarrera, dorsalesReservados) values 
-	('107','Carrera107','asfalto','2 km',30,'2021-12-13','2021-11-23','2021-12-07',80,'inscripcion_cerrada',20);
+insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, fecha, plazas, estadoCarrera, dorsalesReservados) values 
+	('107','Carrera107','asfalto','2 km','2021-12-13',80,'inscripcion_cerrada',20);
 	
 insert into Atleta(email, dni, nombre, fechaNacimiento, sexo) values
 	('pedro@gmail.com','12121212','Pedro','2001-01-01','H'),
@@ -31,7 +40,7 @@ insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nom
  			('105','elena@gmail.com','Elena', 'dni','Carrera105','Juvenil M','2021-12-12',35,'PARTICIPADO','2021-12-25',331),
  			('105','juanjo@gmail.com','Juanjo', 'dni', 'Carrera105','Juvenil H','2021-12-10',35,'PARTICIPADO','2021-12-25',332),
  			('105','marta@gmail.com','Marta', 'dni','Carrera105','Juvenil M','2021-12-12',35,'PARTICIPADO','2021-12-25',333),
- 			('105','javi@gmail.com','Javi', 'dni','Carrera105','Juvenil H','2021-12-12',35,'PARTICIPADO','2021-12-25',333),
+ 			('105','javi@gmail.com','Javi', 'dni','Carrera105','Juvenil H','2021-12-12',35,'PARTICIPADO','2021-12-25',334),
  			
  			('106','pedro@gmail.com','Pedro', 'dni','Carrera106','Juvenil H','2021-12-05',30,'PARTICIPADO','2021-12-13',1),
  			('106','elena@gmail.com','Elena', 'dni','Carrera106','Juvenil M','2021-12-05',30,'PARTICIPADO','2021-12-13',2),
@@ -82,8 +91,6 @@ insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nom
  			('107','elena@gmail.com','Elena', 'dni','Carrera107','Juvenil M','2021-12-04',30,'PRE_INSCRITO','2021-12-04'),
  			('107','marta@gmail.com','Marta', 'dni','Carrera107','Juvenil M','2021-12-05',30,'INSCRITO','2021-12-05'),
  			('107','javi@gmail.com','Javi', 'dni', 'Carrera107','Juvenil H','2021-12-06',30,'INSCRITO','2021-12-06');
-			
-
  			
 						
 insert into Clasificacion(idCompeticion, emailAtleta) values
