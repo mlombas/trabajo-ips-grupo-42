@@ -1,6 +1,7 @@
 package model.inscripcion;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class InscripcionDto {
 
@@ -16,6 +17,15 @@ public class InscripcionDto {
 	public LocalDate fechaCambioEstado;
 //	public int poisicion;
 //	public double tiempo;
+	public Double devolver;
+
+	public Double getDevolver() {
+		return devolver;
+	}
+
+	public void setDevolver(Double devolver) {
+		this.devolver = devolver;
+	}
 
 	public String getIdCompeticion() {
 		return idCompeticion;
