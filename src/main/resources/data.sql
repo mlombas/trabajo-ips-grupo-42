@@ -45,7 +45,7 @@ insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nom
  			('106','pedro@gmail.com','Pedro', 'dni','Carrera106','Juvenil H','2021-12-05',30,'PARTICIPADO','2021-12-13',1),
  			('106','elena@gmail.com','Elena', 'dni','Carrera106','Juvenil M','2021-12-05',30,'PARTICIPADO','2021-12-13',2),
  			('106','juanjo@gmail.com','Juanjo', 'dni', 'Carrera106','Juvenil H','2021-12-05',30,'PARTICIPADO','2021-12-13',3),
- 			('106','marta@gmail.com','Marta', 'dni','Carrera106','Juvenil M','2021-12-05',30,'INSCRITO','2021-12-13',4),
+ 			('106','marta@gmail.com','Marta', 'dni','Carrera106','Juvenil M','2021-12-05',30,'PARTICIPADO','2021-12-13',4),
  			
  			('100','pedro@gmail.com','Pedro', 'dni','Carrera100','Juvenil H','2021-11-12',30,'PRE_INSCRITO','2021-11-12',330),
  			('100','elena@gmail.com','Elena', 'dni','Carrera100','Juvenil M','2021-11-12',30,'PRE_INSCRITO','2021-11-12',331),
@@ -79,12 +79,14 @@ insert into Clasificacion(idCompeticion, emailAtleta, dorsal) values
 			('106','pedro@gmail.com',1),
  			('106','elena@gmail.com', 2),
  			('106','juanjo@gmail.com', 3),
- 			('106','marta@gmail.com', 4);	
+ 			('106','marta@gmail.com', 4);
  			
 insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nombreCompeticion, categoria, fechaInscripcion,
  			cuotaInscripcion, estadoInscripcion, fechaCambioEstado) values
 			('100','juanjo@gmail.com','Juanjo', 'dni','Carrera100','Juvenil H','2021-11-12',30,'PRE_INSCRITO','2021-11-12'),
 			('100','javi@gmail.com','Javi', 'dni','Carrera100','Juvenil H','2021-11-12',30,'PRE_INSCRITO','2021-11-12'),
+			
+			('106','javi@gmail.com','Jaci', 'dni','Carrera106','Juvenil H','2021-12-05',30,'INSCRITO','2021-12-13'),
 			
 			('107','juanjo@gmail.com','Juanjo', 'dni', 'Carrera107','Juvenil H','2021-12-04',30,'INSCRITO','2021-12-04'),
 			('107','pedro@gmail.com','Pedro', 'dni','Carrera107','Juvenil H','2021-12-04',30,'INSCRITO','2021-12-04'),
