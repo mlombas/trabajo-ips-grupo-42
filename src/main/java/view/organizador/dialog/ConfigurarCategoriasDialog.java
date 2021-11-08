@@ -19,6 +19,7 @@ import javax.swing.ButtonGroup;
 
 import net.miginfocom.swing.MigLayout;
 import util.exceptions.ModelException;
+import view.organizador.panel.CrearCompeticionPanel;
 
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
@@ -52,9 +53,11 @@ public class ConfigurarCategoriasDialog extends JDialog {
 	private JRadioButton rdbtnDiscapacitados;
 	private JSpinner spinnerEdadMax;
 
+	private CrearCompeticionPanel crearCompeticionPanel;
 	private String idCompeticion;
 
-	public ConfigurarCategoriasDialog(String idCompeticion) {
+	public ConfigurarCategoriasDialog(CrearCompeticionPanel crearCompeticionPanel, String idCompeticion) {
+		this.crearCompeticionPanel = crearCompeticionPanel;
 		this.idCompeticion = idCompeticion;
 
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -77,9 +80,7 @@ public class ConfigurarCategoriasDialog extends JDialog {
 			public void windowClosing(WindowEvent e) {
 				try {
 					ModelFactory.forCarreraCrudService().deleteAllCategorias(idCompeticion);
-				} catch (ModelException e1) {
-					e1.printStackTrace();
-				}
+				} catch (ModelException e1) { }
 				JOptionPane.showMessageDialog(null, "Todas las categorías han sido eliminadas con éxito");
 				backToCrearCompeticion();
 			}
@@ -247,6 +248,7 @@ public class ConfigurarCategoriasDialog extends JDialog {
 			btnConfirmar.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
+					crearCompeticionPanel.setCategoriasCreated(true);
 					backToCrearCompeticion();
 				}
 			});
