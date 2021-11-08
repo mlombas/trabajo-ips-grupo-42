@@ -72,7 +72,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 				cbCategorias.addItem(cat.nombreCategoria);
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			// TODO nico
+			
 		}
 	}
 

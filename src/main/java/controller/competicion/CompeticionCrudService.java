@@ -37,5 +37,7 @@ public interface CompeticionCrudService {
 	boolean addCategoria(CategoriaDto cat) throws ModelException;
 
 	void deleteAllCategorias(String idCompeticion) throws ModelException;
+	
+	void updateCompeticion(CompeticionDto comp) throws ModelException;
 
 }

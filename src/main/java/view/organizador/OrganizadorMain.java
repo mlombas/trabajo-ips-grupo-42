@@ -112,6 +112,7 @@ public class OrganizadorMain extends JPanel {
 
 				btnVerCarreras.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						buscarCompeticionPane.refreshCompetitions();
 						flipCard(GESTIONAR_COMPETICIONES);
 					}
 				});
