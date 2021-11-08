@@ -24,6 +24,7 @@ import model.competicion.CompeticionDto;
 import model.competicion.PlazoInscripcionDto;
 import util.Validate;
 import util.exceptions.ApplicationException;
+import view.organizador.panel.CrearCompeticionPanel;
 import view.util.table.PlazosToTable;
 
 public class CrearPlazosDialog extends JDialog {
@@ -48,16 +49,19 @@ public class CrearPlazosDialog extends JDialog {
 	private JButton btnConfirmar;
 
 	private CompeticionDto comp;
+	private CrearCompeticionPanel crearCompeticionPanel;
 
 	/**
 	 * Create the panel.
+	 * @param crearCompeticionPanel 
 	 */
-	public CrearPlazosDialog(CompeticionDto comp) {
+	public CrearPlazosDialog(CrearCompeticionPanel crearCompeticionPanel, CompeticionDto comp) {
 		setSize(new Dimension(600, 600));
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		getContentPane().add(getCompeticionesPane(), BorderLayout.CENTER);
 		getContentPane().add(getPanel(), BorderLayout.SOUTH);
-		this.comp = comp ;
+		this.comp = comp;
+		this.crearCompeticionPanel = crearCompeticionPanel;
 		cargarPlazos();
 
 	}
@@ -169,18 +173,13 @@ public class CrearPlazosDialog extends JDialog {
 				
 				TableModel model = new PlazosToTable(plazos).getModel();
 				getTabPlazos().setModel(model);
-				
-
-				
 			} catch (ApplicationException e) {
 				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
 			} catch (RuntimeException e) { 
 				e.printStackTrace(); 
 				showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
-			}
-			
+			}	
 		}
-
 	}
 	
 	private boolean checkFechaFin() {
@@ -295,7 +294,7 @@ public class CrearPlazosDialog extends JDialog {
 		try {
 			CompeticionCrudService ccs = new CompeticionCrudServiceImpl();		
 			ccs.checkPlazosByIdCompeticion(comp.id);
-			
+			crearCompeticionPanel.setPlazosCreated(true);
 			dispose();
 		} catch (ApplicationException e) {
 			showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
