@@ -5,6 +5,7 @@ import java.util.List;
 
 import bank_mockup.Bank;
 import model.competicion.CompeticionDto;
+import model.competicion.PlazoInscripcionDto;
 import model.inscripcion.EstadoInscripcion;
 import model.inscripcion.InscripcionDto;
 import util.database.Database;
@@ -14,7 +15,7 @@ public class PendingPayWithTransaccion {
 	
 	private static final String UPDATEINSCRIPCION = "update inscripcion set estadoInscripcion = ?, fechaCambioEstado = ? where idCompeticion = ? and emailAtleta = ? ";
 	private static final String GETINSCRIPCION = "select * from inscripcion where idCompeticion = ? and emailAtleta = ? ";
-	private static final String GETCOMPETICION = "select * from competicion where id = ?";
+	private static final String GETPLAZOACTUAL = "select * from Plazo where (fechaInicio <= ?) and (? < fechaFin) and idCompeticion = ?";
 	
 	private InscripcionDto inscripcion;
 	
@@ -37,7 +38,13 @@ public class PendingPayWithTransaccion {
 	}
 	
 	private String addTransaction() {
-		double cuota = db.executeQueryPojo(CompeticionDto.class, GETCOMPETICION, inscripcion.idCompeticion).get(0).cuota;
+		double cuota = db.executeQueryPojo(
+				PlazoInscripcionDto.class,
+				GETPLAZOACTUAL,
+				LocalDate.now(),
+				LocalDate.now(),
+				inscripcion.idCompeticion
+				).get(0).cuota;
 		String code = bank.addPendingTransaction(cuota);
 		return code;
 	}

@@ -14,7 +14,7 @@ insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, fecha, plazas
 	('106','Carrera106','asfalto','2 km','2021-12-13',80,'finalizada');
 	
 insert into Plazo(id, idCompeticion, fechaInicio, fechaFin, cuota) values
-	('Plazo1','100','2021-11-16','2021-11-20',30),
+	('Plazo1','100','2020-11-16','2021-11-20',30),
 	('Plazo1','101','2021-11-16','2021-11-20',30),
 	('Plazo1','102','2021-11-16','2021-11-20',30),
 	('Plazo1','103','2021-11-16','2021-11-20',30),
