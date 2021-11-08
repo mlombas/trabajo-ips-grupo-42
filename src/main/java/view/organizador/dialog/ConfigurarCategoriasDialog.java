@@ -53,7 +53,9 @@ public class ConfigurarCategoriasDialog extends JDialog {
 	private String idCompeticion;
 
 	public ConfigurarCategoriasDialog(String idCompeticion) {
+		System.out.println(idCompeticion);
 		this.idCompeticion = idCompeticion;
+		System.out.println(this.idCompeticion);
 
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(465, 285));
@@ -89,6 +91,7 @@ public class ConfigurarCategoriasDialog extends JDialog {
 	private JRadioButton getRdbtnHombre() {
 		if (rdbtnHombre == null)
 			rdbtnHombre = new JRadioButton("Hombre");
+			rdbtnHombre.setSelected(true);
 		return rdbtnHombre;
 	}
 

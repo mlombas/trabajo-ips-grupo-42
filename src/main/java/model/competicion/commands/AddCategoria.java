@@ -24,25 +24,27 @@ public class AddCategoria {
 	}
 
 	public boolean execute() throws ModelException {
-		if(cat.nombreCategoria.isEmpty()) {
+		if (cat.nombreCategoria.isEmpty()) {
 			throw new ModelException("Por favor, proporciona un nombre para la competicion");
 		}
-		if(cat.edadMaxima<cat.edadMinima) {
+		if (cat.edadMaxima < cat.edadMinima) {
 			throw new ModelException("La edad máxima no puede ser menor que la minima");
 		}
 		if (!existsCompeticion()) {
 			throw new ModelException("La competicion no existe");
 		}
-		List<CategoriaDto> categorias = obtenerCategorias().stream().filter(p -> p.sexo == cat.sexo).collect(Collectors.toList());
+		List<CategoriaDto> categorias = obtenerCategorias().stream().filter(p -> p.sexo.equals(cat.sexo))
+				.collect(Collectors.toList());
 		if (!categorias.isEmpty()) {
 			checkValidAgeGap(categorias);
+			containsNombreCategoria(categorias);
 		}
 		try {
 			Connection c = db.getConnection();
 
 			PreparedStatement pst = c.prepareStatement(AÑADIR_CATEGORIA);
 
-			pst.setString(1, cat.nombreCategoria+""+cat.sexo);
+			pst.setString(1, cat.nombreCategoria + "" + cat.sexo);
 			pst.setString(2, cat.idCompeticion);
 			pst.setInt(3, cat.edadMinima);
 			pst.setInt(4, cat.edadMaxima);
@@ -59,6 +61,14 @@ public class AddCategoria {
 		return true;
 	}
 
+	private void containsNombreCategoria(List<CategoriaDto> categorias) throws ModelException {
+		for (CategoriaDto categ : categorias) {
+			if (categ.nombreCategoria.equals(cat.nombreCategoria)) {
+				throw new ModelException("El nombre ya está en uso");
+			}
+		}
+	}
+
 	private void checkValidAgeGap(List<CategoriaDto> categorias) throws ModelException {
 		int edadMin = Integer.MAX_VALUE;
 		int edadMax = 0;
@@ -70,9 +80,9 @@ public class AddCategoria {
 				edadMin = categ.edadMinima;
 			}
 		}
-		if (cat.edadMinima == edadMax + 1 || cat.edadMaxima == edadMin - 1) {}else {
+		if (cat.edadMinima != edadMax + 1 && cat.edadMaxima != edadMin - 1) {
 			throw new ModelException(
-					"Selección de edad inválida, la edad no puede inteferir con las edades de otras categorias");
+					"Selección de edad inválida, la edad no puede inteferir con las edades de otras categorias o dejar huecos sin edad asignada");
 		}
 	}
 
