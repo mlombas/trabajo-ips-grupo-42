@@ -33,4 +33,9 @@ public interface CompeticionCrudService {
 	void checkPlazosByIdCompeticion(String competicionId);
 
 	List<PlazoInscripcionDto> getAllPlazos (String competicionId);
+  
+	boolean addCategoria(CategoriaDto cat) throws ModelException;
+
+	void deleteAllCategorias(String idCompeticion) throws ModelException;
+
 }

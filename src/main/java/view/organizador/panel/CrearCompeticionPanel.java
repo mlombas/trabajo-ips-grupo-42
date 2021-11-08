@@ -29,6 +29,7 @@ import util.Validate;
 import util.exceptions.ModelException;
 import view.organizador.OrganizadorMain;
 import view.organizador.dialog.CrearPlazosDialog;
+import view.organizador.dialog.ConfigurarCategoriasDialog;
 import view.organizador.util.AtrasOrganizadorButton;
 
 public class CrearCompeticionPanel extends JPanel {
@@ -377,6 +378,14 @@ public class CrearCompeticionPanel extends JPanel {
 				}
 			});
 			btnCategorias.setEnabled(false);
+			btnCategorias.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					showConfigurarCategorias();
+					
+				}
+			});
 		}
 		return btnCategorias;
 	}
@@ -386,7 +395,14 @@ public class CrearCompeticionPanel extends JPanel {
 		plazosDialog.setLocationRelativeTo(null);
 		plazosDialog.setModal(true);
 		plazosDialog.setVisible(true);
-
+  }
+	
+	protected void showConfigurarCategorias() {
+		ConfigurarCategoriasDialog configurarCategoriasDialog = new ConfigurarCategoriasDialog(competicionId);
+		configurarCategoriasDialog.setLocationRelativeTo(null);
+		configurarCategoriasDialog.setModal(true);
+		configurarCategoriasDialog.setVisible(true);
+		
 	}
 
 	private JButton getBtnPlazos() {

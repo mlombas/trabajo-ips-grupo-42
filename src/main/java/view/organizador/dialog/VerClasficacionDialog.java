@@ -20,7 +20,7 @@ public class VerClasficacionDialog extends JDialog {
 	private JScrollPane scrollParticipantes;
 	private CompeticionDto competicion;
 	private String categoria;
-	ClasificacionesToTable table;;
+	private ClasificacionesToTable table;;
 
 	public VerClasficacionDialog(CompeticionDto competicion, String categoria) {
 		this.competicion = competicion;
