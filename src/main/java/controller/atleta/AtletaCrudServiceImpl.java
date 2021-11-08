@@ -1,6 +1,7 @@
 package controller.atleta;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import model.atleta.commands.PendingPayWithTransaccion;
 import model.atleta.commands.RegisterAtletaToCompetition;
 import model.competicion.CompeticionDto;
 import model.inscripcion.InscripcionDto;
+import model.inscripcion.commands.ProcessTransaction;
 import util.exceptions.AtletaNoValidoException;
 import util.exceptions.ModelException;
 
@@ -48,6 +50,11 @@ public class AtletaCrudServiceImpl implements AtletaCrudService {
 	@Override
 	public Optional<AtletaDto> findByAtletaEmail(String email) throws ModelException {
 		return new FindAtletaByEmail(email).execute();
+	}
+
+	@Override
+	public InscripcionDto processTransaction(String email, String code, double amount, LocalDateTime dt, String id) throws ModelException {
+		return new ProcessTransaction(email, code, amount, dt, id).execute();
 	}
 
 }

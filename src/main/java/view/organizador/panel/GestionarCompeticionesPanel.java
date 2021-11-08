@@ -254,6 +254,9 @@ public class GestionarCompeticionesPanel extends JPanel {
 
 	private void showProcesado(CompeticionDto competicion) {
 		VerProcesadoDialog diag = new VerProcesadoDialog(competicion);
+		diag.setLocationRelativeTo(null);
+		diag.setVisible(true);
+		diag.setModal(true);
 	}
 	
 	private JButton getBtnVerEstado() {
