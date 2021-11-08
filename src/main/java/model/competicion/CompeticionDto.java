@@ -1,10 +1,7 @@
 package model.competicion;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
-
-import util.Util;
 
 public class CompeticionDto {
 	
@@ -12,10 +9,10 @@ public class CompeticionDto {
 	public String nombreCarrera;
 	public String tipoCarrera;
 	public int distancia;
-	public double cuota;
+	public Double cuota;
 	public LocalDate fecha;
-	public Date fechaInicio;
-	public Date fechaFin;
+	public String fechaInicio;
+	public String fechaFin;
 	public int plazas;
 	public String estadoCarrera;
 	public int dorsalesReservados;
@@ -58,7 +55,12 @@ public class CompeticionDto {
 	}
 	
 	public void setCuota(String cuota) {
-		this.cuota = Double.parseDouble(cuota);
+		if(cuota == null)
+		{
+			this.cuota = 0.0;
+		}else {
+			this.cuota = Double.parseDouble(cuota);
+		}		
 	}
 	
 	public String getFecha() {
@@ -70,19 +72,19 @@ public class CompeticionDto {
 	}
 	
 	public String getFechaInicio() {
-		return Util.dateToIsoString(new java.util.Date(fechaInicio.getTime()));
+		return fechaInicio;
 	}
 	
 	public void setFechaInicio(String fechaInicio) {
-		this.fechaInicio = new java.sql.Date(Util.isoStringToDate(fechaInicio).getTime());
+		this.fechaInicio = fechaInicio;
 	}
 	
 	public String getFechaFin() {
-		return Util.dateToIsoString(new java.util.Date(fechaFin.getTime()));
+		return fechaFin;
 	}
 	
 	public void setFechaFin(String fechaFin) {
-		this.fechaFin = new java.sql.Date(Util.isoStringToDate(fechaFin).getTime());
+		this.fechaFin = fechaFin;
 	}
 	
 	public String getPlazas() {
