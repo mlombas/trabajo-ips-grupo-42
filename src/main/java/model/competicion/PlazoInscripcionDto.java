@@ -1,31 +1,29 @@
 package model.competicion;
 
-import java.util.Date;
-
-import util.Util;
+import java.time.LocalDate;
 
 public class PlazoInscripcionDto {
 
 	public String id;
 	public double cuota;
-	public Date fechaInicio;
-	public Date fechaFin;
+	public LocalDate fechaInicio;
+	public LocalDate fechaFin;
 	public String idCompeticion;
 
 	public String getFechaInicio() {
-		return Util.dateToIsoString(new java.util.Date(fechaInicio.getTime()));
+		return fechaInicio.toString();
 	}
 
 	public void setFechaInicio(String fechaInicio) {
-		this.fechaInicio = new java.sql.Date(Util.isoStringToDate(fechaInicio).getTime());
+		this.fechaInicio = LocalDate.parse(fechaInicio);
 	}
 
 	public String getFechaFin() {
-		return Util.dateToIsoString(new java.util.Date(fechaFin.getTime()));
+		return fechaFin.toString();
 	}
 
 	public void setFechaFin(String fechaFin) {
-		this.fechaFin = new java.sql.Date(Util.isoStringToDate(fechaFin).getTime());
+		this.fechaFin = LocalDate.parse(fechaFin);
 	}
 
 	public String getCuota() {

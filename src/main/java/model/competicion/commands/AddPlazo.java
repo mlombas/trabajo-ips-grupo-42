@@ -12,9 +12,9 @@ public class AddPlazo {
 	private static final String GETCOMPETICION = "select * from Competicion where id = ?";
 	private static final String CREATEPLAZO = "insert into Plazo(id, idCompeticion, fechaInicio, fechaFin, cuota) values (?,?,?,?,?)";
 	private static final String GETALLPLAZOS = "select * from Plazo where idCompeticion = ?";
-	private static final String GETPLAZOSSOLAPADOS = "select * from Plazo where idCompeticion = ? and fechaInicio <= ? < fechaFin or fechaInicio < ? <= fechaFin";
-	private static final String GETPLAZOSANTERIORES = "select * from Plazo where idCompeticion = ? and fechaFin <= ?";
-	private static final String GETPLAZOSPOSTERIORES = "select * from Plazo where idCompeticion = ? and fechaFin >= ?";
+	private static final String GETPLAZOSSOLAPADOS = "select * from Plazo where idCompeticion = ? and (((fechaInicio <= ?) and ( ? < fechaFin)) or ((fechaInicio < ?) and ( ? <= fechaFin)))";
+	private static final String GETPLAZOSANTERIORES = "select * from Plazo where idCompeticion = ? and fechaFin <= ? order by fechaFin desc";
+	private static final String GETPLAZOSPOSTERIORES = "select * from Plazo where idCompeticion = ? and fechaFin >= ? order by fechaFin";
 
 	private CompeticionDto competicion;
 	private PlazoInscripcionDto plazo;
@@ -47,7 +47,7 @@ public class AddPlazo {
 		
 		checkAllPlazos(plazos);
 		
-		List<PlazoInscripcionDto> plazosSolapados = db.executeQueryPojo(PlazoInscripcionDto.class, GETPLAZOSSOLAPADOS, competicion.id, plazo.fechaInicio, plazo.fechaFin);
+		List<PlazoInscripcionDto> plazosSolapados = db.executeQueryPojo(PlazoInscripcionDto.class, GETPLAZOSSOLAPADOS, competicion.id, plazo.fechaInicio, plazo.fechaInicio, plazo.fechaFin, plazo.fechaFin);
 		
 		checkPlazosSolapados(plazosSolapados);
 		
@@ -59,7 +59,9 @@ public class AddPlazo {
 		
 		checkPlazoPosterior(plazosPosteriores);
 		
-		db.executeUpdate(CREATEPLAZO, "Plazo" +  plazos.size() + 1 , competicion.id, plazo.fechaInicio, plazo.fechaFin, plazo.cuota);
+		int n =  plazos.size() + 1;
+		
+		db.executeUpdate(CREATEPLAZO, "Plazo" + n + "-", competicion.id, plazo.fechaInicio, plazo.fechaFin, plazo.cuota);
 		
 		plazos = db.executeQueryPojo(PlazoInscripcionDto.class, GETALLPLAZOS, competicion.id);
 		
@@ -74,7 +76,7 @@ public class AddPlazo {
 
 	private void checkPlazoPosterior(List<PlazoInscripcionDto> plazosPosteriores) {
 		if ( plazosPosteriores.size() != 0) {
-			if(  plazosPosteriores.get(0).fechaInicio != plazo.fechaFin) {
+			if(  plazosPosteriores.get(0).fechaInicio.isEqual(plazo.fechaFin)) {
 				throw new ApplicationException("El plazo deja un hueco entre él y el plazo " +  plazosPosteriores.get(0).id);
 			}
 			
@@ -84,7 +86,7 @@ public class AddPlazo {
 
 	private void checkPlazoAnterior(List<PlazoInscripcionDto> plazosAnteriores) {
 		if (plazosAnteriores.size() != 0) {
-			if( plazosAnteriores.get(0).fechaFin != plazo.fechaInicio) {
+			if( !plazosAnteriores.get(0).fechaFin.isEqual(plazo.fechaInicio)) {
 				throw new ApplicationException("El plazo deja un hueco entre él y el plazo " + plazosAnteriores.get(0).id);
 			}
 			
@@ -103,10 +105,14 @@ public class AddPlazo {
 		if (competicion.size() == 0) {
 			throw new ApplicationException("La competición no existe");
 		}
-		if (!competicion.get(0).estadoCarrera.equals("inscripción")) {
+		if (!competicion.get(0).estadoCarrera.equals("creándose")) {
 			throw new ApplicationException("La competición ya no está en estado inscripción");
 		}
 		this.competicion = competicion.get(0);
+		
+		if(this.competicion.fecha.isBefore(plazo.fechaInicio) || this.competicion.fecha.isBefore(plazo.fechaInicio)) {
+			throw new ApplicationException("Las fecha de la competición es antes que las del plazos");
+		}
 	}
 
 }

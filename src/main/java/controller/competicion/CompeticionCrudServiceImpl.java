@@ -10,8 +10,11 @@ import model.competicion.PlazoInscripcionDto;
 import model.competicion.commands.AddCompeticion;
 import model.competicion.commands.AddPlazo;
 import model.competicion.commands.CargarTiempos;
+import model.competicion.commands.CheckPlazosByIdCompeticion;
+import model.competicion.commands.DeletePlazosByIdCompetición;
 import model.competicion.commands.GenerarDorsales;
 import model.competicion.commands.GetAllCompeticiones;
+import model.competicion.commands.GetAllPlazos;
 import model.competicion.commands.GetCategorias;
 import model.competicion.commands.GetClasificacion;
 import model.competicion.commands.GetClasificacionByCategoria;
@@ -63,6 +66,22 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public List<PlazoInscripcionDto> addPlazo(CompeticionDto comp, PlazoInscripcionDto plazo) {
 		return new AddPlazo(comp,plazo).execute();
+	}
+
+	@Override
+	public void deletePlazosByIdCompetición(String competicionId) {
+		new DeletePlazosByIdCompetición(competicionId).execute();
+	}
+
+	@Override
+	public void checkPlazosByIdCompeticion(String competicionId) {
+		new CheckPlazosByIdCompeticion(competicionId).execute();
+		
+	}
+
+	@Override
+	public List<PlazoInscripcionDto> getAllPlazos(String competicionId) {
+		return new GetAllPlazos(competicionId).execute();
 	}
 
 

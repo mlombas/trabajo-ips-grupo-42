@@ -1,9 +1,11 @@
-package view.organizador.panel;
+package view.organizador.dialog;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -20,11 +22,11 @@ import controller.competicion.CompeticionCrudService;
 import controller.competicion.CompeticionCrudServiceImpl;
 import model.competicion.CompeticionDto;
 import model.competicion.PlazoInscripcionDto;
-import util.Util;
+import util.Validate;
 import util.exceptions.ApplicationException;
 import view.util.table.PlazosToTable;
 
-public class crearPlazosInscripciónPanel extends JPanel {
+public class CrearPlazosDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,12 +52,23 @@ public class crearPlazosInscripciónPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public crearPlazosInscripciónPanel(CompeticionDto comp) {
-		setLayout(new BorderLayout(0, 0));
-		add(getCompeticionesPane(), BorderLayout.CENTER);
-		add(getPanel(), BorderLayout.SOUTH);
+	public CrearPlazosDialog(CompeticionDto comp) {
+		setSize(new Dimension(600, 600));
+		getContentPane().setLayout(new BorderLayout(0, 0));
+		getContentPane().add(getCompeticionesPane(), BorderLayout.CENTER);
+		getContentPane().add(getPanel(), BorderLayout.SOUTH);
 		this.comp = comp ;
+		cargarPlazos();
 
+	}
+
+	private void cargarPlazos() {
+		CompeticionCrudService ccs = new CompeticionCrudServiceImpl();		
+		List<PlazoInscripcionDto> plazos = ccs.getAllPlazos(comp.id);
+		
+		TableModel model = new PlazosToTable(plazos).getModel();
+		getTabPlazos().setModel(model);
+		
 	}
 
 	private JScrollPane getCompeticionesPane() {
@@ -136,8 +149,20 @@ public class crearPlazosInscripciónPanel extends JPanel {
 			try {
 				PlazoInscripcionDto plazo = new PlazoInscripcionDto();
 				plazo.cuota = Integer.parseInt(tfCuota.getText().strip());
-				plazo.fechaInicio = Util.isoStringToDate(tfFechaInicio.getText());
-				plazo.fechaFin = Util.isoStringToDate(tfFechaFin.getText());
+				
+				String fechaInicio = tfFechaInicio.getText();
+				plazo.fechaInicio = Validate.validateFecha(fechaInicio);
+				if (plazo.fechaInicio == null || plazo.fechaInicio.isBefore(LocalDate.now())) {
+					showMessage("Fecha de inicio no válida", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				} 
+				
+				String fechaFin = tfFechaFin.getText();
+				plazo.fechaFin = Validate.validateFecha(fechaFin);
+				if (plazo.fechaFin == null || plazo.fechaFin.isBefore(LocalDate.now())) {
+					showMessage("Fecha de finalización no válida", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
 				
 				CompeticionCrudService ccs = new CompeticionCrudServiceImpl();		
 				List<PlazoInscripcionDto> plazos = ccs.addPlazo(comp, plazo);
@@ -256,7 +281,27 @@ public class crearPlazosInscripciónPanel extends JPanel {
 	private JButton getBtnConfirmar() {
 		if (btnConfirmar == null) {
 			btnConfirmar = new JButton("Confirmar");
+			btnConfirmar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					checkPlazos();
+				}
+			});
 		}
 		return btnConfirmar;
+	}
+	
+
+	private void checkPlazos() {
+		try {
+			CompeticionCrudService ccs = new CompeticionCrudServiceImpl();		
+			ccs.checkPlazosByIdCompeticion(comp.id);
+			
+			dispose();
+		} catch (ApplicationException e) {
+			showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
+		} catch (RuntimeException e) { 
+			e.printStackTrace(); 
+			showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

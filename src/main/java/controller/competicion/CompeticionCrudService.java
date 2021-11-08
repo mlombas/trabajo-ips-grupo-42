@@ -27,5 +27,10 @@ public interface CompeticionCrudService {
 	List<Integer> generarDorsales(CompeticionDto comp);
 	
 	List<PlazoInscripcionDto> addPlazo (CompeticionDto comp, PlazoInscripcionDto plazo);
+	
+	void deletePlazosByIdCompetición(String competicionId);
+	
+	void checkPlazosByIdCompeticion(String competicionId);
 
+	List<PlazoInscripcionDto> getAllPlazos (String competicionId);
 }
