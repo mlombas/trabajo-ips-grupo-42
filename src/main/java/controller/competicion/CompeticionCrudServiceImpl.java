@@ -9,6 +9,7 @@ import model.competicion.CompeticionDto;
 import model.competicion.commands.AddCategoria;
 import model.competicion.commands.AddCompeticion;
 import model.competicion.commands.CargarTiempos;
+import model.competicion.commands.DeleteAllCategorias;
 import model.competicion.commands.GenerarDorsales;
 import model.competicion.commands.GetAllCompeticiones;
 import model.competicion.commands.GetCategorias;
@@ -62,5 +63,11 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public boolean addCategoria(CategoriaDto cat) throws ModelException {
 		return new AddCategoria(cat).execute();
+	}
+
+	@Override
+	public void deleteAllCategorias(String idCompeticion) throws ModelException {
+		 new DeleteAllCategorias(idCompeticion).execute();
+		
 	}
 }

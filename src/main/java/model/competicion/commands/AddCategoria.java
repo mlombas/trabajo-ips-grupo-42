@@ -44,7 +44,7 @@ public class AddCategoria {
 
 			PreparedStatement pst = c.prepareStatement(AÑADIR_CATEGORIA);
 
-			pst.setString(1, cat.nombreCategoria + "" + cat.sexo);
+			pst.setString(1, cat.nombreCategoria + " " + cat.sexo);
 			pst.setString(2, cat.idCompeticion);
 			pst.setInt(3, cat.edadMinima);
 			pst.setInt(4, cat.edadMaxima);
@@ -63,7 +63,7 @@ public class AddCategoria {
 
 	private void containsNombreCategoria(List<CategoriaDto> categorias) throws ModelException {
 		for (CategoriaDto categ : categorias) {
-			if (categ.nombreCategoria.equals(cat.nombreCategoria)) {
+			if (categ.nombreCategoria.equals(cat.nombreCategoria+" "+cat.sexo)) {
 				throw new ModelException("El nombre ya está en uso");
 			}
 		}

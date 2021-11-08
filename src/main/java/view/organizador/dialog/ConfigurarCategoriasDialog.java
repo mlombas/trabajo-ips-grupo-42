@@ -53,9 +53,7 @@ public class ConfigurarCategoriasDialog extends JDialog {
 	private String idCompeticion;
 
 	public ConfigurarCategoriasDialog(String idCompeticion) {
-		System.out.println(idCompeticion);
 		this.idCompeticion = idCompeticion;
-		System.out.println(this.idCompeticion);
 
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(465, 285));
@@ -179,6 +177,12 @@ public class ConfigurarCategoriasDialog extends JDialog {
 			btnAtras = new JButton("Atrás");
 			btnAtras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					try {
+						ModelFactory.forCarreraCrudService().deleteAllCategorias(idCompeticion);
+					} catch (ModelException e1) {
+						e1.printStackTrace();
+					}
+					JOptionPane.showMessageDialog(null, "Todas las categorías han sido eliminadas con éxito");
 					backToCrearCompeticion();
 				}
 			});

@@ -26,4 +26,6 @@ public interface CompeticionCrudService {
 	List<Integer> generarDorsales(CompeticionDto comp);
   
 	boolean addCategoria(CategoriaDto cat) throws ModelException;
+
+	void deleteAllCategorias(String idCompeticion) throws ModelException;
 }
