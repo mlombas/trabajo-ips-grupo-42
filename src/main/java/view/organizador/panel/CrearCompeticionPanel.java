@@ -370,6 +370,14 @@ public class CrearCompeticionPanel extends JPanel {
 		if (btnCategorias == null) {
 			btnCategorias = new JButton("Configurar Categorías");
 			btnCategorias.setEnabled(false);
+			btnCategorias.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					OrganizadorMain.getInstance().flipCard(OrganizadorMain.CONFIGURAR_CATEGORÍAS);
+					
+				}
+			});
 		}
 		return btnCategorias;
 	}
