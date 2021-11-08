@@ -384,7 +384,7 @@ public class CrearCompeticionPanel extends JPanel {
 	}
 	
 	protected void showConfigurarCategorias() {
-		ConfigurarCategoriasDialog configurarCategoriasDialog = new ConfigurarCategoriasDialog();
+		ConfigurarCategoriasDialog configurarCategoriasDialog = new ConfigurarCategoriasDialog(competicionId);
 		configurarCategoriasDialog.setLocationRelativeTo(null);
 		configurarCategoriasDialog.setModal(true);
 		configurarCategoriasDialog.setVisible(true);

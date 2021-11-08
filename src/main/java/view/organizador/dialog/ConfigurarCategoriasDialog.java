@@ -2,17 +2,23 @@ package view.organizador.dialog;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+
+import model.ModelFactory;
+import model.competicion.CategoriaDto;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 
 import net.miginfocom.swing.MigLayout;
+import util.exceptions.ModelException;
 
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
@@ -44,7 +50,11 @@ public class ConfigurarCategoriasDialog extends JDialog {
 	private JRadioButton rdbtnDiscapacitados;
 	private JSpinner spinnerEdadMax;
 
-	public ConfigurarCategoriasDialog() {
+	private String idCompeticion;
+
+	public ConfigurarCategoriasDialog(String idCompeticion) {
+		this.idCompeticion = idCompeticion;
+
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(465, 285));
 		setLocationRelativeTo(null);
@@ -115,7 +125,7 @@ public class ConfigurarCategoriasDialog extends JDialog {
 		if (spinnerEdadMin == null) {
 			spinnerEdadMin = new JSpinner();
 			spinnerEdadMin.setPreferredSize(new Dimension(60, 20));
-			spinnerEdadMax.setModel(new SpinnerNumberModel(18, 18, null, 1));
+			spinnerEdadMin.setModel(new SpinnerNumberModel(18, 18, null, 1));
 		}
 		return spinnerEdadMin;
 	}
@@ -223,8 +233,26 @@ public class ConfigurarCategoriasDialog extends JDialog {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-
+					CategoriaDto cat = new CategoriaDto();
+					cat.idCompeticion = idCompeticion;
+					cat.nombreCategoria = txtNombre.getText();
+					cat.edadMinima = (int) spinnerEdadMin.getValue();
+					cat.edadMaxima = (int) spinnerEdadMax.getValue();
+					if (rdbtnHombre.isSelected()) {
+						cat.sexo = "H";
+					}
+					if (rdbtnMujer.isSelected()) {
+						cat.sexo = "M";
+					}
+					if (rdbtnDiscapacitados.isSelected()) {
+						cat.sexo = "D";
+					}
+					try {
+						ModelFactory.forCarreraCrudService().addCategoria(cat);
+						JOptionPane.showMessageDialog(null, "Categoría creada con éxito");
+					} catch (ModelException ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage());
+					}
 				}
 			});
 		}

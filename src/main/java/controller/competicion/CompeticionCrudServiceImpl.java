@@ -59,6 +59,7 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 		return new GenerarDorsales(comp).execute();
 	}
 	
+	@Override
 	public boolean addCategoria(CategoriaDto cat) throws ModelException {
 		return new AddCategoria(cat).execute();
 	}
