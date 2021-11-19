@@ -61,7 +61,7 @@ public class AddPlazo {
 		
 		int n =  plazos.size() + 1;
 		
-		db.executeUpdate(CREATEPLAZO, "Plazo" + n + "-", competicion.id, plazo.fechaInicio, plazo.fechaFin, plazo.cuota);
+		db.executeUpdate(CREATEPLAZO, "Plazo" + n, competicion.id, plazo.fechaInicio, plazo.fechaFin, plazo.cuota);
 		
 		plazos = db.executeQueryPojo(PlazoInscripcionDto.class, GETALLPLAZOS, competicion.id);
 		
@@ -110,8 +110,8 @@ public class AddPlazo {
 		}
 		this.competicion = competicion.get(0);
 		
-		if(this.competicion.fecha.isBefore(plazo.fechaInicio) || this.competicion.fecha.isBefore(plazo.fechaInicio)) {
-			throw new ApplicationException("Las fecha de la competición es antes que las del plazos");
+		if(this.competicion.fecha.isBefore(plazo.fechaInicio) || this.competicion.fecha.isBefore(plazo.fechaFin)) {
+			throw new ApplicationException("Las fecha de la competición es antes que las del plazo");
 		}
 	}
 
