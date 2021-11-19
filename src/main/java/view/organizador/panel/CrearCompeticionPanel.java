@@ -300,9 +300,13 @@ public class CrearCompeticionPanel extends JPanel {
 
 					// Validamos el tipo
 					String tipo = getTextTipo().getText();
-					if (!tipo.trim().isEmpty())
+					if (!tipo.trim().isEmpty()) {
+						if (!tipo.toLowerCase().equals("asfalto") && !tipo.toLowerCase().equals("montaña")) {
+							JOptionPane.showMessageDialog(null, "Sólo aceptamos carreras de asfalto y montaña...");
+							return;
+						}
 						competicion.tipoCarrera = tipo;
-					else {
+					} else {
 						JOptionPane.showMessageDialog(null, "Tipo no puede estar vacío...");
 						return;
 					} // Show warning
