@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import bank_mockup.Bank;
-import model.competicion.CompeticionDto;
 import model.competicion.PlazoInscripcionDto;
 import model.inscripcion.EstadoInscripcion;
 import model.inscripcion.InscripcionDto;

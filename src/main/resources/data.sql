@@ -26,6 +26,16 @@ insert into Plazo(id, idCompeticion, fechaInicio, fechaFin, cuota) values
 insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, fecha, plazas, estadoCarrera, dorsalesReservados) values 
 	('107','Carrera107','asfalto','2 km','2021-12-13',80,'inscripcion_cerrada',20);
 	
+insert into PuntoIntermedio(id, idCompeticion, tiempoMaximo, distanciaSalida) values 
+	('Punto1', '105', 20, '2 km'),
+	('Punto2', '105', 40, '4 km'),
+	('Punto3', '105', 60, '6 km'),
+	
+	('Punto1', '106', 15, '0,5 km'),
+	('Punto2', '106', 34, '1,5 km');
+	
+	
+	
 insert into Atleta(email, dni, nombre, fechaNacimiento, sexo) values
 	('pedro@gmail.com','12121212','Pedro','2001-01-01','H'),
 	('elena@gmail.com','10101010','Elena','2001-02-02','M'),
@@ -80,6 +90,32 @@ insert into Clasificacion(idCompeticion, emailAtleta, dorsal) values
  			('106','elena@gmail.com', 2),
  			('106','juanjo@gmail.com', 3),
  			('106','marta@gmail.com', 4);
+ 			
+ insert into PuntoIntermedioClasificacion(idCompeticion, emailAtleta, idPuntoIntermedio) values
+			('105','pedro@gmail.com', 'Punto1'),
+ 			('105','elena@gmail.com', 'Punto1'),
+ 			('105','juanjo@gmail.com', 'Punto1'),
+ 			('105','marta@gmail.com', 'Punto1'),			
+ 			
+ 			('105','pedro@gmail.com', 'Punto2'),
+ 			('105','elena@gmail.com', 'Punto2'),
+ 			('105','juanjo@gmail.com', 'Punto2'),
+ 			('105','marta@gmail.com', 'Punto2'),	
+ 			
+ 			('105','pedro@gmail.com', 'Punto3'),
+ 			('105','elena@gmail.com', 'Punto3'),
+ 			('105','juanjo@gmail.com', 'Punto3'),
+ 			('105','marta@gmail.com', 'Punto3'),	
+			
+			('106','pedro@gmail.com','Punto1'),
+ 			('106','elena@gmail.com', 'Punto1'),
+ 			('106','juanjo@gmail.com', 'Punto1'),
+ 			('106','marta@gmail.com', 'Punto1'),
+ 			
+ 			('106','pedro@gmail.com','Punto2'),
+ 			('106','elena@gmail.com', 'Punto2'),
+ 			('106','juanjo@gmail.com', 'Punto2'),
+ 			('106','marta@gmail.com', 'Punto2');
  			
 insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nombreCompeticion, categoria, fechaInscripcion,
  			cuotaInscripcion, estadoInscripcion, fechaCambioEstado) values

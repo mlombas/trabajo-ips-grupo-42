@@ -9,6 +9,8 @@ drop table Inscripcion;
 drop table Categoria;
 drop table Clasificacion;
 drop table Plazo;
+drop table PuntoIntermedio;
+drop table PuntoIntermedioClasificacion;
 
 create table Competicion (
 	id varchar(255) primary key not null, 
@@ -97,4 +99,27 @@ create table Plazo(
 	
 	check(fechaInicio<=fechaFin), 
 	check(cuota>0)
+);
+
+create table PuntoIntermedio(
+	id varchar(255) not null,
+	idCompeticion varchar(255) not null,
+	tiempoMaximo int not null,
+	distanciaSalida varchar(255) not null,
+	
+	primary key (id,idCompeticion),
+	foreign key(idCompeticion) references Competicion(id)
+);
+
+create table PuntoIntermedioClasificacion(
+	idPuntoIntermedio varchar(255) not null,
+	emailAtleta varchar(255) not null,
+	idCompeticion varchar(255) not null,
+	tiempo int,
+	
+	primary key (idPuntoIntermedio, idCompeticion, emailAtleta),
+	foreign key(idCompeticion) references Competicion(id),
+	foreign key(idPuntoIntermedio) references PuntoIntermedio(id),
+	foreign key(emailAtleta) references Atleta(email)
+	
 );
