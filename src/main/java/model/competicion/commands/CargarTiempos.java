@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.competicion.CompeticionDto;
+import model.competicion.PuntoIntermedioDto;
 import model.inscripcion.InscripcionDto;
 import util.csv.CSVCreator;
 import util.csv.CSVTable;
@@ -16,6 +17,8 @@ public class CargarTiempos {
 	private static final String GETINSCRIPCIONBYDORSAL = "select * from Inscripcion where idCompeticion = ? and dorsal = ? ";
 	private static final String UPDATECLASIFICACION = "update Clasificacion set tiempoSalida = ?, tiempoLlegada = ? where idCompeticion = ? and emailAtleta = ? ";
 	private static final String GETCOMPETICION = "select * from Competicion where id = ?";
+	private static final String GETPUNTOSINTERMEDIOS = "select * from PuntoIntermedio where idCompeticion = ?";
+	private static final String UPDATETIEMPOINTERMEDIOCLASIFICACION = "update PuntoIntermedioClasificacion set tiempo = ? where idCompeticion = ? and emailAtleta = ? and idPuntoIntermedio = ?" ;
 
 	private CompeticionDto competicion;
 	
@@ -52,18 +55,22 @@ public class CargarTiempos {
 				
 				List<InscripcionDto> inscripcion =  db.executeQueryPojo(InscripcionDto.class, GETINSCRIPCIONBYDORSAL, competicion.id, dorsal);
 				
+				List<PuntoIntermedioDto> puntosIntermedios = db.executeQueryPojo(PuntoIntermedioDto.class, GETPUNTOSINTERMEDIOS, competicion.id);
+				
 				if(inscripcion.size() > 0) {
-					if(row.get(1).equals("-")) {
-						db.executeUpdate(UPDATECLASIFICACION, null, null, competicion.id, inscripcion.get(0).emailAtleta);
-					} else if (row.get(2).equals("-")) {
-						int tiempoSalida = Integer.valueOf(row.get(1));
+					
+					Integer tiempoSalida = checkTiempo(row.get(1));
+					Integer tiempoLlegada = checkTiempo(row.get(2));
+					
+					db.executeUpdate(UPDATECLASIFICACION, tiempoSalida, tiempoLlegada, competicion.id, inscripcion.get(0).emailAtleta);
+					
+					int cont = 3;
+					for(PuntoIntermedioDto puntoIntermedio : puntosIntermedios) {
+						Integer tiempo = checkTiempo(row.get(cont));
 						
-						db.executeUpdate(UPDATECLASIFICACION, tiempoSalida, null, competicion.id, inscripcion.get(0).emailAtleta);
-					} else {
-						int tiempoSalida = Integer.valueOf(row.get(1));
-						int tiempoLlegada = Integer.valueOf(row.get(2));
+						db.executeUpdate(UPDATETIEMPOINTERMEDIOCLASIFICACION, tiempo, competicion.id, inscripcion.get(0).emailAtleta, puntoIntermedio.id);
 						
-						db.executeUpdate(UPDATECLASIFICACION, tiempoSalida, tiempoLlegada, competicion.id, inscripcion.get(0).emailAtleta);
+						cont++;
 					}
 					
 					result[0] += 1;
@@ -86,6 +93,13 @@ public class CargarTiempos {
 		
 		return lista;
 		
+	}
+
+	private Integer checkTiempo(String tiempo) {
+		if(tiempo.equals("-")) {
+			return null;
+		} 
+		return Integer.valueOf(tiempo);
 	}
 
 	private void checkCompeticion(List<CompeticionDto> competicion) {
