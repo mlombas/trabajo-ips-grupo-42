@@ -8,6 +8,7 @@ import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
 import model.competicion.PlazoInscripcionDto;
 import model.competicion.commands.AddCategoria;
+import model.competicion.commands.AddCategoriaGeneral;
 import model.competicion.commands.AddCompeticion;
 import model.competicion.commands.AddPlazo;
 import model.competicion.commands.CargarTiempos;
@@ -101,5 +102,11 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public void updateCompeticion(CompeticionDto comp) throws ModelException {
 		new UpdateCompeticion(comp).execute();
+	}
+
+	@Override
+	public void addCategoriaGeneral(String idCompeticion) throws ModelException {
+		new AddCategoriaGeneral(idCompeticion).execute();
+		
 	}
 }

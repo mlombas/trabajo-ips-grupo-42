@@ -463,6 +463,7 @@ public class CrearCompeticionPanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					competicion.estadoCarrera = "inscripción"; // TODO hacer dinámico
 					try {
+						ModelFactory.forCarreraCrudService().addCategoriaGeneral(competicion.id);
 						ModelFactory.forCarreraCrudService().updateCompeticion(competicion);
 					} catch (ModelException e1) {
 						showError("Lo siento, algo ha salido mal...");

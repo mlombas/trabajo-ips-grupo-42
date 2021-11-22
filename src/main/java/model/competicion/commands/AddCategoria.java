@@ -66,6 +66,9 @@ public class AddCategoria {
 			if (categ.nombreCategoria.equals(cat.nombreCategoria+" "+cat.sexo)) {
 				throw new ModelException("El nombre ya está en uso");
 			}
+			if (categ.nombreCategoria.equals("General "+cat.sexo)) {
+				throw new ModelException("General es un nombre reservado y no puede ser usado");
+			}
 		}
 	}
 
