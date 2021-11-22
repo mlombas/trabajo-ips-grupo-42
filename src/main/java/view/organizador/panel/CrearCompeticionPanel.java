@@ -32,6 +32,22 @@ import view.organizador.dialog.CrearPlazosDialog;
 import view.organizador.dialog.ConfigurarCategoriasDialog;
 import view.organizador.util.AtrasOrganizadorButton;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.JTextArea;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.UUID;
+import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+
 public class CrearCompeticionPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -43,7 +59,8 @@ public class CrearCompeticionPanel extends JPanel {
 	private JLabel lblDescripcion;
 	private JTextArea textAreaDescripcion;
 	private JLabel lblTipo;
-	private JTextField textTipo;
+  private JButton btnOk;
+	private JComboBox<String> comboBoxTipo;
 	private JLabel lblNumeroPlazas;
 	private JSpinner spinnerNumeroPlazas;
 	private JLabel lblNumeroDorsalesReservados;
@@ -102,7 +119,6 @@ public class CrearCompeticionPanel extends JPanel {
 		competicion = new CompeticionDto();
 		
 		getTextNombre().setText("");
-		getTextTipo().setText("");
 		getTextAreaDescripcion().setText("");
 		getSpinnerNumeroPlazas().setValue(0);
 		getSpinnerDorsalesReservados().setValue(0);
@@ -132,7 +148,7 @@ public class CrearCompeticionPanel extends JPanel {
 			panelFormulario.setLayout(new MigLayout("", "[grow,center][grow,center]", "[][][][grow][][][][][][]"));
 			panelFormulario.add(getLblNombre(), "flowx,cell 0 0 2 1,alignx left,growy");
 			panelFormulario.add(getTextNombre(), "cell 0 1,grow");
-			panelFormulario.add(getTextTipo(), "cell 1 1,grow");
+			panelFormulario.add(getComboBoxTipo(), "cell 1 1,growx");
 			panelFormulario.add(getLblDescripcion(), "cell 0 2 2 1,alignx left");
 			panelFormulario.add(getTextAreaDescripcion(), "cell 0 3 2 2,grow");
 			panelFormulario.add(getLblNumeroDorsalesReservados(), "cell 0 5,alignx left");
@@ -195,13 +211,15 @@ public class CrearCompeticionPanel extends JPanel {
 		}
 		return lblTipo;
 	}
-
-	private JTextField getTextTipo() {
-		if (textTipo == null) {
-			textTipo = new JTextField();
-			textTipo.setColumns(10);
+  
+	private JComboBox<String> getComboBoxTipo() {
+		if (comboBoxTipo == null) {
+			comboBoxTipo = new JComboBox<String>();
+			comboBoxTipo.setModel(new DefaultComboBoxModel<String>(new String[] {"Asfalto", "Montaña"}));
+			comboBoxTipo.setToolTipText("Posibles tipos de carrera");
 		}
-		return textTipo;
+		
+		return comboBoxTipo;
 	}
 
 	private JLabel getLblNumeroPlazas() {
@@ -299,18 +317,9 @@ public class CrearCompeticionPanel extends JPanel {
 					} // Show warning
 
 					// Validamos el tipo
-					String tipo = getTextTipo().getText();
-					if (!tipo.trim().isEmpty()) {
-						if (!tipo.toLowerCase().equals("asfalto") && !tipo.toLowerCase().equals("montaña")) {
-							JOptionPane.showMessageDialog(null, "Sólo aceptamos carreras de asfalto y montaña...");
-							return;
-						}
-						competicion.tipoCarrera = tipo;
-					} else {
-						JOptionPane.showMessageDialog(null, "Tipo no puede estar vacío...");
-						return;
-					} // Show warning
-
+					String tipo = getComboBoxTipo().getSelectedItem().toString();
+					competicion.tipoCarrera = tipo;
+			
 					// Validamos la descripcion
 					String descripcion = getTextAreaDescripcion().getText();
 					if (!descripcion.trim().isEmpty())
@@ -482,4 +491,5 @@ public class CrearCompeticionPanel extends JPanel {
 		}
 		return btnOk;
 	}
+
 }
