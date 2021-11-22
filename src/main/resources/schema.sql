@@ -8,26 +8,26 @@ drop table Atleta;
 drop table Inscripcion;
 drop table Categoria;
 drop table Clasificacion;
+drop table Plazo;
+drop table PuntoIntermedio;
+drop table PuntoIntermedioClasificacion;
 
 create table Competicion (
 	id varchar(255) primary key not null, 
 	nombreCarrera varchar(255) not null,
 	tipoCarrera varchar(255) not null,
 	distancia varchar(255) not null,
-	cuota decimal(10,2) not null,
-	fecha date not null, 
+	fecha date not null,
+	plazas int not null,
+	cuota decimal(10,2),
 	fechaInicio date, 
 	fechaFin date, 
-	plazas int,
 	estadoCarrera varchar(255) not null,
 	dorsalesReservados int,
 	descripcion varchar(255),
 	
-	check(fechaInicio<=fechaFin), 
-	check(fechaFin<fecha),
 	check(distancia>0),
 	check(plazas>0),
-	check(cuota>=0),
 	check(dorsalesReservados>=0)
 );
 
@@ -51,6 +51,7 @@ create table Inscripcion (
 	estadoInscripcion varchar(255) not null,
 	fechaCambioEstado date,
 	dorsal int,
+	devolver decimal(10,2),
 	
 	primary key(idCompeticion,emailAtleta),
 	foreign key(idCompeticion) references Competicion(id),
@@ -86,3 +87,39 @@ create table Clasificacion(
 	foreign key(dorsal) references Inscripcion(dorsal)
 );
 
+create table Plazo(
+	id varchar(255) not null,
+	idCompeticion varchar(255) not null,
+	fechaInicio date not null, 
+	fechaFin date not null,
+	cuota decimal(10,2) not null,
+	
+	primary key (id,idCompeticion),
+	foreign key(idCompeticion) references Competicion(id),
+	
+	check(fechaInicio<=fechaFin), 
+	check(cuota>0)
+);
+
+create table PuntoIntermedio(
+	id varchar(255) not null,
+	idCompeticion varchar(255) not null,
+	tiempoMaximo int not null,
+	distanciaSalida varchar(255) not null,
+	
+	primary key (id,idCompeticion),
+	foreign key(idCompeticion) references Competicion(id)
+);
+
+create table PuntoIntermedioClasificacion(
+	idPuntoIntermedio varchar(255) not null,
+	emailAtleta varchar(255) not null,
+	idCompeticion varchar(255) not null,
+	tiempo int,
+	
+	primary key (idPuntoIntermedio, idCompeticion, emailAtleta),
+	foreign key(idCompeticion) references Competicion(id),
+	foreign key(idPuntoIntermedio) references PuntoIntermedio(id),
+	foreign key(emailAtleta) references Atleta(email)
+	
+);

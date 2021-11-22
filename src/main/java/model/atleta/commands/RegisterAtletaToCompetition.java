@@ -31,7 +31,7 @@ public class RegisterAtletaToCompetition {
 	private static final String GET_CATEGORIA = "select nombreCategoria "
 												+ "from Categoria "
 												+ "where edadMinima <= ? "
-													+ "and edadMaxima > ? "
+													+ "and edadMaxima >= ? "
 													+ "and sexo = ? "
 													+ "and idCompeticion = ?";
 	

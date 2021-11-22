@@ -2,6 +2,7 @@
 package controller.atleta;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,5 +46,7 @@ public interface AtletaCrudService {
 	String pendingPayWithTransaccion(InscripcionDto inscripcion);
 
 	Optional<AtletaDto> findByAtletaEmail(String email) throws ModelException;
+
+	InscripcionDto processTransaction(String email, String code, double amount, LocalDateTime dt, String id) throws ModelException;
 	
 }

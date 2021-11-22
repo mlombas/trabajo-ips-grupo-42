@@ -20,13 +20,12 @@ import controller.competicion.CompeticionCrudServiceImpl;
 import model.ModelFactory;
 import model.competicion.CategoriaDto;
 import model.competicion.CompeticionDto;
-
 import util.exceptions.ApplicationException;
 import util.exceptions.ModelException;
-
 import view.organizador.OrganizadorMain;
 import view.organizador.dialog.VerClasficacionDialog;
 import view.organizador.dialog.VerEstadoInscripcionDialog;
+import view.organizador.dialog.VerPlazosDialog;
 import view.organizador.dialog.VerProcesadoDialog;
 import view.organizador.util.AtrasOrganizadorButton;
 import view.util.panel.VerCompeticionesPanel;
@@ -48,6 +47,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private JButton btnGenerarDorsales;
 
 	private JButton btnProcesar;
+	private JButton btnPlazos;
 
 	public GestionarCompeticionesPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -72,7 +72,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 				cbCategorias.addItem(cat.nombreCategoria);
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			// TODO nico
+			
 		}
 	}
 
@@ -224,6 +224,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 			competicionManagementPane.add(getBtnVerEstado());
 			competicionManagementPane.add(getVerClasificacionesPane());
 			competicionManagementPane.add(getBtnProcesar());
+			competicionManagementPane.add(getBtnPlazos());
 		}
 		return competicionManagementPane;
 	}
@@ -253,6 +254,9 @@ public class GestionarCompeticionesPanel extends JPanel {
 
 	private void showProcesado(CompeticionDto competicion) {
 		VerProcesadoDialog diag = new VerProcesadoDialog(competicion);
+		diag.setLocationRelativeTo(null);
+		diag.setVisible(true);
+		diag.setModal(true);
 	}
 	
 	private JButton getBtnVerEstado() {
@@ -317,4 +321,32 @@ public class GestionarCompeticionesPanel extends JPanel {
 		return cbCategorias;
 	}
 
+	private JButton getBtnPlazos() {
+		if (btnPlazos == null) {
+			btnPlazos = new JButton("Ver Plazos");
+			btnPlazos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					CompeticionDto competicion = new CompeticionDto();
+
+					try {
+						competicion.id = verCompeticionesPane.getCompeticionId();
+					} catch (ArrayIndexOutOfBoundsException aiobe) {
+						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						return;
+					}
+
+					showVerPlazos(competicion);
+				}
+			});
+		}
+		return btnPlazos;
+	}
+	
+	private void showVerPlazos(CompeticionDto competicion) {
+		VerPlazosDialog plazosDialog = new VerPlazosDialog(competicion);
+		plazosDialog.setLocationRelativeTo(null);
+		plazosDialog.setModal(true);
+		plazosDialog.setVisible(true);
+
+	}
 }
