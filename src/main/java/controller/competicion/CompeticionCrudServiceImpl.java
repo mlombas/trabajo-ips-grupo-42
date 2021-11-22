@@ -3,6 +3,7 @@ package controller.competicion;
 
 import java.util.List;
 
+import model.atleta.AtletaDto;
 import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
@@ -20,8 +21,11 @@ import model.competicion.commands.GetAllPlazos;
 import model.competicion.commands.GetCategorias;
 import model.competicion.commands.GetClasificacion;
 import model.competicion.commands.GetClasificacionByCategoria;
+import model.competicion.commands.GetClasificacionUsuario;
+import model.competicion.commands.GetCompeticionByInscripcion;
 import model.competicion.commands.RemoveCompeticion;
 import model.competicion.commands.UpdateCompeticion;
+import model.inscripcion.InscripcionDto;
 import util.exceptions.ModelException;
 
 public class CompeticionCrudServiceImpl implements CompeticionCrudService {
@@ -101,5 +105,15 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public void updateCompeticion(CompeticionDto comp) throws ModelException {
 		new UpdateCompeticion(comp).execute();
+	}
+
+	@Override
+	public CompeticionDto getCompeticionByInscripcion(InscripcionDto inscripcion) {
+		return new GetCompeticionByInscripcion(inscripcion).execute();
+	}
+
+	@Override
+	public List<ClasificacionDto> getClasificacionUsuario(AtletaDto atleta, CompeticionDto competicion) {
+		return new GetClasificacionUsuario( atleta, competicion).execute();
 	}
 }

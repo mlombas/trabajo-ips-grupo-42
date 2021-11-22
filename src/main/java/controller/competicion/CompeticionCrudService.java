@@ -2,10 +2,12 @@ package controller.competicion;
 
 import java.util.List;
 
+import model.atleta.AtletaDto;
 import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
 import model.competicion.PlazoInscripcionDto;
+import model.inscripcion.InscripcionDto;
 import util.exceptions.ModelException;
 
 
@@ -39,5 +41,10 @@ public interface CompeticionCrudService {
 	void deleteAllCategorias(String idCompeticion) throws ModelException;
 	
 	void updateCompeticion(CompeticionDto comp) throws ModelException;
+
+	CompeticionDto getCompeticionByInscripcion(InscripcionDto inscripcion);
+
+	List<ClasificacionDto> getClasificacionUsuario(AtletaDto atleta, CompeticionDto competicion);
+
 
 }

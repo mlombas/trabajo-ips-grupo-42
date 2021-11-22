@@ -9,6 +9,7 @@ import model.atleta.AtletaDto;
 import model.atleta.TarjetaDto;
 import model.atleta.commands.AddAtleta;
 import model.atleta.commands.FindAtletaByEmail;
+import model.atleta.commands.GetAtletaByInscripcion;
 import model.atleta.commands.GetCompeticionesInscritas;
 import model.atleta.commands.PayWithTarjeta;
 import model.atleta.commands.PendingPayWithTransaccion;
@@ -55,6 +56,11 @@ public class AtletaCrudServiceImpl implements AtletaCrudService {
 	@Override
 	public InscripcionDto processTransaction(String email, String code, double amount, LocalDateTime dt, String id) throws ModelException {
 		return new ProcessTransaction(email, code, amount, dt, id).execute();
+	}
+
+	@Override
+	public AtletaDto getAtletaByInscripcion(InscripcionDto inscripcion) {
+		return new GetAtletaByInscripcion(inscripcion).execute();
 	}
 
 }

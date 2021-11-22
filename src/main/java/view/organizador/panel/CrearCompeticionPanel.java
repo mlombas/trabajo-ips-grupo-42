@@ -100,7 +100,7 @@ public class CrearCompeticionPanel extends JPanel {
 
 	public void reset() {
 		competicion = new CompeticionDto();
-		
+
 		getTextNombre().setText("");
 		getTextTipo().setText("");
 		getTextAreaDescripcion().setText("");
@@ -114,7 +114,7 @@ public class CrearCompeticionPanel extends JPanel {
 		getBtnPlazos().setEnabled(false);
 		getBtnOk().setEnabled(false);
 	}
-	
+
 	public void setPlazosCreated(boolean isPlazosCreated) {
 		this.isPlazosCreated = isPlazosCreated;
 	}
@@ -390,7 +390,7 @@ public class CrearCompeticionPanel extends JPanel {
 			btnCategorias.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					showConfigurarCategorias();
-					
+
 					// In case PLAZOS and CATEGORIAS are created
 					if (isPlazosCreated && isCategoriasCreated)
 						getBtnOk().setEnabled(true);
@@ -405,14 +405,14 @@ public class CrearCompeticionPanel extends JPanel {
 		plazosDialog.setLocationRelativeTo(null);
 		plazosDialog.setModal(true);
 		plazosDialog.setVisible(true);
-  }
-	
+	}
+
 	protected void showConfigurarCategorias() {
 		ConfigurarCategoriasDialog configurarCategoriasDialog = new ConfigurarCategoriasDialog(this, competicion.id);
 		configurarCategoriasDialog.setLocationRelativeTo(null);
 		configurarCategoriasDialog.setModal(true);
 		configurarCategoriasDialog.setVisible(true);
-		
+
 	}
 
 	private JButton getBtnPlazos() {
@@ -422,7 +422,7 @@ public class CrearCompeticionPanel extends JPanel {
 			btnPlazos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					showCrearPlazos(competicion);
-					
+
 					// In case PLAZOS and CATEGORIAS are created
 					if (isPlazosCreated && isCategoriasCreated)
 						getBtnOk().setEnabled(true);
@@ -470,10 +470,9 @@ public class CrearCompeticionPanel extends JPanel {
 						reset();
 						return;
 					}
-					
+
 					isCompeticionSuccessfullyCreated = true;
-					
-					
+
 					JOptionPane.showMessageDialog(null, "Hemos añadido la carrera");
 					OrganizadorMain.getInstance().startPanel();
 				}
