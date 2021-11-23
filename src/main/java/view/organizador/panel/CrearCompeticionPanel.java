@@ -1,6 +1,5 @@
 package view.organizador.panel;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -388,7 +387,7 @@ public class CrearCompeticionPanel extends JPanel {
 
 	private Component getPanelCategorias() {
 		if (panelCategorias == null)
-			panelCategorias = new CrearCompeticionSubPanel();
+			panelCategorias = new CrearCategoriasPanel(competicion);
 			
 		return panelCategorias;
 	}
