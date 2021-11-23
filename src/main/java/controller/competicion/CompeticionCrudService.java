@@ -41,5 +41,7 @@ public interface CompeticionCrudService {
 	void updateCompeticion(CompeticionDto comp) throws ModelException;
 	
 	void addCategoriaGeneral(String idCompeticion) throws ModelException;
+	
+	List<CategoriaDto> getAllCategorias (String competicionId);
 
 }

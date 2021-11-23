@@ -5,14 +5,14 @@ import java.util.List;
 import model.competicion.CategoriaDto;
 import util.database.Database;
 
-public class GetNombresCategorias {
+public class GetAllCategorias {
 
-	private static String OBTENER_CATEGORIAS = "select nombreCategoria from Categoria where idCompeticion = ?";
+	private static String OBTENER_CATEGORIAS = "select * from Categoria where idCompeticion = ?";
 	
 	private Database db = Database.getInstance();
 	private String competicionId;
 	
-	public GetNombresCategorias(String competicionId) {
+	public GetAllCategorias(String competicionId) {
 		this.competicionId = competicionId;
 	}
 
