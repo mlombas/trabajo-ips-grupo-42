@@ -36,7 +36,8 @@ create table Atleta (
 	dni varchar(255) not null,
 	nombre varchar(255) not null,
 	fechaNacimiento date not null, 
-	sexo varchar(255) not null
+	sexo varchar(255) not null,
+	club varchar(255)
 );
 
 create table Inscripcion (
@@ -44,6 +45,7 @@ create table Inscripcion (
 	emailAtleta varchar(255) not null,
 	nombreAtleta varchar(255) not null,
 	dniAtleta varchar(255),
+	clubAtleta varchar(255),
 	nombreCompeticion varchar(255),
 	categoria varchar(255) not null,
 	fechaInscripcion date not null,

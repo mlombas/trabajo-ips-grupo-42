@@ -25,10 +25,12 @@ public class InscribirsePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private VerCompeticionesPanel competicionesPane;
-	private JButton btnInscribirse;
+	private JButton btnInscribirseAtleta;
 	private AtrasAtletaButton btnAtras;
 
 	private JPanel panelButtons;
+	private JPanel panelInscripcion;
+	private JButton btnInscribirseClub;
 
 	/**
 	 * Create the panel.
@@ -67,41 +69,86 @@ public class InscribirsePanel extends JPanel {
 		if (panelButtons == null) {
 			panelButtons = new JPanel();
 			panelButtons.setLayout(new GridLayout(1, 0, 0, 0));
-			panelButtons.add(getBtnInscribirse());
+			panelButtons.add(getPanelInscripcion());
 			panelButtons.add(getBtnAtras());
 		}
 		return panelButtons;
 	}
 	
-	private JButton getBtnInscribirse() {
-		if (btnInscribirse == null) {
-			btnInscribirse = new JButton("Inscribirse");
+	private JPanel getPanelInscripcion() {
+		if (panelInscripcion == null) {
+			panelInscripcion = new JPanel();
+			panelInscripcion.setLayout(new GridLayout(2, 1, 0, 0));
+			panelInscripcion.add(getBtnInscribirseAtleta());
+			panelInscripcion.add(getBtnInscribirseClub());
+		}
+		return panelInscripcion;
+	}
+	
+	private JButton getBtnInscribirseAtleta() {
+		if (btnInscribirseAtleta == null) {
+			btnInscribirseAtleta = new JButton("Inscribirse como atleta");
 			
-			btnInscribirse.addActionListener(new ActionListener() {
+			btnInscribirseAtleta.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					CompeticionDto competicion = new CompeticionDto();
+					CompeticionDto competicion = getCompeticion();
 					
-					try {
-						competicion.id = competicionesPane.getCompeticionId();
-						competicion.cuota = competicionesPane.getCuota();
-						competicion.nombreCarrera = competicionesPane.getNombreCompeticion();
-						
-						if (!competicionesPane.getEstadoCompeticion().equals("inscripción")) {
-							JOptionPane.showMessageDialog(null, "Seleccione una carrera cuyo estado sea INSCRIPCIÓN...");
-							return;
-						}
-					} catch (ArrayIndexOutOfBoundsException aiobe) {
-						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
-						return;
+					if (competicion != null) {
+						// Move to the other card
+						AtletaMain.getInstance().getFormularioInscripcion().setCompeticionDto(competicion);
+						AtletaMain.getInstance().flipCard(AtletaMain.FORMULARIO_INSCRIPCION_ATLETA);
 					}
-
-					// Move to the other card
-					AtletaMain.getInstance().getFormularioInscripcion().setCompeticionDto(competicion);
-					AtletaMain.getInstance().flipCard(AtletaMain.FORMULARIO_INSCRIPCION);
 				}
 			});
 		}
-		return btnInscribirse;
+		return btnInscribirseAtleta;
+	}
+	
+	private JButton getBtnInscribirseClub() {
+		if (btnInscribirseClub == null) {
+			btnInscribirseClub = new JButton("Inscribirse como club");
+			
+			btnInscribirseClub.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					CompeticionDto competicion = getCompeticion();
+					
+					if (competicion != null) {
+						// Move to the other card
+						String nombreClub = JOptionPane.showInputDialog(
+								   null,
+								   "Bienvenido! ¿Cuál es el nombre de su club?");
+						
+						if (nombreClub != null) {
+							AtletaMain.getInstance().getFormularioInscripcionClub().setCompeticionDto(competicion);
+							AtletaMain.getInstance().getFormularioInscripcionClub().setNombreClub(nombreClub);
+							AtletaMain.getInstance().getFormularioInscripcionClub().reset();
+							AtletaMain.getInstance().flipCard(AtletaMain.FORMULARIO_INSCRIPCION_CLUB);
+						}
+					}
+				}
+			});
+		}
+		return btnInscribirseClub;
+	}
+	
+	private CompeticionDto getCompeticion() { 
+		CompeticionDto competicion = new CompeticionDto();
+		
+		try {
+			competicion.id = competicionesPane.getCompeticionId();
+			competicion.cuota = competicionesPane.getCuota();
+			competicion.nombreCarrera = competicionesPane.getNombreCompeticion();
+			
+			if (!competicionesPane.getEstadoCompeticion().equals("inscripción")) {
+				JOptionPane.showMessageDialog(null, "Seleccione una carrera cuyo estado sea INSCRIPCIÓN...");
+				return null;
+			}
+		} catch (ArrayIndexOutOfBoundsException aiobe) {
+			JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+			return null;
+		}
+		
+		return competicion;
 	}
 	
 	private AtrasAtletaButton getBtnAtras() {

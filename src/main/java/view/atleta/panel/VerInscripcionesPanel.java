@@ -3,6 +3,7 @@ package view.atleta.panel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -11,12 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 
-import controller.atleta.AtletaCrudService;
 import controller.atleta.AtletaCrudServiceImpl;
 import model.atleta.AtletaDto;
 import model.inscripcion.InscripcionDto;
@@ -35,9 +33,11 @@ public class VerInscripcionesPanel extends JPanel {
 	private JLabel lbEmail;
 	private JTextField tfEmail;
 	private JButton btnBuscarCompeticion;
-	private JTable tabCompeticiones;
+	private InscripcionesToTable inscripcionesTable;
 	private AtrasAtletaButton btnAtras;
-
+	
+	private List<InscripcionDto> inscripciones = new ArrayList<>();
+	
 	/**
 	 * Create the panel.
 	 */
@@ -52,7 +52,7 @@ public class VerInscripcionesPanel extends JPanel {
 	private JScrollPane getCompeticionesPane() {
 		if (competicionesPane == null) {
 			competicionesPane = new JScrollPane();
-			competicionesPane.setViewportView(getTabCompeticiones());
+			competicionesPane.setViewportView(getInscripcionesTable());
 		}
 		return competicionesPane;
 	}
@@ -106,17 +106,22 @@ public class VerInscripcionesPanel extends JPanel {
 			showMessage("No hay ningún email con el que iniciar la búsqueda", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			try {
-				AtletaCrudService acs = new AtletaCrudServiceImpl();
+				// Establecemos el atleta sobre el que queremos ver las inscripciones
 				AtletaDto atleta = new AtletaDto();
-				atleta.email = tfEmail.getText();			
-				List<InscripcionDto> inscripciones = acs.getCompetionesInscritas(atleta);
+				atleta.email = tfEmail.getText();
 				
-				TableModel model = new InscripcionesToTable(inscripciones).getModel();
-				getTabCompeticiones().setModel(model);
+				// Obtenemos las inscripciones
+				inscripciones =  new AtletaCrudServiceImpl().getCompetionesInscritas(atleta);
+				inscripcionesTable = new InscripcionesToTable(inscripciones);
 				
-				// We hide the DNI field
-				TableColumnModel tcm = getTabCompeticiones().getColumnModel();
-				tcm.removeColumn(tcm.getColumn(1));
+				// Eliminamos dos columnas que no nos interesan
+				TableColumnModel tcm = inscripcionesTable.getColumnModel();
+				tcm.removeColumn(tcm.getColumn(1)); // no nos interesa el nombre
+				tcm.removeColumn(tcm.getColumn(2)); // no nos interesa la categoría
+				
+				// Re-actualizamos la tabla
+				competicionesPane.setViewportView(inscripcionesTable);
+				competicionesPane.revalidate();
 			} catch (ApplicationException e) {
 				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
 			} catch (RuntimeException e) {
@@ -141,11 +146,16 @@ public class VerInscripcionesPanel extends JPanel {
 	}
 
 	
-	private JTable getTabCompeticiones() {
-		if (tabCompeticiones == null) {
-			tabCompeticiones = new JTable();
+	private InscripcionesToTable getInscripcionesTable() {
+		if (inscripcionesTable == null) {
+			inscripcionesTable = new InscripcionesToTable(inscripciones);
+			
+			// Eliminamos dos columnas que no nos interesan
+			TableColumnModel tcm = inscripcionesTable.getColumnModel();
+			tcm.removeColumn(tcm.getColumn(1)); // no nos interesa el nombre
+			tcm.removeColumn(tcm.getColumn(2)); // no nos interesa la categoría
 		}
-		return tabCompeticiones;
+		return inscripcionesTable;
 	}
 	
 }

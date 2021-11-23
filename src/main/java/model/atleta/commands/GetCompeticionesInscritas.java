@@ -21,12 +21,10 @@ public class GetCompeticionesInscritas {
 
 	public List<InscripcionDto> execute() {
 		checkArguments();
-
 		checkExistsEmail();
 		
 		List<InscripcionDto> inscripciones = db.executeQueryPojo(InscripcionDto.class, COMPETICIONESINSCRITAS, atleta.email);
 		return inscripciones;
-
 	}
 
 	private void checkExistsEmail() {
@@ -34,7 +32,6 @@ public class GetCompeticionesInscritas {
 		if(ad.size() <= 0) {
 			throw new ApplicationException("No existe ningún atleta con ese email");
 		}
-
 	}
 
 	private void checkArguments() {

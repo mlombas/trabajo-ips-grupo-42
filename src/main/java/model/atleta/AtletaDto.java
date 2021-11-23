@@ -9,6 +9,19 @@ public class AtletaDto {
 	public String nombre;
 	public LocalDate fechaNacimiento;
 	public String sexo;
+	public String club;
+
+	public String getClub() {
+		return club;
+	}
+
+	public void setClub(String club) {
+		this.club = club;
+	}
+
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
 
 	public String getEmail() {
 		return email;

@@ -184,19 +184,6 @@ public class CrearPlazosPanel extends CrearCompeticionSubPanel {
 			tfCuota.setColumns(20);
 		}
 		return tfCuota;
-	}	
-
-//	private void checkPlazos() { TODO
-//		try {
-//			CompeticionCrudService ccs = new CompeticionCrudServiceImpl();		
-//			ccs.checkPlazosByIdCompeticion(comp.id);
-//			crearCompeticionPanel.setPlazosCreated(true);
-//		} catch (ApplicationException e) {
-//			showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
-//		} catch (RuntimeException e) { 
-//			e.printStackTrace(); 
-//			showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
-//		}
-//	}
+	}
 	
 }

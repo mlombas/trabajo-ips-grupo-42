@@ -14,12 +14,41 @@ public class InscripcionDto {
 	public EstadoInscripcion estadoInscripcion;
 	public double cuotaInscripcion;
 	public LocalDate fechaCambioEstado;
+	public String clubAtleta;
 //	public int poisicion;
 //	public double tiempo;
 	public Double devolver;
 
 	public Double getDevolver() {
 		return devolver;
+	}
+
+	public String getDniAtleta() {
+		return dniAtleta;
+	}
+
+	public void setDniAtleta(String dniAtleta) {
+		this.dniAtleta = dniAtleta;
+	}
+
+	public String getClubAtleta() {
+		return clubAtleta;
+	}
+
+	public void setClubAtleta(String clubAtleta) {
+		this.clubAtleta = clubAtleta;
+	}
+
+	public void setFechaInscripcion(LocalDate fechaInscripcion) {
+		this.fechaInscripcion = fechaInscripcion;
+	}
+
+	public void setEstadoInscripcion(EstadoInscripcion estadoInscripcion) {
+		this.estadoInscripcion = estadoInscripcion;
+	}
+
+	public void setFechaCambioEstado(LocalDate fechaCambioEstado) {
+		this.fechaCambioEstado = fechaCambioEstado;
 	}
 
 	public void setDevolver(Double devolver) {

@@ -1,6 +1,5 @@
 package view.organizador.panel;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -113,8 +112,6 @@ public class CrearCompeticionPanel extends JPanel {
 		getTextFecha().setText("");
 		getSpinnerLongitud().setValue(0);
 
-//		getBtnCategorias().setEnabled(false); TODO
-//		getBtnPlazos().setEnabled(false);
 		getBtnOk().setEnabled(false);
 	}
 	
@@ -400,55 +397,6 @@ public class CrearCompeticionPanel extends JPanel {
 		return panelPuntosIntermedios;
 	}
 
-//	private JButton getBtnCategorias() {
-//		if (btnCategorias == null) {
-//			btnCategorias = new JButton("Configurar Categorías");
-//			btnCategorias.setEnabled(false);
-//			btnCategorias.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent e) {
-//					showConfigurarCategorias();
-//					
-//					// In case PLAZOS and CATEGORIAS are created
-//					if (isPlazosCreated && isCategoriasCreated)
-//						getBtnOk().setEnabled(true);
-//				}
-//			});
-//		}
-//		return btnCategorias;
-//	}
-//
-//	private void showCrearPlazos(CompeticionDto competicion) {
-//		CrearPlazosDialog plazosDialog = new CrearPlazosDialog(this, competicion);
-//		plazosDialog.setLocationRelativeTo(null);
-//		plazosDialog.setModal(true);
-//		plazosDialog.setVisible(true);
-//  }
-//	
-//	protected void showConfigurarCategorias() {
-//		ConfigurarCategoriasDialog configurarCategoriasDialog = new ConfigurarCategoriasDialog(this, competicion.id);
-//		configurarCategoriasDialog.setLocationRelativeTo(null);
-//		configurarCategoriasDialog.setModal(true);
-//		configurarCategoriasDialog.setVisible(true);
-//		
-//	}
-//
-//	private JButton getBtnPlazos() {
-//		if (btnPlazos == null) {
-//			btnPlazos = new JButton("Configurar Plazos");
-//			btnPlazos.setEnabled(false);
-//			btnPlazos.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent e) {
-//					showCrearPlazos(competicion);
-//					
-//					// In case PLAZOS and CATEGORIAS are created
-//					if (isPlazosCreated && isCategoriasCreated)
-//						getBtnOk().setEnabled(true);
-//				}
-//			});
-//		}
-//		return btnPlazos;
-//	}
-
 	private JPanel getPanelButtons() {
 		if (panelButtons == null) {
 			panelButtons = new JPanel();
@@ -478,7 +426,7 @@ public class CrearCompeticionPanel extends JPanel {
 
 			btnOk.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					competicion.estadoCarrera = "inscripción"; // TODO hacer dinámico
+					competicion.estadoCarrera = "inscripción";
 					try {
 						ModelFactory.forCarreraCrudService().addCategoriaGeneral(competicion.id);
 						ModelFactory.forCarreraCrudService().updateCompeticion(competicion);

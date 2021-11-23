@@ -6,6 +6,7 @@ public enum EstadoInscripcion {
 	PAGO_PENDIENTE,
 	INSCRITO,
 	RECHAZADO,
-	PARTICIPADO;
+	PARTICIPADO, 
+	INSCRITO_COMO_CLUB;
 	
 }
