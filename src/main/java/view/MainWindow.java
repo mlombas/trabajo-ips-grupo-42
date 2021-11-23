@@ -44,7 +44,7 @@ public class MainWindow extends JFrame {
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(0, 0, 720, 480);
+		setBounds(0, 0, 1280, 720);
 		setMinimumSize(new Dimension(720, 480));
 		setLocationRelativeTo(null);
 		
