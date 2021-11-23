@@ -1,202 +1,196 @@
 package view.organizador.panel;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.util.List;
 
-import javax.swing.JDialog;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 import controller.competicion.CompeticionCrudService;
 import controller.competicion.CompeticionCrudServiceImpl;
+import model.ModelFactory;
+import model.competicion.CategoriaDto;
 import model.competicion.CompeticionDto;
-import model.competicion.PlazoInscripcionDto;
 import net.miginfocom.swing.MigLayout;
-import util.Validate;
-import util.exceptions.ApplicationException;
-import view.util.table.PlazosToTable;
+import util.exceptions.ModelException;
+import view.util.table.CategoriasToTable;
 
 public class CrearCategoriasPanel extends CrearCompeticionSubPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private JTable tabPlazos;
-	
-	private JLabel lbFechaInicio;
-	private JTextField tfFechaInicio;
-	private JLabel lbFechaFin;
-	private JTextField tfFechaFin;
-	private JLabel lbCuota;
-	private JTextField tfCuota;
+	private JTable tabCategorias;
+	private JTextField txtNombre;
+	private JLabel lblTipo;
+	private JLabel lblEdadMin;
 
 	private CompeticionDto comp;
-	private CrearCompeticionPanel crearCompeticionPanel;
+	private JLabel lblNombreCat;
+	private JSpinner spinnerEdadMin;
+	private JLabel lblEdadMax;
+	private JSpinner spinnerEdadMax;
+	private JPanel pnBotonesTipo;
+	private JRadioButton rdbtnHombre;
+	private JRadioButton rdbtnMujer;
+	private JRadioButton rdbtnDiscapacitados;
 
-	public CrearCategoriasPanel(CrearCompeticionPanel crearCompeticionPanel, CompeticionDto comp) {
+	CompeticionCrudService ccs = new CompeticionCrudServiceImpl();
+
+	public CrearCategoriasPanel(CompeticionDto comp) {
 		this.comp = comp;
-		this.crearCompeticionPanel = crearCompeticionPanel;
-		
+
 		// Añadimos los elementos al panel
-		cargarPlazos();
+		cargarCategorias();
 		addToFormulario();
-		
+
 		// Añadimos el event listener
 		getBtnAñadir().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				añadirPlazo();
+				añadirCategoria();
 			}
 		});
 	}
 
-	private void cargarPlazos() {
-		CompeticionCrudService ccs = new CompeticionCrudServiceImpl();		
-		List<PlazoInscripcionDto> plazos = ccs.getAllPlazos(comp.id);
-		this.tabPlazos = new PlazosToTable(plazos);
-		getScrollPaneVisualizacion().setViewportView(tabPlazos);
+	private void cargarCategorias() {
+		List<CategoriaDto> cats = ccs.getAllCategorias(comp.id);
+		this.tabCategorias = new CategoriasToTable(cats);
+		getScrollPaneVisualizacion().setViewportView(tabCategorias);
 	}
 
-	private void showMessage(String message, String title, int type) {
-		JOptionPane pane = new JOptionPane(message, type, JOptionPane.DEFAULT_OPTION);
-		pane.setOptions(new Object[] { "ACEPTAR" });
-		JDialog d = pane.createDialog(pane, title);
-		d.setLocationRelativeTo(null);
-		d.setVisible(true);
-
-	}
-
-	private void añadirPlazo() {
-		if (!checkCuota()) {
-			showMessage("Cuota no válida", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-		} else if (!checkFechaInicio()) {
-			showMessage("Fecha de inicio no válida", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-		} else if (!checkFechaFin()) {
-			showMessage("Fecha de finalización no válida", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-		} else {
-			try {
-				PlazoInscripcionDto plazo = new PlazoInscripcionDto();
-				plazo.cuota = Integer.parseInt(tfCuota.getText().strip());
-				
-				String fechaInicio = tfFechaInicio.getText();
-				plazo.fechaInicio = Validate.validateFecha(fechaInicio);
-				if (plazo.fechaInicio == null || plazo.fechaInicio.isBefore(LocalDate.now())) {
-					showMessage("Fecha de inicio no válida", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				} 
-				
-				String fechaFin = tfFechaFin.getText();
-				plazo.fechaFin = Validate.validateFecha(fechaFin);
-				if (plazo.fechaFin == null || plazo.fechaFin.isBefore(LocalDate.now())) {
-					showMessage("Fecha de finalización no válida", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				
-				CompeticionCrudService ccs = new CompeticionCrudServiceImpl();		
-				List<PlazoInscripcionDto> plazos = ccs.addPlazo(comp, plazo);
-				tabPlazos = new PlazosToTable(plazos);
-				getScrollPaneVisualizacion().setViewportView(tabPlazos);
-				this.revalidate();
-			} catch (ApplicationException e) {
-				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
-			} catch (RuntimeException e) { 
-				e.printStackTrace(); 
-				showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
-			}	
+	private void añadirCategoria() {
+		CategoriaDto cat = new CategoriaDto();
+		cat.idCompeticion = comp.id;
+		cat.nombreCategoria = txtNombre.getText();
+		cat.edadMinima = (int) spinnerEdadMin.getValue();
+		cat.edadMaxima = (int) spinnerEdadMax.getValue();
+		if (rdbtnHombre.isSelected()) {
+			cat.sexo = "H";
 		}
-	}
-	
-	private boolean checkFechaFin() {
-		if(tfFechaFin.getText().strip().isEmpty())
-			return false;
-		return true;
-	}
-
-	private boolean checkFechaInicio() {
-		if(tfFechaInicio.getText().strip().isEmpty())
-			return false;
-		return true;
-	}
-
-	private boolean checkCuota() {
+		if (rdbtnMujer.isSelected()) {
+			cat.sexo = "M";
+		}
+		if (rdbtnDiscapacitados.isSelected()) {
+			cat.sexo = "D";
+		}
 		try {
-			if(tfCuota.getText().strip().isEmpty() || Integer.parseInt(tfCuota.getText().strip()) < 0)
-				return false;
-			return true;
-		}catch (RuntimeException e) {
-			showMessage("Cuota no válida", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+			ModelFactory.forCarreraCrudService().addCategoria(cat);
+			JOptionPane.showMessageDialog(null, "Categoría creada con éxito");
+			List<CategoriaDto> cats = ccs.getAllCategorias(comp.id);
+			this.tabCategorias = new CategoriasToTable(cats);
+			getScrollPaneVisualizacion().setViewportView(tabCategorias);
+			this.revalidate();
+		} catch (ModelException ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage());
 		}
-		return false;
 	}
-	
+
 	private void addToFormulario() {
-		getPanelFormulario().setLayout(new MigLayout("", "[grow,fill]", "[][][][][][]"));
-		getPanelFormulario().add(getLbFechaInicio(), "cell 0 0,alignx left,aligny center");
-		getPanelFormulario().add(getTfFechaInicio(), "cell 0 1,growx,aligny top");
-		getPanelFormulario().add(getLbFechaFin(), "cell 0 2,alignx left,aligny center");
-		getPanelFormulario().add(getTfFechaFin(), "cell 0 3,growx,aligny top");
-		getPanelFormulario().add(getLbCuota(), "cell 0 4,alignx left,aligny center");
-		getPanelFormulario().add(getTfCuota(), "cell 0 5,growx,aligny top");
+		getPanelFormulario().setLayout(new MigLayout("", "[grow,fill][grow,fill]", "[][][][][grow][]"));
+		getPanelFormulario().add(getLblNombreCat(), "cell 0 1");
+		getPanelFormulario().add(getLblEdadMin(), "cell 1 1,alignx left,aligny center");
+		getPanelFormulario().add(getTxtNombre(), "cell 0 2,growx,aligny top");
+		getPanelFormulario().add(getSpinnerEdadMin(), "cell 1 2");
+		getPanelFormulario().add(getLblTipo(), "cell 0 3,alignx left,aligny center");
+		getPanelFormulario().add(getLblEdadMax(), "cell 1 3");
+		getPanelFormulario().add(getPnBotonesTipo(), "cell 0 4,grow");
+		getPanelFormulario().add(getSpinnerEdadMax(), "cell 1 4");
 	}
 
-	private JLabel getLbFechaInicio() {
-		if (lbFechaInicio == null) {
-			lbFechaInicio = new JLabel("Fecha de Inicio: ");
+	private JTextField getTxtNombre() {
+		if (txtNombre == null) {
+			txtNombre = new JTextField();
+			txtNombre.setColumns(20);
 		}
-		return lbFechaInicio;
+		return txtNombre;
 	}
 
-	private JTextField getTfFechaInicio() {
-		if (tfFechaInicio == null) {
-			tfFechaInicio = new JTextField();
-			tfFechaInicio.setColumns(20);
+	private JLabel getLblTipo() {
+		if (lblTipo == null) {
+			lblTipo = new JLabel("Tipo de categoría:");
 		}
-		return tfFechaInicio;
+		return lblTipo;
 	}
 
-	private JLabel getLbFechaFin() {
-		if (lbFechaFin == null) {
-			lbFechaFin = new JLabel("Fecha de Finalización: ");
+	private JLabel getLblEdadMin() {
+		if (lblEdadMin == null) {
+			lblEdadMin = new JLabel("Edad mínima:");
 		}
-		return lbFechaFin;
+		return lblEdadMin;
 	}
 
-	private JTextField getTfFechaFin() {
-		if (tfFechaFin == null) {
-			tfFechaFin = new JTextField();
-			tfFechaFin.setColumns(20);
+	private JLabel getLblNombreCat() {
+		if (lblNombreCat == null) {
+			lblNombreCat = new JLabel("Nombre:");
 		}
-		return tfFechaFin;
+		return lblNombreCat;
 	}
 
-	private JLabel getLbCuota() {
-		if (lbCuota == null) {
-			lbCuota = new JLabel("Cuota:");
+	private JPanel getPnBotonesTipo() {
+		if (pnBotonesTipo == null) {
+			pnBotonesTipo = new JPanel();
+			pnBotonesTipo.setLayout(new BoxLayout(pnBotonesTipo, BoxLayout.Y_AXIS));
+			pnBotonesTipo.add(getRdbtnHombre());
+			pnBotonesTipo.add(getRdbtnMujer());
+			pnBotonesTipo.add(getRdbtnDiscapacitados());
+			ButtonGroup group = new ButtonGroup();
+			group.add(getRdbtnHombre());
+			group.add(getRdbtnMujer());
+			group.add(getRdbtnDiscapacitados());
 		}
-		return lbCuota;
+		return pnBotonesTipo;
 	}
 
-	private JTextField getTfCuota() {
-		if (tfCuota == null) {
-			tfCuota = new JTextField();
-			tfCuota.setColumns(20);
+	private JSpinner getSpinnerEdadMin() {
+		if (spinnerEdadMin == null) {
+			spinnerEdadMin = new JSpinner();
+			spinnerEdadMin.setPreferredSize(new Dimension(60, 20));
+			spinnerEdadMin.setModel(new SpinnerNumberModel(18, 18, null, 1));
 		}
-		return tfCuota;
-	}	
+		return spinnerEdadMin;
+	}
 
-//	private void checkPlazos() { TODO
-//		try {
-//			CompeticionCrudService ccs = new CompeticionCrudServiceImpl();		
-//			ccs.checkPlazosByIdCompeticion(comp.id);
-//			crearCompeticionPanel.setPlazosCreated(true);
-//		} catch (ApplicationException e) {
-//			showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
-//		} catch (RuntimeException e) { 
-//			e.printStackTrace(); 
-//			showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
-//		}
-//	}
-	
+	private JLabel getLblEdadMax() {
+		if (lblEdadMax == null) {
+			lblEdadMax = new JLabel("Edad máxima:");
+		}
+		return lblEdadMax;
+	}
+
+	private JSpinner getSpinnerEdadMax() {
+		if (spinnerEdadMax == null) {
+			spinnerEdadMax = new JSpinner();
+			spinnerEdadMax.setPreferredSize(new Dimension(60, 20));
+			spinnerEdadMax.setModel(new SpinnerNumberModel(18, 18, null, 1));
+		}
+		return spinnerEdadMax;
+	}
+
+	private JRadioButton getRdbtnDiscapacitados() {
+		if (rdbtnDiscapacitados == null)
+			rdbtnDiscapacitados = new JRadioButton("Discapacitados");
+		return rdbtnDiscapacitados;
+	}
+
+	private JRadioButton getRdbtnMujer() {
+		if (rdbtnMujer == null)
+			rdbtnMujer = new JRadioButton("Mujer");
+		return rdbtnMujer;
+	}
+
+	private JRadioButton getRdbtnHombre() {
+		if (rdbtnHombre == null)
+			rdbtnHombre = new JRadioButton("Hombre");
+		rdbtnHombre.setSelected(true);
+		return rdbtnHombre;
+	}
 }
