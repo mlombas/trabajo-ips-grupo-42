@@ -40,6 +40,7 @@ public class GetAllCompeticiones {
 			competition.fechaInicio = plazo.fechaInicio.toString() ;
 			competition.fechaFin = plazo.fechaFin.toString() ;
 		}
+		
 		return competitions;
 	}
 
@@ -56,7 +57,7 @@ public class GetAllCompeticiones {
 			return primerPlazo.get(0);
 		} else {
 			throw new ApplicationException("No hay plazos para esta competición " + competition.id);
-		}	
-		
+		}
 	}
+	
 }

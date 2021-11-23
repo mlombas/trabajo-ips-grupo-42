@@ -207,7 +207,7 @@ public class FormularioAtletaPanel extends JPanel {
 	
 	private Component getBtnAtras() {
 		if (btnAtras == null) {
-			btnAtras = new AtrasAtletaButton(AtletaMain.FORMULARIO_INSCRIPCION);
+			btnAtras = new AtrasAtletaButton(AtletaMain.FORMULARIO_INSCRIPCION_ATLETA);
 		}
 		return btnAtras;
 	}

@@ -48,5 +48,7 @@ public interface AtletaCrudService {
 	Optional<AtletaDto> findByAtletaEmail(String email) throws ModelException;
 
 	InscripcionDto processTransaction(String email, String code, double amount, LocalDateTime dt, String id) throws ModelException;
+
+	void registerAtletasToCompetition(List<AtletaDto> atletas, CompeticionDto competicion) throws ModelException, AtletaNoValidoException;
 	
 }

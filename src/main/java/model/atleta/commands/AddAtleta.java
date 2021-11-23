@@ -11,7 +11,7 @@ import util.exceptions.ModelException;
 
 public class AddAtleta {
 		
-	private static final String ADD_ATLETA = "insert into Atleta(dni, email, nombre, fechaNacimiento, sexo) VALUES (?, ?, ?, ?, ?)";
+	private static final String ADD_ATLETA = "insert into Atleta(dni, email, nombre, fechaNacimiento, sexo, club) VALUES (?, ?, ?, ?, ?, ?)";
 	
 	private AtletaDto atleta;	
 	private Database db = Database.getInstance();
@@ -31,6 +31,7 @@ public class AddAtleta {
 			pst.setString(3, atleta.nombre);
 			pst.setString(4, atleta.fechaNacimiento.toString());
 			pst.setString(5, atleta.sexo);
+			pst.setString(6, atleta.club);
 			
 			pst.executeUpdate();
 			

@@ -13,7 +13,8 @@ import javax.swing.border.EmptyBorder;
 
 import util.exceptions.ModelException;
 import view.atleta.panel.FormularioAtletaPanel;
-import view.atleta.panel.FormularioInscripcionPanel;
+import view.atleta.panel.FormularioInscripcionAtletaPanel;
+import view.atleta.panel.FormularioInscripcionClubPanel;
 import view.atleta.panel.InscribirsePanel;
 import view.atleta.panel.JustificantePanel;
 import view.atleta.panel.VerInscripcionesPanel;
@@ -25,7 +26,8 @@ public class AtletaMain extends JPanel {
 	public static final String ATLETAS_MENU = "atletas";
 	public static final String INSCRIBIRSE = "inscribirse";
 	public static final String VER_INSCRIPCIONES = "ver inscripciones";
-	public static final String FORMULARIO_INSCRIPCION = "formulario";
+	public static final String FORMULARIO_INSCRIPCION_ATLETA = "formulario inscripcion atleta";
+	public static final String FORMULARIO_INSCRIPCION_CLUB = "formulario inscripcion club";
 	public static final String FORMULARIO_ATLETA = "formulario atleta";
 	public static final String JUSTIFICANTE = "justificante";
 	
@@ -36,7 +38,8 @@ public class AtletaMain extends JPanel {
 	private AtletaMenu atletaMenu;
 	private InscribirsePanel inscribirsePanel;
 	private VerInscripcionesPanel verInscripcionesPanel;
-	private FormularioInscripcionPanel formularioInscripcionPanel;
+	private FormularioInscripcionAtletaPanel formularioInscripcionAtletaPanel;
+	private FormularioInscripcionClubPanel formularioInscripcionClubPanel;
 	private FormularioAtletaPanel formularioAtletaPanel;
 	private JustificantePanel justificantePanel;
 	
@@ -58,7 +61,8 @@ public class AtletaMain extends JPanel {
 		atletaMenu = new AtletaMenu();
 		inscribirsePanel = new InscribirsePanel();
 		verInscripcionesPanel = new VerInscripcionesPanel();
-		formularioInscripcionPanel = new FormularioInscripcionPanel();
+		formularioInscripcionAtletaPanel = new FormularioInscripcionAtletaPanel();
+		formularioInscripcionClubPanel = new FormularioInscripcionClubPanel();
 		formularioAtletaPanel = new FormularioAtletaPanel();
 		justificantePanel = new JustificantePanel();
 		
@@ -66,7 +70,8 @@ public class AtletaMain extends JPanel {
 		cards.add(atletaMenu, ATLETAS_MENU);
 		cards.add(inscribirsePanel, INSCRIBIRSE);
 		cards.add(verInscripcionesPanel, VER_INSCRIPCIONES);
-		cards.add(formularioInscripcionPanel, FORMULARIO_INSCRIPCION);
+		cards.add(formularioInscripcionAtletaPanel, FORMULARIO_INSCRIPCION_ATLETA);
+		cards.add(formularioInscripcionClubPanel, FORMULARIO_INSCRIPCION_CLUB);
 		cards.add(formularioAtletaPanel, FORMULARIO_ATLETA);
 		cards.add(justificantePanel, JUSTIFICANTE);
 		
@@ -92,8 +97,8 @@ public class AtletaMain extends JPanel {
 	
 	/** Basic implementation of the AtletasMenu;
 	 * 		1. Here you can select what you want to do:
-	 * 			a. Inscribirse
-	 * 			b. Ver inscripciones
+	 * 			a. Inscribe
+	 * 			b. See inscriptions
 	 */
 	private class AtletaMenu extends JPanel {
 		private static final long serialVersionUID = 1L;
@@ -138,8 +143,12 @@ public class AtletaMain extends JPanel {
 		}
 	}
 	
-	public FormularioInscripcionPanel getFormularioInscripcion() {
-		return formularioInscripcionPanel;
+	public FormularioInscripcionAtletaPanel getFormularioInscripcion() {
+		return formularioInscripcionAtletaPanel;
+	}
+	
+	public FormularioInscripcionClubPanel getFormularioInscripcionClub() {
+		return formularioInscripcionClubPanel;
 	}
 
 	public FormularioAtletaPanel getFormularioAtletaPanel() {

@@ -21,6 +21,7 @@ import model.competicion.commands.GetAllPlazos;
 import model.competicion.commands.GetNombresCategorias;
 import model.competicion.commands.GetClasificacion;
 import model.competicion.commands.GetClasificacionByCategoria;
+import model.competicion.commands.GetPlazasLibres;
 import model.competicion.commands.RemoveCompeticion;
 import model.competicion.commands.UpdateCompeticion;
 import util.exceptions.ModelException;
@@ -111,7 +112,13 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	}
 
 	@Override
+	public int getPlazasLibres(CompeticionDto competicion) throws ModelException {
+		return new GetPlazasLibres(competicion).execute();
+  }
+
+  @Override
 	public List<CategoriaDto> getAllCategorias(String competicionId) {
 		return new GetAllCategorias(competicionId).execute();
 	}
+  
 }

@@ -8,8 +8,8 @@ import model.competicion.CompeticionDto;
 import model.competicion.PlazoInscripcionDto;
 import util.exceptions.ModelException;
 
-
 public interface CompeticionCrudService {
+	
 	List<Integer> cargarTiempos(CompeticionDto comp);
 
 	List<CompeticionDto> GetAllCompeticiones() throws ModelException;
@@ -43,5 +43,7 @@ public interface CompeticionCrudService {
 	void addCategoriaGeneral(String idCompeticion) throws ModelException;
 	
 	List<CategoriaDto> getAllCategorias (String competicionId);
+
+	int getPlazasLibres(CompeticionDto competicion) throws ModelException;
 
 }

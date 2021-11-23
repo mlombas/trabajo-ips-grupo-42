@@ -32,7 +32,7 @@ import util.exceptions.ModelException;
 import view.atleta.AtletaMain;
 import view.atleta.util.AtrasAtletaButton;
 
-public class FormularioInscripcionPanel extends JPanel {
+public class FormularioInscripcionAtletaPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -53,7 +53,7 @@ public class FormularioInscripcionPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public FormularioInscripcionPanel() {
+	public FormularioInscripcionAtletaPanel() {
 		this.competicion = new CompeticionDto();
 		
 		setLayout(new BorderLayout(0, 0));
@@ -80,7 +80,8 @@ public class FormularioInscripcionPanel extends JPanel {
 	private JPanel getPanelFormulario() {
 		if (panelFormulario == null) {
 			panelFormulario = new JPanel();
-			panelFormulario.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Formulario de Inscripción a la Carrera", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+			panelFormulario.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), 
+					"Formulario de Inscripción a la Carrera", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 			panelFormulario.setLayout(new MigLayout("", "[430px,grow]", "[grow][fill][fill][fill][grow]"));
 			panelFormulario.add(getLblEmail(), "flowx,cell 0 1,aligny center");
 			panelFormulario.add(getTextEmail(), "cell 0 2,growx");
