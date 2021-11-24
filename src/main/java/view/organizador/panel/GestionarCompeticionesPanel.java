@@ -48,6 +48,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 
 	private JButton btnProcesar;
 	private JButton btnPlazos;
+	private JPanel pnCargarDatos;
 
 	public GestionarCompeticionesPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -134,7 +135,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 			btnPane = new JPanel();
 			btnPane.setLayout(new GridLayout(0, 2, 0, 0));
 			btnPane.add(getCompeticionManagementPane());
-			btnPane.add(getBtnCargarTiempos());
+			btnPane.add(getPnCargarDatos());
 			btnPane.add(getBtnGenerarDorsales());
 			btnPane.add(getBtnAtras());
 		}
@@ -223,7 +224,6 @@ public class GestionarCompeticionesPanel extends JPanel {
 			competicionManagementPane.setLayout(new GridLayout(2, 0, 0, 0));
 			competicionManagementPane.add(getBtnVerEstado());
 			competicionManagementPane.add(getVerClasificacionesPane());
-			competicionManagementPane.add(getBtnProcesar());
 			competicionManagementPane.add(getBtnPlazos());
 		}
 		return competicionManagementPane;
@@ -348,5 +348,14 @@ public class GestionarCompeticionesPanel extends JPanel {
 		plazosDialog.setModal(true);
 		plazosDialog.setVisible(true);
 
+	}
+	private JPanel getPnCargarDatos() {
+		if (pnCargarDatos == null) {
+			pnCargarDatos = new JPanel();
+			pnCargarDatos.setLayout(new GridLayout(1, 0, 0, 0));
+			pnCargarDatos.add(getBtnCargarTiempos());
+			pnCargarDatos.add(getBtnProcesar());
+		}
+		return pnCargarDatos;
 	}
 }
