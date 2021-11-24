@@ -65,7 +65,6 @@ public class CrearPlazosPanel extends CrearCompeticionSubPanel {
 		JDialog d = pane.createDialog(pane, title);
 		d.setLocationRelativeTo(null);
 		d.setVisible(true);
-
 	}
 
 	private void añadirPlazo() {

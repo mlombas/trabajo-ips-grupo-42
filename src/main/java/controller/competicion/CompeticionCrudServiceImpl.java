@@ -6,14 +6,17 @@ import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
 import model.competicion.PlazoInscripcionDto;
+import model.competicion.PuntoIntermedioDto;
 import model.competicion.commands.AddCategoria;
 import model.competicion.commands.AddCategoriaGeneral;
 import model.competicion.commands.AddCompeticion;
 import model.competicion.commands.AddPlazo;
+import model.competicion.commands.AddPuntoIntermedio;
 import model.competicion.commands.CargarTiempos;
 import model.competicion.commands.CheckPlazosByIdCompeticion;
 import model.competicion.commands.DeletePlazosByIdCompetición;
 import model.competicion.commands.DeleteAllCategorias;
+import model.competicion.commands.DeleteAllPuntosIntermedios;
 import model.competicion.commands.GenerarDorsales;
 import model.competicion.commands.GetAllCategorias;
 import model.competicion.commands.GetAllCompeticiones;
@@ -119,6 +122,17 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
   @Override
 	public List<CategoriaDto> getAllCategorias(String competicionId) {
 		return new GetAllCategorias(competicionId).execute();
+	}
+
+	@Override
+	public void addPuntoIntermedio(PuntoIntermedioDto puntoIntermedio) throws ModelException {
+		new AddPuntoIntermedio(puntoIntermedio).execute();
+	}
+	
+	@Override
+	public void deleteAllPuntosIntermedios(String id) throws ModelException {
+		new DeleteAllPuntosIntermedios(id).execute();
+
 	}
   
 }

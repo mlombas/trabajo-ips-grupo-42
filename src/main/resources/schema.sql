@@ -106,8 +106,8 @@ create table Plazo(
 create table PuntoIntermedio(
 	id varchar(255) not null,
 	idCompeticion varchar(255) not null,
-	tiempoMaximo int not null,
-	distanciaSalida varchar(255) not null,
+	tiempoMaximo int,
+	distanciaSalida int not null,
 	
 	primary key (id,idCompeticion),
 	foreign key(idCompeticion) references Competicion(id)

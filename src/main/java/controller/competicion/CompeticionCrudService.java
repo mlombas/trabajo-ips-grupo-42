@@ -6,6 +6,7 @@ import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
 import model.competicion.PlazoInscripcionDto;
+import model.competicion.PuntoIntermedioDto;
 import util.exceptions.ModelException;
 
 public interface CompeticionCrudService {
@@ -45,5 +46,9 @@ public interface CompeticionCrudService {
 	List<CategoriaDto> getAllCategorias (String competicionId);
 
 	int getPlazasLibres(CompeticionDto competicion) throws ModelException;
+
+	void addPuntoIntermedio(PuntoIntermedioDto puntoIntermedio) throws ModelException;
+
+	void deleteAllPuntosIntermedios(String id) throws ModelException;
 
 }
