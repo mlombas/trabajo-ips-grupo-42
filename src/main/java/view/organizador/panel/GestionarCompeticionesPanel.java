@@ -29,6 +29,7 @@ import view.organizador.dialog.VerPlazosDialog;
 import view.organizador.dialog.VerProcesadoDialog;
 import view.organizador.util.AtrasOrganizadorButton;
 import view.util.panel.VerCompeticionesPanel;
+import javax.swing.JCheckBox;
 
 public class GestionarCompeticionesPanel extends JPanel {
 
@@ -40,8 +41,6 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private JButton btnVerEstado;
 	private JButton btnVerClasificaciones;
 	private AtrasOrganizadorButton btnAtras;
-
-	private JPanel verClasificacionesPane;
 	private JComboBox<String> cbCategorias;
 	private JButton btnCargarTiempos;
 	private JButton btnGenerarDorsales;
@@ -49,6 +48,13 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private JButton btnProcesar;
 	private JButton btnPlazos;
 	private JPanel pnCargarDatos;
+	private JPanel pnClasificaciones;
+	private JPanel pnVerClas;
+	private JPanel pnFiltros;
+	private JCheckBox chckbxPuntosControl;
+	private JCheckBox chckbxClub;
+	private JCheckBox chckbxTiempo;
+	private JCheckBox chckbxDiferencia;
 
 	public GestionarCompeticionesPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -136,7 +142,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 			btnPane.setLayout(new GridLayout(0, 2, 0, 0));
 			btnPane.add(getCompeticionManagementPane());
 			btnPane.add(getPnCargarDatos());
-			btnPane.add(getBtnGenerarDorsales());
+			btnPane.add(getPnClasificaciones());
 			btnPane.add(getBtnAtras());
 		}
 		return btnPane;
@@ -145,7 +151,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private JButton getBtnCargarTiempos() {
 		if (btnCargarTiempos == null) {
 			btnCargarTiempos = new JButton("CargarTiempos");
-			btnCargarTiempos.addActionListener(new ActionListener() {
+			btnCargarTiempos.addActionListener(new ActionListener () {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						CompeticionDto competicion = new CompeticionDto();
@@ -223,8 +229,8 @@ public class GestionarCompeticionesPanel extends JPanel {
 			competicionManagementPane = new JPanel();
 			competicionManagementPane.setLayout(new GridLayout(2, 0, 0, 0));
 			competicionManagementPane.add(getBtnVerEstado());
-			competicionManagementPane.add(getVerClasificacionesPane());
 			competicionManagementPane.add(getBtnPlazos());
+			competicionManagementPane.add(getBtnGenerarDorsales());
 		}
 		return competicionManagementPane;
 	}
@@ -279,16 +285,6 @@ public class GestionarCompeticionesPanel extends JPanel {
 			});
 		}
 		return btnVerEstado;
-	}
-
-	private JPanel getVerClasificacionesPane() {
-		if (verClasificacionesPane == null) {
-			verClasificacionesPane = new JPanel();
-			verClasificacionesPane.setLayout(new GridLayout(0, 2, 0, 0));
-			verClasificacionesPane.add(getBtnVerClasificaciones());
-			verClasificacionesPane.add(getCbCategorias());
-		}
-		return verClasificacionesPane;
 	}
 
 	private JButton getBtnVerClasificaciones() {
@@ -357,5 +353,57 @@ public class GestionarCompeticionesPanel extends JPanel {
 			pnCargarDatos.add(getBtnProcesar());
 		}
 		return pnCargarDatos;
+	}
+	private JPanel getPnClasificaciones() {
+		if (pnClasificaciones == null) {
+			pnClasificaciones = new JPanel();
+			pnClasificaciones.setLayout(new GridLayout(0, 1, 0, 0));
+			pnClasificaciones.add(getPnVerClas());
+			pnClasificaciones.add(getPnFiltros());
+		}
+		return pnClasificaciones;
+	}
+	private JPanel getPnVerClas() {
+		if (pnVerClas == null) {
+			pnVerClas = new JPanel();
+			pnVerClas.setLayout(new GridLayout(1, 1, 0, 0));
+			pnVerClas.add(getBtnVerClasificaciones());
+			pnVerClas.add(getCbCategorias());
+		}
+		return pnVerClas;
+	}
+	private JPanel getPnFiltros() {
+		if (pnFiltros == null) {
+			pnFiltros = new JPanel();
+			pnFiltros.add(getChckbxPuntosControl());
+			pnFiltros.add(getChckbxClub());
+			pnFiltros.add(getChckbxTiempo());
+			pnFiltros.add(getChckbxDiferencia());
+		}
+		return pnFiltros;
+	}
+	private JCheckBox getChckbxPuntosControl() {
+		if (chckbxPuntosControl == null) {
+			chckbxPuntosControl = new JCheckBox("Puntos de control");
+		}
+		return chckbxPuntosControl;
+	}
+	private JCheckBox getChckbxClub() {
+		if (chckbxClub == null) {
+			chckbxClub = new JCheckBox("Club");
+		}
+		return chckbxClub;
+	}
+	private JCheckBox getChckbxTiempo() {
+		if (chckbxTiempo == null) {
+			chckbxTiempo = new JCheckBox("Tiempo por kilómetro");
+		}
+		return chckbxTiempo;
+	}
+	private JCheckBox getChckbxDiferencia() {
+		if (chckbxDiferencia == null) {
+			chckbxDiferencia = new JCheckBox("Diferencia");
+		}
+		return chckbxDiferencia;
 	}
 }
