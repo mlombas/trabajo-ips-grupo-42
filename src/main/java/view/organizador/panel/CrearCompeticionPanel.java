@@ -1,7 +1,6 @@
 package view.organizador.panel;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -59,12 +58,14 @@ public class CrearCompeticionPanel extends JPanel {
 	private JButton btnOk;
 	
 	private CrearPlazosPanel panelPlazos;
-	private CrearCompeticionSubPanel panelCategorias;
-	private CrearCompeticionSubPanel panelPuntosIntermedios;
+	private CrearCategoriasPanel panelCategorias;
+	private CrearPuntosIntermediosPanel panelPuntosIntermedios;
 
 	private CompeticionDto competicion = new CompeticionDto();
+	
 	private boolean isPlazosCreated = false;
 	private boolean isCategoriasCreated = false;
+	private boolean isPuntosIntermediosCreated = false;
 	private boolean isCompeticionSuccessfullyCreated = false;
 
 	/**
@@ -86,6 +87,8 @@ public class CrearCompeticionPanel extends JPanel {
 							ModelFactory.forCarreraCrudService().deletePlazosByIdCompetición(competicion.id);
 						if (isCategoriasCreated)
 							ModelFactory.forCarreraCrudService().deleteAllCategorias(competicion.id);
+						if (isPuntosIntermediosCreated)
+							ModelFactory.forCarreraCrudService().deleteAllPuntosIntermedios(competicion.id);
 						if (ModelFactory.forCarreraCrudService().removeCarrera(competicion.id))
 							JOptionPane.showMessageDialog(null, "Hemos eliminado la carrera");
 					} catch (Exception me) {
@@ -113,12 +116,20 @@ public class CrearCompeticionPanel extends JPanel {
 		getSpinnerLongitud().setValue(0);
 
 		getBtnOk().setEnabled(false);
+		
+		isPlazosCreated = false;
+		isPuntosIntermediosCreated = false;
+		isCategoriasCreated = false;
 	}
 	
 	public void setPlazosCreated(boolean isPlazosCreated) {
 		this.isPlazosCreated = isPlazosCreated;
 	}
 
+	public void setPuntosIntermediosCreated(boolean isPuntosIntermediosCreated) {
+		this.isPuntosIntermediosCreated = isPuntosIntermediosCreated;
+	}
+	
 	public void setCategoriasCreated(boolean isCategoriasCreated) {
 		this.isCategoriasCreated = isCategoriasCreated;
 	}
@@ -286,6 +297,8 @@ public class CrearCompeticionPanel extends JPanel {
 	private JButton getBtnValidarDatos() {
 		if (btnValidarDatos == null) {
 			btnValidarDatos = new JButton("Validar mis Datos");
+			
+			CrearCompeticionPanel ccp = this;
 			btnValidarDatos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					// Establecemos el ID
@@ -348,9 +361,16 @@ public class CrearCompeticionPanel extends JPanel {
 						if (ModelFactory.forCarreraCrudService().addCompeticion(competicion)) {
 							JOptionPane.showMessageDialog(null,
 									"Hemos creado la carrera, ahora configura el resto de opciones");
-							getPanelCrearAdicional().add(getPanelPlazos());
-							getPanelCrearAdicional().add(getPanelCategorias());
-							getPanelCrearAdicional().add(getPanelPuntosIntermedios());
+							
+							// Reseteamos los paneles
+							panelPlazos = new CrearPlazosPanel(ccp, competicion);
+							panelPuntosIntermedios = new CrearPuntosIntermediosPanel(ccp, competicion);
+							panelCategorias = new CrearCategoriasPanel(competicion);
+							
+							getPanelCrearAdicional().add(panelPlazos);
+							getPanelCrearAdicional().add(panelPuntosIntermedios);
+							getPanelCrearAdicional().add(panelCategorias);
+							
 							getPanelCrearAdicional().revalidate();
 						} else
 							JOptionPane.showMessageDialog(null, "No hemos podido añadir la carrera");
@@ -375,28 +395,7 @@ public class CrearCompeticionPanel extends JPanel {
 		}
 		return panelCrearAdicional;
 	}
-
-	private CrearPlazosPanel getPanelPlazos() {
-		if (panelPlazos == null) 
-			panelPlazos = new CrearPlazosPanel(this, competicion);
-		
-		return panelPlazos;
-	}
-
-	private Component getPanelCategorias() {
-		if (panelCategorias == null)
-			panelCategorias = new CrearCategoriasPanel(competicion);
-			
-		return panelCategorias;
-	}
 	
-	private Component getPanelPuntosIntermedios() {
-		if (panelPuntosIntermedios == null)
-			panelPuntosIntermedios = new CrearCompeticionSubPanel();
-		
-		return panelPuntosIntermedios;
-	}
-
 	private JPanel getPanelButtons() {
 		if (panelButtons == null) {
 			panelButtons = new JPanel();
