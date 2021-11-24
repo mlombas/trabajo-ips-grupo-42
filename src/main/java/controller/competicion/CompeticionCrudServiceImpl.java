@@ -13,15 +13,17 @@ import model.competicion.commands.AddCompeticion;
 import model.competicion.commands.AddPlazo;
 import model.competicion.commands.CargarTiempos;
 import model.competicion.commands.CheckPlazosByIdCompeticion;
-import model.competicion.commands.DeletePlazosByIdCompetición;
 import model.competicion.commands.DeleteAllCategorias;
+import model.competicion.commands.DeletePlazosByIdCompetición;
 import model.competicion.commands.GenerarDorsales;
 import model.competicion.commands.GetAllCompeticiones;
 import model.competicion.commands.GetAllPlazos;
 import model.competicion.commands.GetCategorias;
 import model.competicion.commands.GetClasificacion;
 import model.competicion.commands.GetClasificacionByCategoria;
+import model.competicion.commands.GetClasificacionByDorsal;
 import model.competicion.commands.GetClasificacionUsuario;
+import model.competicion.commands.GetClasificacionesByNombre;
 import model.competicion.commands.GetCompeticionByInscripcion;
 import model.competicion.commands.RemoveCompeticion;
 import model.competicion.commands.UpdateCompeticion;
@@ -115,5 +117,16 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public List<ClasificacionDto> getClasificacionUsuario(AtletaDto atleta, CompeticionDto competicion) {
 		return new GetClasificacionUsuario( atleta, competicion).execute();
+	}
+
+	@Override
+	public List<ClasificacionDto> getClasificacionesByNombre(CompeticionDto competicion, AtletaDto atleta) {
+		return new GetClasificacionesByNombre(competicion, atleta).execute();
+	}
+
+	@Override
+	public List<ClasificacionDto> getClasificacionByDorsal(ClasificacionDto selectedAtleta,
+			CompeticionDto competicion) {
+		return new GetClasificacionByDorsal(selectedAtleta, competicion).execute();
 	}
 }

@@ -80,6 +80,7 @@ create table Clasificacion(
 	dorsal int,
 	tiempoSalida int,
 	tiempoLlegada int,
+	posicion int,
 	
 	primary key(idCompeticion,emailAtleta),
 	foreign key(idCompeticion) references Competicion(id)

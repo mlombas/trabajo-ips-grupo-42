@@ -46,5 +46,9 @@ public interface CompeticionCrudService {
 
 	List<ClasificacionDto> getClasificacionUsuario(AtletaDto atleta, CompeticionDto competicion);
 
+	List<ClasificacionDto> getClasificacionesByNombre(CompeticionDto competicion, AtletaDto atleta);
+
+	List<ClasificacionDto> getClasificacionByDorsal(ClasificacionDto selectedAtleta, CompeticionDto competicion);
+
 
 }

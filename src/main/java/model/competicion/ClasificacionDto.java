@@ -10,6 +10,7 @@ public class ClasificacionDto {
 	public String nombre;
 	public String categoria;
 	public boolean presentado = true;
+	public String emailAtleta;
 
 	public String getCategoria() {
 		return categoria;
@@ -79,5 +80,15 @@ public class ClasificacionDto {
 		}
 		return aux;
 	}
+
+	public String getEmailAtleta() {
+		return emailAtleta;
+	}
+
+	public void setEmailAtleta(String emailAtleta) {
+		this.emailAtleta = emailAtleta;
+	}
+	
+	
 
 }

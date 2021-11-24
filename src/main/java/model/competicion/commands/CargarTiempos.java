@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
 import model.competicion.PuntoIntermedioDto;
 import model.inscripcion.InscripcionDto;
@@ -19,7 +20,9 @@ public class CargarTiempos {
 	private static final String GETCOMPETICION = "select * from Competicion where id = ?";
 	private static final String GETPUNTOSINTERMEDIOS = "select * from PuntoIntermedio where idCompeticion = ?";
 	private static final String UPDATETIEMPOINTERMEDIOCLASIFICACION = "update PuntoIntermedioClasificacion set tiempo = ? where idCompeticion = ? and emailAtleta = ? and idPuntoIntermedio = ?" ;
-
+	private static final String GETALLCLASIFICACION = "select * from Clasificacion where idCompeticion = ? and tiempoLlegada is not null order by tiempoLlegada-tiempoSalida";
+	private static final String UPDATEPOSICIONCLASIFICACION = "update Clasificacion set posicion = ? where idCompeticion = ? and emailAtleta = ? ";
+	
 	private CompeticionDto competicion;
 	
 	private Database db = Database.getInstance();
@@ -86,6 +89,13 @@ public class CargarTiempos {
 			
 		} catch (FileNotFoundException e) {
 			throw new ApplicationException("Fichero de tiempos no encontrado");
+		}
+		
+		List<ClasificacionDto> clasificaciones =  db.executeQueryPojo(ClasificacionDto.class, GETALLCLASIFICACION, competicion.id);
+		int posicion = 1;
+		for(ClasificacionDto clasificacion : clasificaciones) {
+			db.executeUpdate(UPDATEPOSICIONCLASIFICACION, posicion, competicion.id, clasificacion.emailAtleta);
+			posicion++;
 		}
 		
 		lista.add(result[0]);
