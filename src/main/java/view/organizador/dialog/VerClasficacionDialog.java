@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import model.ModelFactory;
 import model.competicion.ClasificacionExtendidaDto;
 import model.competicion.CompeticionDto;
+import model.competicion.PuntoIntermedioClasficacionDto;
 import util.exceptions.ModelException;
 import view.util.table.ClasificacionesToTable;
 
@@ -69,6 +70,21 @@ public class VerClasficacionDialog extends JDialog {
 
 			int puntos = 0;
 			if (puntosCorte) {
+				puntos = ModelFactory.forCarreraCrudService().countPuntosIntermendios(competicion);
+				if (puntos > 0) {
+					for (ClasificacionExtendidaDto clasificado : clasificacion) {
+						clasificado.puntosIntermedios = new int[puntos];
+						if (clasificado.dorsal != 0) {
+							List<PuntoIntermedioClasficacionDto> tiempos = ModelFactory.forCarreraCrudService()
+									.obtenerPuntosInt(competicion, clasificado);
+							for (int i = 0; i < puntos; i++) {
+								clasificado.puntosIntermedios[i] = tiempos.get(i).tiempo;
+							}
+						}else {for (int i = 0; i < puntos; i++) {
+							clasificado.puntosIntermedios[i] = 0;
+						}}
+					}
+				}
 			}
 
 			table = new ClasificacionesToTable(clasificacion, club, minsByKm, diferencia, puntos);

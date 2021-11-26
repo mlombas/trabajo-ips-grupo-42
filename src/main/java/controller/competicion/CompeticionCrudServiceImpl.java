@@ -7,6 +7,7 @@ import model.competicion.ClasificacionDto;
 import model.competicion.ClasificacionExtendidaDto;
 import model.competicion.CompeticionDto;
 import model.competicion.PlazoInscripcionDto;
+import model.competicion.PuntoIntermedioClasficacionDto;
 import model.competicion.PuntoIntermedioDto;
 import model.competicion.commands.AddCategoria;
 import model.competicion.commands.AddCategoriaGeneral;
@@ -15,6 +16,7 @@ import model.competicion.commands.AddPlazo;
 import model.competicion.commands.AddPuntoIntermedio;
 import model.competicion.commands.CargarTiempos;
 import model.competicion.commands.CheckPlazosByIdCompeticion;
+import model.competicion.commands.CountPuntosIntermedios;
 import model.competicion.commands.DeletePlazosByIdCompetición;
 import model.competicion.commands.DeleteAllCategorias;
 import model.competicion.commands.DeleteAllPuntosIntermedios;
@@ -29,6 +31,7 @@ import model.competicion.commands.GetClasificacionExtendida;
 import model.competicion.commands.GetClasificacionExtendidaByCategoria;
 import model.competicion.commands.GetDistancia;
 import model.competicion.commands.GetPlazasLibres;
+import model.competicion.commands.GetPuntosIntermediosAtleta;
 import model.competicion.commands.RemoveCompeticion;
 import model.competicion.commands.UpdateCompeticion;
 import util.exceptions.ModelException;
@@ -152,6 +155,17 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public int GetDistancia(CompeticionDto competicion) throws ModelException {
 		return new GetDistancia(competicion).execute();
+	}
+
+	@Override
+	public int countPuntosIntermendios(CompeticionDto competicion) throws ModelException {
+		return new CountPuntosIntermedios(competicion).execute();
+	}
+
+	@Override
+	public List<PuntoIntermedioClasficacionDto> obtenerPuntosInt(CompeticionDto competicion,
+			ClasificacionExtendidaDto clasificado) {
+		return new GetPuntosIntermediosAtleta(competicion, clasificado).execute();
 	}
   
 }
