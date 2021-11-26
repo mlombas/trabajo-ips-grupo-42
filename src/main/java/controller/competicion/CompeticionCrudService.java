@@ -4,8 +4,10 @@ import java.util.List;
 
 import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
+import model.competicion.ClasificacionExtendidaDto;
 import model.competicion.CompeticionDto;
 import model.competicion.PlazoInscripcionDto;
+import model.competicion.PuntoIntermedioClasficacionDto;
 import model.competicion.PuntoIntermedioDto;
 import util.exceptions.ModelException;
 
@@ -50,5 +52,15 @@ public interface CompeticionCrudService {
 	void addPuntoIntermedio(PuntoIntermedioDto puntoIntermedio) throws ModelException;
 
 	void deleteAllPuntosIntermedios(String id) throws ModelException;
+
+	List<ClasificacionExtendidaDto> GetClasificacionExtendida(CompeticionDto competicion);
+
+	List<ClasificacionExtendidaDto> GetClasificacionExtendida(CompeticionDto competicion, String categoria);
+
+	int GetDistancia(CompeticionDto competicion) throws ModelException;
+
+	int countPuntosIntermendios(CompeticionDto competicion) throws ModelException;
+
+	List<PuntoIntermedioClasficacionDto> obtenerPuntosInt(CompeticionDto competicion, ClasificacionExtendidaDto clasificado);
 
 }

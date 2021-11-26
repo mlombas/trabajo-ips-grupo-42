@@ -45,7 +45,7 @@ public class MainWindow extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(0, 0, 1280, 720);
-		setMinimumSize(new Dimension(720, 480));
+		setMinimumSize(new Dimension(960, 480));
 		setLocationRelativeTo(null);
 		
 		// Main content pane.
