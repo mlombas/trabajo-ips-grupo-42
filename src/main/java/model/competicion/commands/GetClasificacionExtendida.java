@@ -11,10 +11,10 @@ import util.database.Database;
 
 public class GetClasificacionExtendida {
 
-	private static final String OBTENER_RESULTADOS = "select c.dorsal, c.tiempoSalida, c.tiempoLlegada, a.sexo, a.nombre, i.categoria from Clasificacion c, Atleta a, Inscripcion i where c.idCompeticion = ? and a.email=c.emailAtleta and i.idCompeticion = c.idCompeticion and i.emailAtleta = c.emailAtleta and c.tiempoLlegada is not null order by c.tiempoLlegada-c.tiempoSalida";
-	private static final String OBTENER_RESULTADOS_DNS = "select a.sexo, a.nombre, i.categoria from Clasificacion c, Atleta a, Inscripcion i where c.idCompeticion = ? and a.email=c.emailAtleta and i.idCompeticion = c.idCompeticion and i.emailAtleta = c.emailAtleta and c.dorsal is null";
-	private static final String OBTENER_RESULTADOS_DNF = "select c.dorsal, c.tiempoSalida, a.sexo, a.nombre, i.categoria from Clasificacion c, Atleta a, Inscripcion i where c.idCompeticion = ? and a.email=c.emailAtleta and i.idCompeticion = c.idCompeticion and i.emailAtleta = c.emailAtleta and c.dorsal is not null and c.tiempoLlegada is null order by c.dorsal";
-	private static final String OBTENER_NO_PRESENTADOS = "select a.sexo, a.nombre, i.categoria from Clasificacion c, Atleta a, Inscripcion i where i.idCompeticion = ? and a.email=i.emailAtleta and i.idCompeticion = c.idCompeticion and i.emailAtleta not in (select cl.emailAtleta from Clasificacion cl where cl.idCompeticion = ?) group by i.emailAtleta";
+	private static final String OBTENER_RESULTADOS = "select c.dorsal, c.tiempoSalida, c.tiempoLlegada, a.sexo, a.nombre, i.categoria, i.clubAtleta from Clasificacion c, Atleta a, Inscripcion i where c.idCompeticion = ? and a.email=c.emailAtleta and i.idCompeticion = c.idCompeticion and i.emailAtleta = c.emailAtleta and c.tiempoLlegada is not null order by c.tiempoLlegada-c.tiempoSalida";
+	private static final String OBTENER_RESULTADOS_DNS = "select a.sexo, a.nombre, i.categoria, i.clubAtleta from Clasificacion c, Atleta a, Inscripcion i where c.idCompeticion = ? and a.email=c.emailAtleta and i.idCompeticion = c.idCompeticion and i.emailAtleta = c.emailAtleta and c.dorsal is null";
+	private static final String OBTENER_RESULTADOS_DNF = "select c.dorsal, c.tiempoSalida, a.sexo, a.nombre, i.categoria, i.clubAtleta from Clasificacion c, Atleta a, Inscripcion i where c.idCompeticion = ? and a.email=c.emailAtleta and i.idCompeticion = c.idCompeticion and i.emailAtleta = c.emailAtleta and c.dorsal is not null and c.tiempoLlegada is null order by c.dorsal";
+	private static final String OBTENER_NO_PRESENTADOS = "select a.sexo, a.nombre, i.categoria, i.clubAtleta from Clasificacion c, Atleta a, Inscripcion i where i.idCompeticion = ? and a.email=i.emailAtleta and i.idCompeticion = c.idCompeticion and i.emailAtleta not in (select cl.emailAtleta from Clasificacion cl where cl.idCompeticion = ?) group by i.emailAtleta";
 
 	private Database db = Database.getInstance();
 	private String id_competicion;
