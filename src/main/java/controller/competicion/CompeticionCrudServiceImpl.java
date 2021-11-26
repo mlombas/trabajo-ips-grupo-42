@@ -27,6 +27,7 @@ import model.competicion.commands.GetClasificacion;
 import model.competicion.commands.GetClasificacionByCategoria;
 import model.competicion.commands.GetClasificacionExtendida;
 import model.competicion.commands.GetClasificacionExtendidaByCategoria;
+import model.competicion.commands.GetDistancia;
 import model.competicion.commands.GetPlazasLibres;
 import model.competicion.commands.RemoveCompeticion;
 import model.competicion.commands.UpdateCompeticion;
@@ -146,6 +147,11 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public List<ClasificacionExtendidaDto> GetClasificacionExtendida(CompeticionDto competicion, String categoria) {
 		return new GetClasificacionExtendidaByCategoria(competicion, categoria).execute();
+	}
+
+	@Override
+	public int GetDistancia(CompeticionDto competicion) throws ModelException {
+		return new GetDistancia(competicion).execute();
 	}
   
 }

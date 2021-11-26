@@ -56,4 +56,6 @@ public interface CompeticionCrudService {
 
 	List<ClasificacionExtendidaDto> GetClasificacionExtendida(CompeticionDto competicion, String categoria);
 
+	int GetDistancia(CompeticionDto competicion) throws ModelException;
+
 }

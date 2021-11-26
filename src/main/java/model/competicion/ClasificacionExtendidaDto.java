@@ -23,7 +23,7 @@ public class ClasificacionExtendidaDto extends ClasificacionDto {
 		this.diferenciaTiempo = diferenciaTiempo;
 	}
 
-	public int getMinsByKm() {
+	public double getMinsByKm() {
 		return minsByKm;
 	}
 

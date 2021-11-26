@@ -83,7 +83,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		}
 	}
 
-	private void showClasificacion(CompeticionDto competicion, String categoria) {
+	private void showClasificacion(CompeticionDto competicion, String categoria) throws ModelException {
 		VerClasficacionDialog clasificacionDialog = new VerClasficacionDialog(competicion, categoria,
 				chckbxClub.isSelected(), chckbxTiempo.isSelected(), chckbxDiferencia.isSelected(),
 				chckbxPuntosControl.isSelected());
@@ -303,8 +303,11 @@ public class GestionarCompeticionesPanel extends JPanel {
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
 						return;
 					}
-
-					showClasificacion(competicion, (String) getCbCategorias().getSelectedItem());
+					try {
+						showClasificacion(competicion, (String) getCbCategorias().getSelectedItem());
+					} catch (ModelException exc) {
+						JOptionPane.showMessageDialog(null, exc.getMessage());
+					}
 				}
 			});
 		}

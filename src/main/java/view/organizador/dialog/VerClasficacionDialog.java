@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import model.ModelFactory;
 import model.competicion.ClasificacionExtendidaDto;
 import model.competicion.CompeticionDto;
+import util.exceptions.ModelException;
 import view.util.table.ClasificacionesToTable;
 
 public class VerClasficacionDialog extends JDialog {
@@ -21,9 +22,10 @@ public class VerClasficacionDialog extends JDialog {
 	private CompeticionDto competicion;
 	private String categoria;
 	private ClasificacionesToTable table;;
-	private  boolean club, minsByKm, diferencia, puntosCorte;
+	private boolean club, minsByKm, diferencia, puntosCorte;
 
-	public VerClasficacionDialog(CompeticionDto competicion, String categoria, boolean club, boolean minsByKm, boolean diferencia, boolean puntosCorte) {
+	public VerClasficacionDialog(CompeticionDto competicion, String categoria, boolean club, boolean minsByKm,
+			boolean diferencia, boolean puntosCorte) throws ModelException {
 		this.competicion = competicion;
 		this.categoria = categoria;
 		this.club = club;
@@ -38,16 +40,38 @@ public class VerClasficacionDialog extends JDialog {
 		add(getCompeticionesListPane(), BorderLayout.CENTER);
 	}
 
-	private Component getCompeticionesListPane() {
+	private Component getCompeticionesListPane() throws ModelException {
 		if (scrollParticipantes == null) {
 			scrollParticipantes = new JScrollPane();
+
 			List<ClasificacionExtendidaDto> clasificacion;
 			if (categoria.equals("Absoluta")) {
 				clasificacion = ModelFactory.forCarreraCrudService().GetClasificacionExtendida(competicion);
 			} else {
 				clasificacion = ModelFactory.forCarreraCrudService().GetClasificacionExtendida(competicion, categoria);
 			}
-			table = new ClasificacionesToTable(clasificacion, club, minsByKm, diferencia, puntosCorte);
+
+			if (minsByKm) {
+				int distancia = ModelFactory.forCarreraCrudService().GetDistancia(competicion);
+				for (ClasificacionExtendidaDto clasificado : clasificacion) {
+					clasificado.minsByKm = (clasificado.tiempoLlegada - clasificado.tiempoSalida) / distancia;
+				}
+			}
+
+			if (diferencia) {
+				int tiempoPrimero = clasificacion.get(0).tiempoLlegada - clasificacion.get(0).tiempoSalida;
+				for (ClasificacionExtendidaDto clasificado : clasificacion) {
+					clasificado.diferenciaTiempo = (clasificado.tiempoLlegada - clasificado.tiempoSalida)
+							- tiempoPrimero;
+				}
+
+			}
+
+			int puntos = 0;
+			if (puntosCorte) {
+			}
+
+			table = new ClasificacionesToTable(clasificacion, club, minsByKm, diferencia, puntos);
 			scrollParticipantes.setViewportView(table);
 		}
 		return scrollParticipantes;
