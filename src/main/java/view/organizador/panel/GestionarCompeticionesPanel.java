@@ -69,7 +69,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 			verCompeticionesPane.updateCompeticiones(new ArrayList<CompeticionDto>());
 		}
 	}
-	
+
 	public void updateCategorias() {
 		cbCategorias.removeAllItems();
 		cbCategorias.addItem("Absoluta");
@@ -79,25 +79,27 @@ public class GestionarCompeticionesPanel extends JPanel {
 				cbCategorias.addItem(cat.nombreCategoria);
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			
+
 		}
 	}
 
 	private void showClasificacion(CompeticionDto competicion, String categoria) {
-		VerClasficacionDialog clasificacionDialog = new VerClasficacionDialog(competicion, categoria);
+		VerClasficacionDialog clasificacionDialog = new VerClasficacionDialog(competicion, categoria,
+				chckbxClub.isSelected(), chckbxTiempo.isSelected(), chckbxDiferencia.isSelected(),
+				chckbxPuntosControl.isSelected());
 		clasificacionDialog.setLocationRelativeTo(null);
 		clasificacionDialog.setModal(true);
 		clasificacionDialog.setVisible(true);
 
 	}
-	
+
 	private void showEstadoInscripcion(CompeticionDto competicion) {
 		VerEstadoInscripcionDialog estadoInscripcionDialog = new VerEstadoInscripcionDialog(competicion);
 		estadoInscripcionDialog.setLocationRelativeTo(null);
 		estadoInscripcionDialog.setModal(true);
 		estadoInscripcionDialog.setVisible(true);
 	}
-	
+
 	private void showMessage(String message, String title, int type) {
 		JOptionPane pane = new JOptionPane(message, type, JOptionPane.DEFAULT_OPTION);
 		pane.setOptions(new Object[] { "ACEPTAR" });
@@ -105,7 +107,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		d.setLocationRelativeTo(null);
 		d.setVisible(true);
 	}
-	
+
 	private void cargarTiempos(CompeticionDto competicion) {
 		try {
 			CompeticionCrudService ccs = new CompeticionCrudServiceImpl();
@@ -122,16 +124,16 @@ public class GestionarCompeticionesPanel extends JPanel {
 			showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	private VerCompeticionesPanel getCompeticionesPane() {
 		if (verCompeticionesPane == null) {
 			verCompeticionesPane = new VerCompeticionesPanel();
 			refreshCompetitions();
-			verCompeticionesPane.getTable().getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	            public void valueChanged(ListSelectionEvent event) {
-	                OrganizadorMain.getInstance().getBuscarCompeticionPane().updateCategorias();
-	             }
-	         });
+			verCompeticionesPane.getTable().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+				public void valueChanged(ListSelectionEvent event) {
+					OrganizadorMain.getInstance().getBuscarCompeticionPane().updateCategorias();
+				}
+			});
 		}
 		return verCompeticionesPane;
 	}
@@ -147,11 +149,11 @@ public class GestionarCompeticionesPanel extends JPanel {
 		}
 		return btnPane;
 	}
-	
+
 	private JButton getBtnCargarTiempos() {
 		if (btnCargarTiempos == null) {
 			btnCargarTiempos = new JButton("CargarTiempos");
-			btnCargarTiempos.addActionListener(new ActionListener () {
+			btnCargarTiempos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						CompeticionDto competicion = new CompeticionDto();
@@ -195,35 +197,35 @@ public class GestionarCompeticionesPanel extends JPanel {
 		}
 		return btnGenerarDorsales;
 	}
-	
+
 	private void generarDorsales(CompeticionDto competicion) {
 		try {
 			CompeticionCrudService ccs = new CompeticionCrudServiceImpl();
 
 			List<Integer> integers = ccs.generarDorsales(competicion);
 			refreshCompetitions();
-			
+
 			showMessage(
 					"Se han generado los dorsales no reservados  de la carrera" + competicion.nombreCarrera
 							+ ": \nDorsales generados: " + integers.get(0),
 					"\nInformacion", JOptionPane.INFORMATION_MESSAGE);
-			
+
 		} catch (ApplicationException e) {
 			showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
 		}
-		
+
 	}
-	
+
 	private AtrasOrganizadorButton getBtnAtras() {
 		if (btnAtras == null) {
 			btnAtras = new AtrasOrganizadorButton("organizadores");
 		}
 		return btnAtras;
 	}
-	
+
 	private JPanel getCompeticionManagementPane() {
 		if (competicionManagementPane == null) {
 			competicionManagementPane = new JPanel();
@@ -236,7 +238,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 	}
 
 	private JButton getBtnProcesar() {
-		if(btnProcesar == null) {
+		if (btnProcesar == null) {
 			btnProcesar = new JButton("Procesar CSV");
 			btnProcesar.addActionListener(new ActionListener() {
 				@Override
@@ -264,7 +266,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		diag.setVisible(true);
 		diag.setModal(true);
 	}
-	
+
 	private JButton getBtnVerEstado() {
 		if (btnVerEstado == null) {
 			btnVerEstado = new JButton("Ver Estado");
@@ -301,7 +303,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
 						return;
 					}
-					
+
 					showClasificacion(competicion, (String) getCbCategorias().getSelectedItem());
 				}
 			});
@@ -337,7 +339,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		}
 		return btnPlazos;
 	}
-	
+
 	private void showVerPlazos(CompeticionDto competicion) {
 		VerPlazosDialog plazosDialog = new VerPlazosDialog(competicion);
 		plazosDialog.setLocationRelativeTo(null);
@@ -345,6 +347,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		plazosDialog.setVisible(true);
 
 	}
+
 	private JPanel getPnCargarDatos() {
 		if (pnCargarDatos == null) {
 			pnCargarDatos = new JPanel();
@@ -354,6 +357,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		}
 		return pnCargarDatos;
 	}
+
 	private JPanel getPnClasificaciones() {
 		if (pnClasificaciones == null) {
 			pnClasificaciones = new JPanel();
@@ -363,6 +367,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		}
 		return pnClasificaciones;
 	}
+
 	private JPanel getPnVerClas() {
 		if (pnVerClas == null) {
 			pnVerClas = new JPanel();
@@ -372,6 +377,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 		}
 		return pnVerClas;
 	}
+
 	private JPanel getPnFiltros() {
 		if (pnFiltros == null) {
 			pnFiltros = new JPanel();
@@ -382,24 +388,28 @@ public class GestionarCompeticionesPanel extends JPanel {
 		}
 		return pnFiltros;
 	}
+
 	private JCheckBox getChckbxPuntosControl() {
 		if (chckbxPuntosControl == null) {
 			chckbxPuntosControl = new JCheckBox("Puntos de control");
 		}
 		return chckbxPuntosControl;
 	}
+
 	private JCheckBox getChckbxClub() {
 		if (chckbxClub == null) {
 			chckbxClub = new JCheckBox("Club");
 		}
 		return chckbxClub;
 	}
+
 	private JCheckBox getChckbxTiempo() {
 		if (chckbxTiempo == null) {
 			chckbxTiempo = new JCheckBox("Tiempo por kilómetro");
 		}
 		return chckbxTiempo;
 	}
+
 	private JCheckBox getChckbxDiferencia() {
 		if (chckbxDiferencia == null) {
 			chckbxDiferencia = new JCheckBox("Diferencia");

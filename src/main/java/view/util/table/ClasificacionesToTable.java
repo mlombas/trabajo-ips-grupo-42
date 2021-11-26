@@ -6,18 +6,19 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import model.competicion.ClasificacionDto;
+import model.competicion.ClasificacionExtendidaDto;
 
 public class ClasificacionesToTable extends JTable {
 
 	private static final long serialVersionUID = 1L;
 
-	public ClasificacionesToTable(List<ClasificacionDto> posiciones) {
+	public ClasificacionesToTable(List<ClasificacionExtendidaDto> clasificacion, boolean club, boolean minsByKm, boolean diferencia, boolean puntosCorte) {
 		setDefaultEditor(Object.class, null); // hacer que no sea editable
 
 		String[] columnNames = { "Posición", "Dorsal", "Nombre", "Categoría", "Sexo", "Tiempo", "Salida", "Llegada" };
 		DefaultTableModel model = new DefaultTableModel(null, columnNames);
 
-		for (ClasificacionDto posicion : posiciones) {
+		for (ClasificacionDto posicion : clasificacion) {
 			Object[] fila = new Object[columnNames.length];
 			fila[2] = posicion.nombre;
 			fila[3] = posicion.categoria;

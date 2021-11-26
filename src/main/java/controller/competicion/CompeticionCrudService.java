@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
+import model.competicion.ClasificacionExtendidaDto;
 import model.competicion.CompeticionDto;
 import model.competicion.PlazoInscripcionDto;
 import model.competicion.PuntoIntermedioDto;
@@ -50,5 +51,9 @@ public interface CompeticionCrudService {
 	void addPuntoIntermedio(PuntoIntermedioDto puntoIntermedio) throws ModelException;
 
 	void deleteAllPuntosIntermedios(String id) throws ModelException;
+
+	List<ClasificacionExtendidaDto> GetClasificacionExtendida(CompeticionDto competicion);
+
+	List<ClasificacionExtendidaDto> GetClasificacionExtendida(CompeticionDto competicion, String categoria);
 
 }

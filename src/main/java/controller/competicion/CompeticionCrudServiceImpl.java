@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
+import model.competicion.ClasificacionExtendidaDto;
 import model.competicion.CompeticionDto;
 import model.competicion.PlazoInscripcionDto;
 import model.competicion.PuntoIntermedioDto;
@@ -24,6 +25,8 @@ import model.competicion.commands.GetAllPlazos;
 import model.competicion.commands.GetNombresCategorias;
 import model.competicion.commands.GetClasificacion;
 import model.competicion.commands.GetClasificacionByCategoria;
+import model.competicion.commands.GetClasificacionExtendida;
+import model.competicion.commands.GetClasificacionExtendidaByCategoria;
 import model.competicion.commands.GetPlazasLibres;
 import model.competicion.commands.RemoveCompeticion;
 import model.competicion.commands.UpdateCompeticion;
@@ -133,6 +136,16 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	public void deleteAllPuntosIntermedios(String id) throws ModelException {
 		new DeleteAllPuntosIntermedios(id).execute();
 
+	}
+
+	@Override
+	public List<ClasificacionExtendidaDto> GetClasificacionExtendida(CompeticionDto competicion) {
+		return new GetClasificacionExtendida(competicion).execute();
+	}
+
+	@Override
+	public List<ClasificacionExtendidaDto> GetClasificacionExtendida(CompeticionDto competicion, String categoria) {
+		return new GetClasificacionExtendidaByCategoria(competicion, categoria).execute();
 	}
   
 }
