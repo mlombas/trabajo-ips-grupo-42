@@ -11,6 +11,10 @@ public class ClasificacionDto {
 	public String categoria;
 	public boolean presentado = true;
 	public String emailAtleta;
+	public String club;
+	public int diferenciaTiempo;
+	public int minsByKm;
+	public int[] puntosIntermedios;
 
 	public String getCategoria() {
 		return categoria;
@@ -89,6 +93,36 @@ public class ClasificacionDto {
 		this.emailAtleta = emailAtleta;
 	}
 	
-	
+	public String getClub() {
+		return club;
+	}
+
+	public void setClub(String club) {
+		this.club = club;
+	}
+
+	public int getDiferenciaTiempo() {
+		return diferenciaTiempo;
+	}
+
+	public void setDiferenciaTiempo(int diferenciaTiempo) {
+		this.diferenciaTiempo = diferenciaTiempo;
+	}
+
+	public int getMinsByKm() {
+		return minsByKm;
+	}
+
+	public void setMinsByKm(int minsByKm) {
+		this.minsByKm = minsByKm;
+	}
+
+	public int[] getPuntosIntermedios() {
+		return puntosIntermedios;
+	}
+
+	public void setPuntosIntermedios(int[] puntosIntermedios) {
+		this.puntosIntermedios = puntosIntermedios;
+	}
 
 }

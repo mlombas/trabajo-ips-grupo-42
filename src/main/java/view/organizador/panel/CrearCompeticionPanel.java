@@ -1,8 +1,8 @@
 package view.organizador.panel;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -10,7 +10,9 @@ import java.awt.event.ComponentEvent;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,8 +30,6 @@ import net.miginfocom.swing.MigLayout;
 import util.Validate;
 import util.exceptions.ModelException;
 import view.organizador.OrganizadorMain;
-import view.organizador.dialog.CrearPlazosDialog;
-import view.organizador.dialog.ConfigurarCategoriasDialog;
 import view.organizador.util.AtrasOrganizadorButton;
 
 public class CrearCompeticionPanel extends JPanel {
@@ -43,7 +43,7 @@ public class CrearCompeticionPanel extends JPanel {
 	private JLabel lblDescripcion;
 	private JTextArea textAreaDescripcion;
 	private JLabel lblTipo;
-	private JTextField textTipo;
+	private JComboBox<String> comboBoxTipo;
 	private JLabel lblNumeroPlazas;
 	private JSpinner spinnerNumeroPlazas;
 	private JLabel lblNumeroDorsalesReservados;
@@ -53,25 +53,29 @@ public class CrearCompeticionPanel extends JPanel {
 	private JTextField textFecha;
 	private JSpinner spinnerLongitud;
 	private JPanel panelCrearAdicional;
-	private JButton btnCategorias;
-	private JButton btnPlazos;
 	private JPanel panelButtons;
 	private AtrasOrganizadorButton btnAtras;
 	private JButton btnOk;
+	
+	private CrearPlazosPanel panelPlazos;
+	private CrearCategoriasPanel panelCategorias;
+	private CrearPuntosIntermediosPanel panelPuntosIntermedios;
 
 	private CompeticionDto competicion = new CompeticionDto();
+	
 	private boolean isPlazosCreated = false;
 	private boolean isCategoriasCreated = false;
+	private boolean isPuntosIntermediosCreated = false;
 	private boolean isCompeticionSuccessfullyCreated = false;
 
 	/**
 	 * Create the panel.
 	 */
 	public CrearCompeticionPanel() {
-		setLayout(new BorderLayout(0, 0));
-		add(getPanelFormulario(), BorderLayout.NORTH);
-		add(getPanelCrearAdicional(), BorderLayout.CENTER);
-		add(getPanelButtons(), BorderLayout.SOUTH);
+		setLayout(new MigLayout("", "[grow,fill]", "[grow,fill][19px][33px]"));
+		add(getPanelFormulario(), "cell 0 0,growx,aligny top");
+		add(getPanelCrearAdicional(), "cell 0 1,grow");
+		add(getPanelButtons(), "cell 0 2,growx,aligny top");
 
 		// RESET EVERYTHING
 		addComponentListener(new ComponentAdapter() {
@@ -83,6 +87,8 @@ public class CrearCompeticionPanel extends JPanel {
 							ModelFactory.forCarreraCrudService().deletePlazosByIdCompetición(competicion.id);
 						if (isCategoriasCreated)
 							ModelFactory.forCarreraCrudService().deleteAllCategorias(competicion.id);
+						if (isPuntosIntermediosCreated)
+							ModelFactory.forCarreraCrudService().deleteAllPuntosIntermedios(competicion.id);
 						if (ModelFactory.forCarreraCrudService().removeCarrera(competicion.id))
 							JOptionPane.showMessageDialog(null, "Hemos eliminado la carrera");
 					} catch (Exception me) {
@@ -102,7 +108,6 @@ public class CrearCompeticionPanel extends JPanel {
 		competicion = new CompeticionDto();
 
 		getTextNombre().setText("");
-		getTextTipo().setText("");
 		getTextAreaDescripcion().setText("");
 		getSpinnerNumeroPlazas().setValue(0);
 		getSpinnerDorsalesReservados().setValue(0);
@@ -110,15 +115,21 @@ public class CrearCompeticionPanel extends JPanel {
 		getTextFecha().setText("");
 		getSpinnerLongitud().setValue(0);
 
-		getBtnCategorias().setEnabled(false);
-		getBtnPlazos().setEnabled(false);
 		getBtnOk().setEnabled(false);
+		
+		isPlazosCreated = false;
+		isPuntosIntermediosCreated = false;
+		isCategoriasCreated = false;
 	}
 
 	public void setPlazosCreated(boolean isPlazosCreated) {
 		this.isPlazosCreated = isPlazosCreated;
 	}
 
+	public void setPuntosIntermediosCreated(boolean isPuntosIntermediosCreated) {
+		this.isPuntosIntermediosCreated = isPuntosIntermediosCreated;
+	}
+	
 	public void setCategoriasCreated(boolean isCategoriasCreated) {
 		this.isCategoriasCreated = isCategoriasCreated;
 	}
@@ -132,7 +143,7 @@ public class CrearCompeticionPanel extends JPanel {
 			panelFormulario.setLayout(new MigLayout("", "[grow,center][grow,center]", "[][][][grow][][][][][][]"));
 			panelFormulario.add(getLblNombre(), "flowx,cell 0 0 2 1,alignx left,growy");
 			panelFormulario.add(getTextNombre(), "cell 0 1,grow");
-			panelFormulario.add(getTextTipo(), "cell 1 1,grow");
+			panelFormulario.add(getComboBoxTipo(), "cell 1 1,growx");
 			panelFormulario.add(getLblDescripcion(), "cell 0 2 2 1,alignx left");
 			panelFormulario.add(getTextAreaDescripcion(), "cell 0 3 2 2,grow");
 			panelFormulario.add(getLblNumeroDorsalesReservados(), "cell 0 5,alignx left");
@@ -195,13 +206,15 @@ public class CrearCompeticionPanel extends JPanel {
 		}
 		return lblTipo;
 	}
-
-	private JTextField getTextTipo() {
-		if (textTipo == null) {
-			textTipo = new JTextField();
-			textTipo.setColumns(10);
+  
+	private JComboBox<String> getComboBoxTipo() {
+		if (comboBoxTipo == null) {
+			comboBoxTipo = new JComboBox<String>();
+			comboBoxTipo.setModel(new DefaultComboBoxModel<String>(new String[] {"Asfalto", "Montaña"}));
+			comboBoxTipo.setToolTipText("Posibles tipos de carrera");
 		}
-		return textTipo;
+		
+		return comboBoxTipo;
 	}
 
 	private JLabel getLblNumeroPlazas() {
@@ -284,6 +297,8 @@ public class CrearCompeticionPanel extends JPanel {
 	private JButton getBtnValidarDatos() {
 		if (btnValidarDatos == null) {
 			btnValidarDatos = new JButton("Validar mis Datos");
+			
+			CrearCompeticionPanel ccp = this;
 			btnValidarDatos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					// Establecemos el ID
@@ -299,18 +314,9 @@ public class CrearCompeticionPanel extends JPanel {
 					} // Show warning
 
 					// Validamos el tipo
-					String tipo = getTextTipo().getText();
-					if (!tipo.trim().isEmpty()) {
-						if (!tipo.toLowerCase().equals("asfalto") && !tipo.toLowerCase().equals("montaña")) {
-							JOptionPane.showMessageDialog(null, "Sólo aceptamos carreras de asfalto y montaña...");
-							return;
-						}
-						competicion.tipoCarrera = tipo;
-					} else {
-						JOptionPane.showMessageDialog(null, "Tipo no puede estar vacío...");
-						return;
-					} // Show warning
-
+					String tipo = getComboBoxTipo().getSelectedItem().toString();
+					competicion.tipoCarrera = tipo;
+			
 					// Validamos la descripcion
 					String descripcion = getTextAreaDescripcion().getText();
 					if (!descripcion.trim().isEmpty())
@@ -355,8 +361,17 @@ public class CrearCompeticionPanel extends JPanel {
 						if (ModelFactory.forCarreraCrudService().addCompeticion(competicion)) {
 							JOptionPane.showMessageDialog(null,
 									"Hemos creado la carrera, ahora configura el resto de opciones");
-							getBtnCategorias().setEnabled(true);
-							getBtnPlazos().setEnabled(true);
+							
+							// Reseteamos los paneles
+							panelPlazos = new CrearPlazosPanel(ccp, competicion);
+							panelPuntosIntermedios = new CrearPuntosIntermediosPanel(ccp, competicion);
+							panelCategorias = new CrearCategoriasPanel(competicion);
+							
+							getPanelCrearAdicional().add(panelPlazos);
+							getPanelCrearAdicional().add(panelPuntosIntermedios);
+							getPanelCrearAdicional().add(panelCategorias);
+							
+							getPanelCrearAdicional().revalidate();
 						} else
 							JOptionPane.showMessageDialog(null, "No hemos podido añadir la carrera");
 					} catch (ModelException me) {
@@ -374,62 +389,11 @@ public class CrearCompeticionPanel extends JPanel {
 	private JPanel getPanelCrearAdicional() {
 		if (panelCrearAdicional == null) {
 			panelCrearAdicional = new JPanel();
+			panelCrearAdicional.setLayout(new GridLayout(1, 3, 0, 0));
 			panelCrearAdicional.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2),
-					"Datos adicionales de la Competici\u00F3n", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-			panelCrearAdicional.setLayout(new MigLayout("", "[grow]", "[grow][fill][fill][grow]"));
-			panelCrearAdicional.add(getBtnCategorias(), "cell 0 2,grow");
-			panelCrearAdicional.add(getBtnPlazos(), "cell 0 1,grow");
+					"Datos adicionales de la Competición", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		}
 		return panelCrearAdicional;
-	}
-
-	private JButton getBtnCategorias() {
-		if (btnCategorias == null) {
-			btnCategorias = new JButton("Configurar Categorías");
-			btnCategorias.setEnabled(false);
-			btnCategorias.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					showConfigurarCategorias();
-
-					// In case PLAZOS and CATEGORIAS are created
-					if (isPlazosCreated && isCategoriasCreated)
-						getBtnOk().setEnabled(true);
-				}
-			});
-		}
-		return btnCategorias;
-	}
-
-	private void showCrearPlazos(CompeticionDto competicion) {
-		CrearPlazosDialog plazosDialog = new CrearPlazosDialog(this, competicion);
-		plazosDialog.setLocationRelativeTo(null);
-		plazosDialog.setModal(true);
-		plazosDialog.setVisible(true);
-	}
-
-	protected void showConfigurarCategorias() {
-		ConfigurarCategoriasDialog configurarCategoriasDialog = new ConfigurarCategoriasDialog(this, competicion.id);
-		configurarCategoriasDialog.setLocationRelativeTo(null);
-		configurarCategoriasDialog.setModal(true);
-		configurarCategoriasDialog.setVisible(true);
-
-	}
-
-	private JButton getBtnPlazos() {
-		if (btnPlazos == null) {
-			btnPlazos = new JButton("Configurar Plazos");
-			btnPlazos.setEnabled(false);
-			btnPlazos.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					showCrearPlazos(competicion);
-
-					// In case PLAZOS and CATEGORIAS are created
-					if (isPlazosCreated && isCategoriasCreated)
-						getBtnOk().setEnabled(true);
-				}
-			});
-		}
-		return btnPlazos;
 	}
 
 	private JPanel getPanelButtons() {
@@ -461,8 +425,9 @@ public class CrearCompeticionPanel extends JPanel {
 
 			btnOk.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					competicion.estadoCarrera = "inscripción"; // TODO hacer dinámico
+					competicion.estadoCarrera = "inscripción";
 					try {
+						ModelFactory.forCarreraCrudService().addCategoriaGeneral(competicion.id);
 						ModelFactory.forCarreraCrudService().updateCompeticion(competicion);
 					} catch (ModelException e1) {
 						showError("Lo siento, algo ha salido mal...");
@@ -480,4 +445,5 @@ public class CrearCompeticionPanel extends JPanel {
 		}
 		return btnOk;
 	}
+
 }

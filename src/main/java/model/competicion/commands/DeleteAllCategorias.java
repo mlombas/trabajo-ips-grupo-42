@@ -31,7 +31,6 @@ public class DeleteAllCategorias {
 
 			pst.close();
 			c.close();
-
 		} catch (SQLException e) {
 			throw new ModelException(e.getMessage());
 		}

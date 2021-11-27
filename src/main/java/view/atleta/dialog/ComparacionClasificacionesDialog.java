@@ -93,9 +93,9 @@ public class ComparacionClasificacionesDialog extends JDialog {
 	private void buscarAtleta() {
 		if (!checkNombre()) {
 			List<ClasificacionDto> clasificacion;
-			clasificacion = ModelFactory.forCarreraCrudService().GetClasificacion(competicion);
+			clasificacion = ModelFactory.forCarreraCrudService().GetClasificacionExtendida(competicion);
 
-			TableModel model = new ClasificacionesToTable(clasificacion).getModel();
+			TableModel model = new ClasificacionesToTable(clasificacion,true,true,true,clasificacion.get(0).getPuntosIntermedios().length).getModel();
 			getTableParticipantes().setModel(model);
 
 			scrollParticipantes.setViewportView(getTableParticipantes());
@@ -104,9 +104,9 @@ public class ComparacionClasificacionesDialog extends JDialog {
 				AtletaDto atleta = new AtletaDto();
 				atleta.nombre = tfNombre.getText();			
 				List<ClasificacionDto> clasificaciones;
-				clasificaciones = ModelFactory.forCarreraCrudService().getClasificacionesByNombre(competicion,atleta);
+				clasificaciones = ModelFactory.forCarreraCrudService().getClasificacionesByNombre(competicion,atleta); 
 				
-				TableModel model = new ClasificacionesToTable(clasificaciones).getModel();
+				TableModel model = new ClasificacionesToTable(clasificaciones,true,true,true,clasificaciones.get(0).getPuntosIntermedios().length).getModel();
 				getTableParticipantes().setModel(model);
 
 				scrollParticipantes.setViewportView(getTableParticipantes());
@@ -163,9 +163,10 @@ public class ComparacionClasificacionesDialog extends JDialog {
 				List<ClasificacionDto> clasificacion;
 				
 				clasificacion = ModelFactory.forCarreraCrudService().getClasificacionUsuario(atleta, competicion);
-				clasificacion.add(ModelFactory.forCarreraCrudService().getClasificacionByDorsal(selectedAtleta, competicion).get(0));
+				ClasificacionDto clasificacionAdicional = ModelFactory.forCarreraCrudService().getClasificacionByDorsal(selectedAtleta, competicion).get(0);
+				clasificacion.add(clasificacionAdicional);
 
-				TableModel model = new ClasificacionesToTable(clasificacion).getModel();
+				TableModel model = new ClasificacionesToTable(clasificacion,true,true,true,clasificacion.get(0).getPuntosIntermedios().length).getModel();
 				getTableComparacion().setModel(model);
 			}
 		} catch (ArrayIndexOutOfBoundsException aiobe) {
@@ -179,9 +180,13 @@ public class ComparacionClasificacionesDialog extends JDialog {
 		if (scrollParticipantes == null) {
 			scrollParticipantes = new JScrollPane();
 			List<ClasificacionDto> clasificacion;
-			clasificacion = ModelFactory.forCarreraCrudService().GetClasificacion(competicion);
-
-			TableModel model = new ClasificacionesToTable(clasificacion).getModel();
+			clasificacion = ModelFactory.forCarreraCrudService().GetClasificacionExtendida(competicion);
+			int nPuntosIntermedios = 0;
+			if(clasificacion.get(0).getPuntosIntermedios() != null) {
+				 nPuntosIntermedios = clasificacion.get(0).getPuntosIntermedios().length;
+			}
+			
+			TableModel model = new ClasificacionesToTable(clasificacion,true,true,true,nPuntosIntermedios).getModel();
 			getTableParticipantes().setModel(model);
 
 			scrollParticipantes.setViewportView(getTableParticipantes());
@@ -200,9 +205,13 @@ public class ComparacionClasificacionesDialog extends JDialog {
 		if (scrollComparacion == null) {
 			scrollComparacion = new JScrollPane();
 			List<ClasificacionDto> clasificacion;
-			clasificacion = ModelFactory.forCarreraCrudService().getClasificacionUsuario(atleta, competicion);
+			clasificacion = ModelFactory.forCarreraCrudService().getClasificacionUsuario(atleta, competicion); 
+			int nPuntosIntermedios = 0;
+			if(clasificacion.get(0).getPuntosIntermedios() != null) {
+				 nPuntosIntermedios = clasificacion.get(0).getPuntosIntermedios().length;
+			}
 
-			TableModel model = new ClasificacionesToTable(clasificacion).getModel();
+			TableModel model = new ClasificacionesToTable(clasificacion,true,true,true, nPuntosIntermedios).getModel();
 			getTableComparacion().setModel(model);
 
 			scrollComparacion.setViewportView(getTableComparacion());

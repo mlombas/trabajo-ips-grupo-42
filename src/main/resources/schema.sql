@@ -36,7 +36,8 @@ create table Atleta (
 	dni varchar(255) not null,
 	nombre varchar(255) not null,
 	fechaNacimiento date not null, 
-	sexo varchar(255) not null
+	sexo varchar(255) not null,
+	club varchar(255)
 );
 
 create table Inscripcion (
@@ -44,6 +45,7 @@ create table Inscripcion (
 	emailAtleta varchar(255) not null,
 	nombreAtleta varchar(255) not null,
 	dniAtleta varchar(255),
+	clubAtleta varchar(255),
 	nombreCompeticion varchar(255),
 	categoria varchar(255) not null,
 	fechaInscripcion date not null,
@@ -81,9 +83,12 @@ create table Clasificacion(
 	tiempoSalida int,
 	tiempoLlegada int,
 	posicion int,
+	club varchar(255),
+	diferenciaTiempo int,
+	minsByKm int,
 	
 	primary key(idCompeticion,emailAtleta),
-	foreign key(idCompeticion) references Competicion(id)
+	foreign key(idCompeticion) references Competicion(id),
 	foreign key(emailAtleta) references Atleta(email),
 	foreign key(dorsal) references Inscripcion(dorsal)
 );
@@ -105,8 +110,8 @@ create table Plazo(
 create table PuntoIntermedio(
 	id varchar(255) not null,
 	idCompeticion varchar(255) not null,
-	tiempoMaximo int not null,
-	distanciaSalida varchar(255) not null,
+	tiempoMaximo int,
+	distanciaSalida int not null,
 	
 	primary key (id,idCompeticion),
 	foreign key(idCompeticion) references Competicion(id)

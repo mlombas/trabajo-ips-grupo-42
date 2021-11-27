@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -12,12 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 
-import controller.atleta.AtletaCrudService;
 import controller.atleta.AtletaCrudServiceImpl;
 import model.atleta.AtletaDto;
 import model.inscripcion.InscripcionDto;
@@ -32,15 +30,16 @@ public class VerInscripcionesPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private JScrollPane competicionesPane;
-	
+
 	private JPanel pnEmail;
 	private JLabel lbEmail;
 	private JTextField tfEmail;
 	private JButton btnBuscarCompeticion;
-	private JTable tabCompeticiones;
 	private JPanel pnBotones;
+	private InscripcionesToTable inscripcionesTable;
 	private AtrasAtletaButton btnAtras;
 	private JButton btnClasificacion;
+	private List<InscripcionDto> inscripciones = new ArrayList<>();
 
 	/**
 	 * Create the panel.
@@ -56,7 +55,7 @@ public class VerInscripcionesPanel extends JPanel {
 	private JScrollPane getCompeticionesPane() {
 		if (competicionesPane == null) {
 			competicionesPane = new JScrollPane();
-			competicionesPane.setViewportView(getTabCompeticiones());
+			competicionesPane.setViewportView(getInscripcionesTable());
 		}
 		return competicionesPane;
 	}
@@ -97,25 +96,29 @@ public class VerInscripcionesPanel extends JPanel {
 		}
 		return btnBuscarCompeticion;
 	}
-	
+
 	private void buscarCompeticiones() {
 		if (!checkEmail()) {
 			showMessage("No hay ningún email con el que iniciar la búsqueda", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			try {
-				AtletaCrudService acs = new AtletaCrudServiceImpl();
+				// Establecemos el atleta sobre el que queremos ver las inscripciones
 				AtletaDto atleta = new AtletaDto();
-				atleta.email = tfEmail.getText();			
-				List<InscripcionDto> inscripciones = acs.getCompetionesInscritas(atleta);
+				atleta.email = tfEmail.getText();
 				
-				TableModel model = new InscripcionesToTable(inscripciones).getModel();
-				getTabCompeticiones().setModel(model);
+				// Obtenemos las inscripciones
+				inscripciones =  new AtletaCrudServiceImpl().getCompetionesInscritas(atleta);
+				inscripcionesTable = new InscripcionesToTable(inscripciones);
 				
-				// We hide the DNI field
-				TableColumnModel tcm = getTabCompeticiones().getColumnModel();
-				tcm.removeColumn(tcm.getColumn(0));
+				// Eliminamos columnas
+				TableColumnModel tcm = inscripcionesTable.getColumnModel();
+				tcm.removeColumn(tcm.getColumn(0)); 
+				tcm.removeColumn(tcm.getColumn(1)); 
 				tcm.removeColumn(tcm.getColumn(1));
-				tcm.removeColumn(tcm.getColumn(2));
+				
+				// Re-actualizamos la tabla
+				competicionesPane.setViewportView(inscripcionesTable);
+				competicionesPane.revalidate();
 			} catch (ApplicationException e) {
 				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
 			} catch (RuntimeException e) {
@@ -126,7 +129,7 @@ public class VerInscripcionesPanel extends JPanel {
 
 	private void showMessage(String message, String title, int type) {
 		JOptionPane pane = new JOptionPane(message, type, JOptionPane.DEFAULT_OPTION);
-		pane.setOptions(new Object[] { "ACEPTAR" }); 
+		pane.setOptions(new Object[] { "ACEPTAR" });
 		JDialog d = pane.createDialog(pane, title);
 		d.setLocationRelativeTo(null);
 		d.setVisible(true);
@@ -139,14 +142,19 @@ public class VerInscripcionesPanel extends JPanel {
 		return true;
 	}
 
-	
-	private JTable getTabCompeticiones() {
-		if (tabCompeticiones == null) {
-			tabCompeticiones = new JTable();
+	private InscripcionesToTable getInscripcionesTable() {
+		if (inscripcionesTable == null) {
+			inscripcionesTable = new InscripcionesToTable(inscripciones);
+
+			// Eliminamos columnas que no nos interesan
+			TableColumnModel tcm = inscripcionesTable.getColumnModel();
+			tcm.removeColumn(tcm.getColumn(0)); 
+			tcm.removeColumn(tcm.getColumn(1)); 
+			tcm.removeColumn(tcm.getColumn(1));
 		}
-		return tabCompeticiones;
+		return inscripcionesTable;
 	}
-	
+
 	private JPanel getPnBotones() {
 		if (pnBotones == null) {
 			pnBotones = new JPanel();
@@ -156,50 +164,49 @@ public class VerInscripcionesPanel extends JPanel {
 		}
 		return pnBotones;
 	}
-	
+
 	private AtrasAtletaButton getBtnAtras() {
 		if (btnAtras == null) {
 			btnAtras = new AtrasAtletaButton(AtletaMain.ATLETAS_MENU);
 		}
 		return btnAtras;
 	}
+
 	private JButton getBtnClasificacion() {
 		if (btnClasificacion == null) {
 			btnClasificacion = new JButton("Ver Clasificación");
 			btnClasificacion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					getClasificacion();
-				}		
+				}
 			});
 		}
 		return btnClasificacion;
 	}
-	
+
 	private void getClasificacion() {
 		InscripcionDto inscripcion = new InscripcionDto();
-		
-		try {
-			
-			int index = getTabCompeticiones().getSelectedRow();
-			
-			inscripcion.idCompeticion =  getTabCompeticiones().getModel().getValueAt(index, 0).toString();
-			inscripcion.emailAtleta =  getTabCompeticiones().getModel().getValueAt(index, 3).toString();
 
-			
-			if (!getTabCompeticiones().getModel().getValueAt(index, 7).toString().equals("PARTICIPADO")) {
+		try {
+
+			int index = inscripcionesTable.getSelectedRow();
+
+			inscripcion.idCompeticion = inscripcionesTable.getModel().getValueAt(index, 0).toString();
+			inscripcion.emailAtleta = inscripcionesTable.getModel().getValueAt(index, 3).toString();
+
+			if (!inscripcionesTable.getModel().getValueAt(index, 8).toString().equals("PARTICIPADO")) {
 				JOptionPane.showMessageDialog(null, "Seleccione una carrera que haya acabado");
 				return;
 			}
-			
+
 		} catch (ArrayIndexOutOfBoundsException aiobe) {
 			JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
 			return;
 		}
-		
+
 		showCreaComparacion(inscripcion);
-		
+
 	}
-	
 
 	private void showCreaComparacion(InscripcionDto inscripcion) {
 		ComparacionClasificacionesDialog comparacionesDialog = new ComparacionClasificacionesDialog(inscripcion);
@@ -207,5 +214,5 @@ public class VerInscripcionesPanel extends JPanel {
 		comparacionesDialog.setModal(true);
 		comparacionesDialog.setVisible(true);
 	}
-	
+
 }

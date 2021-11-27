@@ -20,22 +20,22 @@ import model.inscripcion.commands.ProcessTransaction;
 import util.exceptions.AtletaNoValidoException;
 import util.exceptions.ModelException;
 
-
 public class AtletaCrudServiceImpl implements AtletaCrudService {
 
 	@Override
 	public void addAtleta(AtletaDto atleta) throws AtletaNoValidoException, ModelException {
 		new AddAtleta(atleta).execute();
 	}
-	
+
 	@Override
-	public InscripcionDto registerAtletaToCompeticion(AtletaDto atleta, CompeticionDto competicion) throws AtletaNoValidoException, ModelException {
-		return new RegisterAtletaToCompetition(atleta, competicion).execute();
+	public InscripcionDto registerAtletaToCompeticion(AtletaDto atleta, CompeticionDto competicion)
+			throws AtletaNoValidoException, ModelException {
+		return new RegisterAtletaToCompetition(competicion).execute(atleta);
 	}
 
 	@Override
 	public LocalDate payWithTarjeta(InscripcionDto inscripcion, TarjetaDto tarjeta) {
-		 return new PayWithTarjeta(inscripcion,tarjeta).execute();
+		return new PayWithTarjeta(inscripcion, tarjeta).execute();
 	}
 
 	@Override
@@ -54,13 +54,20 @@ public class AtletaCrudServiceImpl implements AtletaCrudService {
 	}
 
 	@Override
-	public InscripcionDto processTransaction(String email, String code, double amount, LocalDateTime dt, String id) throws ModelException {
+	public InscripcionDto processTransaction(String email, String code, double amount, LocalDateTime dt, String id)
+			throws ModelException {
 		return new ProcessTransaction(email, code, amount, dt, id).execute();
 	}
 
 	@Override
 	public AtletaDto getAtletaByInscripcion(InscripcionDto inscripcion) {
 		return new GetAtletaByInscripcion(inscripcion).execute();
+	}
+
+	@Override
+	public void registerAtletasToCompetition(List<AtletaDto> atletas, CompeticionDto competicion)
+			throws ModelException, AtletaNoValidoException {
+		new RegisterAtletaToCompetition(competicion).execute(atletas);
 	}
 
 }

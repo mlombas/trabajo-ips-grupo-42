@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.atleta.AtletaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
 import model.competicion.PuntoIntermedioDto;
@@ -18,10 +19,11 @@ public class CargarTiempos {
 	private static final String GETINSCRIPCIONBYDORSAL = "select * from Inscripcion where idCompeticion = ? and dorsal = ? ";
 	private static final String UPDATECLASIFICACION = "update Clasificacion set tiempoSalida = ?, tiempoLlegada = ? where idCompeticion = ? and emailAtleta = ? ";
 	private static final String GETCOMPETICION = "select * from Competicion where id = ?";
+	private static final String GETATLETA = "select * from Atleta where email = ?";
 	private static final String GETPUNTOSINTERMEDIOS = "select * from PuntoIntermedio where idCompeticion = ?";
 	private static final String UPDATETIEMPOINTERMEDIOCLASIFICACION = "update PuntoIntermedioClasificacion set tiempo = ? where idCompeticion = ? and emailAtleta = ? and idPuntoIntermedio = ?" ;
 	private static final String GETALLCLASIFICACION = "select * from Clasificacion where idCompeticion = ? and tiempoLlegada is not null order by tiempoLlegada-tiempoSalida";
-	private static final String UPDATEPOSICIONCLASIFICACION = "update Clasificacion set posicion = ? where idCompeticion = ? and emailAtleta = ? ";
+	private static final String UPDATECLASIFICACIONEXTENDIDA = "update Clasificacion set posicion = ?, club = ?, diferenciaTiempo = ?, minsByKm = ? where idCompeticion = ? and emailAtleta = ? ";
 	
 	private CompeticionDto competicion;
 	
@@ -49,6 +51,7 @@ public class CargarTiempos {
 		List<CompeticionDto> competi = db.executeQueryPojo(CompeticionDto.class, GETCOMPETICION, competicion.id);
 		
 		checkCompeticion(competi);
+		
 		
 		try {
 			
@@ -93,8 +96,16 @@ public class CargarTiempos {
 		
 		List<ClasificacionDto> clasificaciones =  db.executeQueryPojo(ClasificacionDto.class, GETALLCLASIFICACION, competicion.id);
 		int posicion = 1;
+		int tiempoPrimero = clasificaciones.get(0).tiempoLlegada - clasificaciones.get(0).tiempoSalida;
 		for(ClasificacionDto clasificacion : clasificaciones) {
-			db.executeUpdate(UPDATEPOSICIONCLASIFICACION, posicion, competicion.id, clasificacion.emailAtleta);
+			
+			String club = db.executeQueryPojo(AtletaDto.class, GETATLETA, clasificacion.getEmailAtleta()).get(0).club;
+			
+			int minsByKm = (clasificacion.tiempoLlegada - clasificacion.tiempoSalida) / competi.get(0).distancia;
+			
+			int diferenciaTiempo = (clasificacion.tiempoLlegada - clasificacion.tiempoSalida) - tiempoPrimero;
+			
+			db.executeUpdate(UPDATECLASIFICACIONEXTENDIDA, posicion, club, diferenciaTiempo, minsByKm, competicion.id, clasificacion.emailAtleta);
 			posicion++;
 		}
 		

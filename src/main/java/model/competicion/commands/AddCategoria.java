@@ -25,7 +25,10 @@ public class AddCategoria {
 
 	public boolean execute() throws ModelException {
 		if (cat.nombreCategoria.isEmpty()) {
-			throw new ModelException("Por favor, proporciona un nombre para la competicion");
+			throw new ModelException("Por favor, proporciona un nombre para la categoría");
+		}
+		if (cat.nombreCategoria.equals("General")) {
+			throw new ModelException("General es un nombre reservado y no puede ser usado");
 		}
 		if (cat.edadMaxima < cat.edadMinima) {
 			throw new ModelException("La edad máxima no puede ser menor que la mínima");

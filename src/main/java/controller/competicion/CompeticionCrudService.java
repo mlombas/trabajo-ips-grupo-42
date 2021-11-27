@@ -7,11 +7,13 @@ import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
 import model.competicion.PlazoInscripcionDto;
+import model.competicion.PuntoIntermedioClasficacionDto;
+import model.competicion.PuntoIntermedioDto;
 import model.inscripcion.InscripcionDto;
 import util.exceptions.ModelException;
 
-
 public interface CompeticionCrudService {
+	
 	List<Integer> cargarTiempos(CompeticionDto comp);
 
 	List<CompeticionDto> GetAllCompeticiones() throws ModelException;
@@ -41,6 +43,26 @@ public interface CompeticionCrudService {
 	void deleteAllCategorias(String idCompeticion) throws ModelException;
 	
 	void updateCompeticion(CompeticionDto comp) throws ModelException;
+	
+	void addCategoriaGeneral(String idCompeticion) throws ModelException;
+	
+	List<CategoriaDto> getAllCategorias (String competicionId);
+
+	int getPlazasLibres(CompeticionDto competicion) throws ModelException;
+
+	void addPuntoIntermedio(PuntoIntermedioDto puntoIntermedio) throws ModelException;
+
+	void deleteAllPuntosIntermedios(String id) throws ModelException;
+
+	List<ClasificacionDto> GetClasificacionExtendida(CompeticionDto competicion);
+
+	List<ClasificacionDto> GetClasificacionExtendida(CompeticionDto competicion, String categoria);
+
+	int GetDistancia(CompeticionDto competicion) throws ModelException;
+
+	int countPuntosIntermendios(CompeticionDto competicion) throws ModelException;
+
+	List<PuntoIntermedioClasficacionDto> obtenerPuntosInt(CompeticionDto competicion, ClasificacionDto clasificado);
 
 	CompeticionDto getCompeticionByInscripcion(InscripcionDto inscripcion);
 

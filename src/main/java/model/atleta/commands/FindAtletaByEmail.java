@@ -38,6 +38,7 @@ public class FindAtletaByEmail {
 			if (rs.next()) {
 				atleta.dni = rs.getString("dni");
 				atleta.email = rs.getString("email");
+				atleta.club = rs.getString("club");
 				atleta.fechaNacimiento = LocalDate.parse(rs.getString("fechaNacimiento"));
 				atleta.nombre = rs.getString("nombre");
 				atleta.sexo = rs.getString("sexo");
