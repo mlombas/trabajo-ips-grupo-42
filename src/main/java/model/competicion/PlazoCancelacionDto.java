@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class PlazoCancelacionDto {
 
 	public String id;
-	public double porcentaje;
+	public int porcentaje;
 	public LocalDate fechaInicio;
 	public LocalDate fechaFin;
 	public String idCompeticion;
@@ -26,12 +26,12 @@ public class PlazoCancelacionDto {
 		this.fechaFin = LocalDate.parse(fechaFin);
 	}
 
-	public String getCuota() {
-		return porcentaje + "";
+	public int getPorcentaje() {
+		return porcentaje;
 	}
 
-	public void setCuota(String porcentaje) {
-		this.porcentaje= Double.parseDouble(porcentaje);
+	public void setPorcentaje(int porcentaje) {
+		this.porcentaje = porcentaje;
 	}
 
 	public String getIdCompeticion() {
@@ -49,9 +49,5 @@ public class PlazoCancelacionDto {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	
-	
-	
 
 }

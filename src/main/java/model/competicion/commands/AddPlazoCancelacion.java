@@ -10,7 +10,7 @@ import util.exceptions.ApplicationException;
 public class AddPlazoCancelacion {
 
 	private static final String GETCOMPETICION = "select * from Competicion where id = ?";
-	private static final String CREATEPLAZO = "insert into PlazoCancelacion(id, idCompeticion, fechaInicio, fechaFin, cuota) values (?,?,?,?,?)";
+	private static final String CREATEPLAZO = "insert into PlazoCancelacion(id, idCompeticion, fechaInicio, fechaFin, porcentaje) values (?,?,?,?,?)";
 	private static final String GETALLPLAZOS = "select * from PlazoCancelacion where idCompeticion = ?";
 	private static final String GETPLAZOSSOLAPADOS = "select * from PlazoCancelacion where idCompeticion = ? and (((fechaInicio <= ?) and ( ? < fechaFin)) or ((fechaInicio < ?) and ( ? <= fechaFin)))";
 	private static final String GETPLAZOSANTERIORES = "select * from PlazoCancelacion where idCompeticion = ? and fechaFin <= ? order by fechaFin desc";
