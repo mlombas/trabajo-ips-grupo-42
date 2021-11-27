@@ -6,6 +6,7 @@ import model.atleta.AtletaDto;
 import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
+import model.competicion.PlazoCancelacionDto;
 import model.competicion.PlazoInscripcionDto;
 import model.competicion.PuntoIntermedioClasficacionDto;
 import model.competicion.PuntoIntermedioDto;
@@ -72,5 +73,9 @@ public interface CompeticionCrudService {
 
 	List<ClasificacionDto> getClasificacionByDorsal(ClasificacionDto selectedAtleta, CompeticionDto competicion);
 
+
+	List<PlazoCancelacionDto> getAllPlazosCancelacion(String id);
+
+	List<PlazoCancelacionDto> addPlazoCancelacion(CompeticionDto comp, PlazoCancelacionDto plazo);
 
 }

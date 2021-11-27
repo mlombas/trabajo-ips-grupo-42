@@ -11,6 +11,7 @@ drop table Clasificacion;
 drop table Plazo;
 drop table PuntoIntermedio;
 drop table PuntoIntermedioClasificacion;
+drop table PlazoCancelacion;
 
 create table Competicion (
 	id varchar(255) primary key not null, 
@@ -128,4 +129,19 @@ create table PuntoIntermedioClasificacion(
 	foreign key(idPuntoIntermedio) references PuntoIntermedio(id),
 	foreign key(emailAtleta) references Atleta(email)
 	
+);
+
+create table PlazoCancelacion(
+	id varchar(255) not null,
+	idCompeticion varchar(255) not null,
+	fechaInicio date not null, 
+	fechaFin date not null,
+	porcentaje decimal(10,2) not null,
+	
+	primary key (id,idCompeticion),
+	foreign key(idCompeticion) references Competicion(id),
+	
+	check(fechaInicio<=fechaFin), 
+	check(porcentaje>=0)
+	check(porcentaje<=100)
 );

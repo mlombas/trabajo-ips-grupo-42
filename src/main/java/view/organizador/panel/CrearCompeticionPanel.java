@@ -60,7 +60,8 @@ public class CrearCompeticionPanel extends JPanel {
 	private CrearPlazosPanel panelPlazos;
 	private CrearCategoriasPanel panelCategorias;
 	private CrearPuntosIntermediosPanel panelPuntosIntermedios;
-
+	private CrearPlazosCancelacionPanel panelCancelaciones;
+	
 	private CompeticionDto competicion = new CompeticionDto();
 	
 	private boolean isPlazosCreated = false;
@@ -366,10 +367,12 @@ public class CrearCompeticionPanel extends JPanel {
 							panelPlazos = new CrearPlazosPanel(ccp, competicion);
 							panelPuntosIntermedios = new CrearPuntosIntermediosPanel(ccp, competicion);
 							panelCategorias = new CrearCategoriasPanel(competicion);
+							panelCancelaciones = new CrearPlazosCancelacionPanel(competicion);
 							
 							getPanelCrearAdicional().add(panelPlazos);
 							getPanelCrearAdicional().add(panelPuntosIntermedios);
 							getPanelCrearAdicional().add(panelCategorias);
+							getPanelCrearAdicional().add(panelCancelaciones);
 							
 							getPanelCrearAdicional().revalidate();
 						} else
@@ -389,7 +392,7 @@ public class CrearCompeticionPanel extends JPanel {
 	private JPanel getPanelCrearAdicional() {
 		if (panelCrearAdicional == null) {
 			panelCrearAdicional = new JPanel();
-			panelCrearAdicional.setLayout(new GridLayout(1, 3, 0, 0));
+			panelCrearAdicional.setLayout(new GridLayout(1, 4, 0, 0));
 			panelCrearAdicional.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2),
 					"Datos adicionales de la Competición", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		}
