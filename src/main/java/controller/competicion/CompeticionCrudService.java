@@ -2,14 +2,15 @@ package controller.competicion;
 
 import java.util.List;
 
+import model.atleta.AtletaDto;
 import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
-import model.competicion.ClasificacionExtendidaDto;
 import model.competicion.CompeticionDto;
 import model.competicion.PlazoCancelacionDto;
 import model.competicion.PlazoInscripcionDto;
 import model.competicion.PuntoIntermedioClasficacionDto;
 import model.competicion.PuntoIntermedioDto;
+import model.inscripcion.InscripcionDto;
 import util.exceptions.ModelException;
 
 public interface CompeticionCrudService {
@@ -54,15 +55,24 @@ public interface CompeticionCrudService {
 
 	void deleteAllPuntosIntermedios(String id) throws ModelException;
 
-	List<ClasificacionExtendidaDto> GetClasificacionExtendida(CompeticionDto competicion);
+	List<ClasificacionDto> GetClasificacionExtendida(CompeticionDto competicion);
 
-	List<ClasificacionExtendidaDto> GetClasificacionExtendida(CompeticionDto competicion, String categoria);
+	List<ClasificacionDto> GetClasificacionExtendida(CompeticionDto competicion, String categoria);
 
 	int GetDistancia(CompeticionDto competicion) throws ModelException;
 
 	int countPuntosIntermendios(CompeticionDto competicion) throws ModelException;
 
-	List<PuntoIntermedioClasficacionDto> obtenerPuntosInt(CompeticionDto competicion, ClasificacionExtendidaDto clasificado);
+	List<PuntoIntermedioClasficacionDto> obtenerPuntosInt(CompeticionDto competicion, ClasificacionDto clasificado);
+
+	CompeticionDto getCompeticionByInscripcion(InscripcionDto inscripcion);
+
+	List<ClasificacionDto> getClasificacionUsuario(AtletaDto atleta, CompeticionDto competicion);
+
+	List<ClasificacionDto> getClasificacionesByNombre(CompeticionDto competicion, AtletaDto atleta);
+
+	List<ClasificacionDto> getClasificacionByDorsal(ClasificacionDto selectedAtleta, CompeticionDto competicion);
+
 
 	List<PlazoCancelacionDto> getAllPlazosCancelacion(String id);
 

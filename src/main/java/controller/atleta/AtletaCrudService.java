@@ -51,4 +51,6 @@ public interface AtletaCrudService {
 
 	void registerAtletasToCompetition(List<AtletaDto> atletas, CompeticionDto competicion) throws ModelException, AtletaNoValidoException;
 	
+	AtletaDto getAtletaByInscripcion(InscripcionDto inscripcion);
+	
 }

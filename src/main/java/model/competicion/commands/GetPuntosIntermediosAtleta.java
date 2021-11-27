@@ -2,7 +2,7 @@ package model.competicion.commands;
 
 import java.util.List;
 
-import model.competicion.ClasificacionExtendidaDto;
+import model.competicion.ClasificacionDto;
 import model.competicion.CompeticionDto;
 import model.competicion.PuntoIntermedioClasficacionDto;
 import util.database.Database;
@@ -14,9 +14,9 @@ public class GetPuntosIntermediosAtleta {
 	private Database db = Database.getInstance();
 
 	private CompeticionDto competicion;
-	private ClasificacionExtendidaDto clasificado;
+	private ClasificacionDto clasificado;
 
-	public GetPuntosIntermediosAtleta(CompeticionDto competicion, ClasificacionExtendidaDto clasificado) {
+	public GetPuntosIntermediosAtleta(CompeticionDto competicion, ClasificacionDto clasificado) {
 		this.competicion = competicion;
 		this.clasificado = clasificado;
 

@@ -5,13 +5,13 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import model.competicion.ClasificacionExtendidaDto;
+import model.competicion.ClasificacionDto;
 
 public class ClasificacionesToTable extends JTable {
 
 	private static final long serialVersionUID = 1L;
 
-	public ClasificacionesToTable(List<ClasificacionExtendidaDto> clasificacion, boolean club, boolean minsByKm,
+	public ClasificacionesToTable(List<ClasificacionDto> clasificacion, boolean club, boolean minsByKm,
 			boolean diferencia, int puntosCorte) {
 		setDefaultEditor(Object.class, null); // hacer que no sea editable
 
@@ -27,7 +27,7 @@ public class ClasificacionesToTable extends JTable {
 
 		DefaultTableModel model = new DefaultTableModel(null, columnNames);
 
-		for (ClasificacionExtendidaDto posicion : clasificacion) {
+		for (ClasificacionDto posicion : clasificacion) {
 			Object[] fila = new Object[columnNames.length];
 			fila[2] = posicion.nombre;
 			fila[3] = posicion.categoria;

@@ -39,6 +39,7 @@ insert into PuntoIntermedio(id, idCompeticion, tiempoMaximo, distanciaSalida) va
 insert into Atleta(email, dni, nombre, fechaNacimiento, sexo) values
 	('pedro@gmail.com','12121212','Pedro','2001-01-01','H'),
 	('elena@gmail.com','10101010','Elena','2001-02-02','M'),
+	('elena2@gmail.com','10101011','Elena','2001-02-02','M'),
 	('juanjo@gmail.com','13131313','Juanjo','2001-02-02','H'),
 	('marta@gmail.com','14141414','Marta','2001-02-02','M'),
 	('javi@gmail.com','15151515','Javier','2001-02-02','H');
@@ -46,8 +47,10 @@ insert into Atleta(email, dni, nombre, fechaNacimiento, sexo) values
 insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nombreCompeticion, categoria, fechaInscripcion,
  			cuotaInscripcion, estadoInscripcion, fechaCambioEstado, dorsal) values
  			
+ 			
  			('105','pedro@gmail.com','Pedro', 'dni','Carrera105','Juvenil H','2021-12-12',35,'PARTICIPADO','2021-12-25',330),
  			('105','elena@gmail.com','Elena', 'dni','Carrera105','Juvenil M','2021-12-12',35,'PARTICIPADO','2021-12-25',331),
+ 			('105','elena2@gmail.com','Elena', 'dni','Carrera105','Juvenil M','2021-12-12',35,'PARTICIPADO','2021-12-25',335),
  			('105','juanjo@gmail.com','Juanjo', 'dni', 'Carrera105','Juvenil H','2021-12-10',35,'PARTICIPADO','2021-12-25',332),
  			('105','marta@gmail.com','Marta', 'dni','Carrera105','Juvenil M','2021-12-12',35,'PARTICIPADO','2021-12-25',333),
  			('105','javi@gmail.com','Javier', 'dni','Carrera105','Juvenil H','2021-12-12',35,'PARTICIPADO','2021-12-25',334),
@@ -84,7 +87,8 @@ insert into Clasificacion(idCompeticion, emailAtleta, dorsal) values
 			('105','pedro@gmail.com',330),
  			('105','elena@gmail.com', 331),
  			('105','juanjo@gmail.com', 332),
- 			('105','marta@gmail.com', 333),			
+ 			('105','marta@gmail.com', 333),	
+ 			('105','elena2@gmail.com', 335),		
 			
 			('106','pedro@gmail.com',1),
  			('106','elena@gmail.com', 2),
@@ -95,17 +99,20 @@ insert into Clasificacion(idCompeticion, emailAtleta, dorsal) values
 			('105','pedro@gmail.com', 'Punto1'),
  			('105','elena@gmail.com', 'Punto1'),
  			('105','juanjo@gmail.com', 'Punto1'),
- 			('105','marta@gmail.com', 'Punto1'),			
+ 			('105','marta@gmail.com', 'Punto1'),	
+ 			('105','elena2@gmail.com', 'Punto1'),		
  			
  			('105','pedro@gmail.com', 'Punto2'),
  			('105','elena@gmail.com', 'Punto2'),
  			('105','juanjo@gmail.com', 'Punto2'),
  			('105','marta@gmail.com', 'Punto2'),	
+ 			('105','elena2@gmail.com', 'Punto2'),
  			
  			('105','pedro@gmail.com', 'Punto3'),
  			('105','elena@gmail.com', 'Punto3'),
  			('105','juanjo@gmail.com', 'Punto3'),
  			('105','marta@gmail.com', 'Punto3'),	
+ 			('105','elena2@gmail.com', 'Punto3'),
 			
 			('106','pedro@gmail.com','Punto1'),
  			('106','elena@gmail.com', 'Punto1'),

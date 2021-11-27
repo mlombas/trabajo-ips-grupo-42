@@ -107,7 +107,7 @@ public class CrearCompeticionPanel extends JPanel {
 
 	public void reset() {
 		competicion = new CompeticionDto();
-		
+
 		getTextNombre().setText("");
 		getTextAreaDescripcion().setText("");
 		getSpinnerNumeroPlazas().setValue(0);
@@ -122,7 +122,7 @@ public class CrearCompeticionPanel extends JPanel {
 		isPuntosIntermediosCreated = false;
 		isCategoriasCreated = false;
 	}
-	
+
 	public void setPlazosCreated(boolean isPlazosCreated) {
 		this.isPlazosCreated = isPlazosCreated;
 	}
@@ -398,7 +398,7 @@ public class CrearCompeticionPanel extends JPanel {
 		}
 		return panelCrearAdicional;
 	}
-	
+
 	private JPanel getPanelButtons() {
 		if (panelButtons == null) {
 			panelButtons = new JPanel();
@@ -438,10 +438,9 @@ public class CrearCompeticionPanel extends JPanel {
 						reset();
 						return;
 					}
-					
+
 					isCompeticionSuccessfullyCreated = true;
-					
-					
+
 					JOptionPane.showMessageDialog(null, "Hemos añadido la carrera");
 					OrganizadorMain.getInstance().startPanel();
 				}

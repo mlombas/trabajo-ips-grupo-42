@@ -83,9 +83,13 @@ create table Clasificacion(
 	dorsal int,
 	tiempoSalida int,
 	tiempoLlegada int,
+	posicion int,
+	club varchar(255),
+	diferenciaTiempo int,
+	minsByKm int,
 	
 	primary key(idCompeticion,emailAtleta),
-	foreign key(idCompeticion) references Competicion(id)
+	foreign key(idCompeticion) references Competicion(id),
 	foreign key(emailAtleta) references Atleta(email),
 	foreign key(dorsal) references Inscripcion(dorsal)
 );
