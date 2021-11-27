@@ -66,4 +66,6 @@ public interface CompeticionCrudService {
 
 	List<PlazoCancelacionDto> getAllPlazosCancelacion(String id);
 
+	List<PlazoCancelacionDto> addPlazoCancelacion(CompeticionDto comp, PlazoCancelacionDto plazo);
+
 }

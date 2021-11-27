@@ -15,12 +15,10 @@ import controller.competicion.CompeticionCrudService;
 import controller.competicion.CompeticionCrudServiceImpl;
 import model.competicion.CompeticionDto;
 import model.competicion.PlazoCancelacionDto;
-import model.competicion.PlazoInscripcionDto;
 import net.miginfocom.swing.MigLayout;
 import util.Validate;
 import util.exceptions.ApplicationException;
 import view.util.table.PlazosCancelacionToTable;
-import view.util.table.PlazosToTable;
 
 public class CrearPlazosCancelacionPanel extends CrearCompeticionSubPanel {
 
