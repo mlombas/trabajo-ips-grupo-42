@@ -6,6 +6,7 @@ import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.ClasificacionExtendidaDto;
 import model.competicion.CompeticionDto;
+import model.competicion.PlazoCancelacionDto;
 import model.competicion.PlazoInscripcionDto;
 import model.competicion.PuntoIntermedioClasficacionDto;
 import model.competicion.PuntoIntermedioDto;
@@ -62,5 +63,7 @@ public interface CompeticionCrudService {
 	int countPuntosIntermendios(CompeticionDto competicion) throws ModelException;
 
 	List<PuntoIntermedioClasficacionDto> obtenerPuntosInt(CompeticionDto competicion, ClasificacionExtendidaDto clasificado);
+
+	List<PlazoCancelacionDto> getAllPlazosCancelacion(String id);
 
 }

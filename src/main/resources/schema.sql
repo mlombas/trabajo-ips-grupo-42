@@ -11,6 +11,7 @@ drop table Clasificacion;
 drop table Plazo;
 drop table PuntoIntermedio;
 drop table PuntoIntermedioClasificacion;
+drop table PlazoCancelacion;
 
 create table Competicion (
 	id varchar(255) primary key not null, 

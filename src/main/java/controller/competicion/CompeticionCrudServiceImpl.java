@@ -6,6 +6,7 @@ import model.competicion.CategoriaDto;
 import model.competicion.ClasificacionDto;
 import model.competicion.ClasificacionExtendidaDto;
 import model.competicion.CompeticionDto;
+import model.competicion.PlazoCancelacionDto;
 import model.competicion.PlazoInscripcionDto;
 import model.competicion.PuntoIntermedioClasficacionDto;
 import model.competicion.PuntoIntermedioDto;
@@ -24,6 +25,7 @@ import model.competicion.commands.GenerarDorsales;
 import model.competicion.commands.GetAllCategorias;
 import model.competicion.commands.GetAllCompeticiones;
 import model.competicion.commands.GetAllPlazos;
+import model.competicion.commands.GetAllPlazosCancelacion;
 import model.competicion.commands.GetNombresCategorias;
 import model.competicion.commands.GetClasificacion;
 import model.competicion.commands.GetClasificacionByCategoria;
@@ -166,6 +168,11 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	public List<PuntoIntermedioClasficacionDto> obtenerPuntosInt(CompeticionDto competicion,
 			ClasificacionExtendidaDto clasificado) {
 		return new GetPuntosIntermediosAtleta(competicion, clasificado).execute();
+	}
+
+	@Override
+	public List<PlazoCancelacionDto> getAllPlazosCancelacion(String id) {
+		return new GetAllPlazosCancelacion(id).execute();
 	}
   
 }
