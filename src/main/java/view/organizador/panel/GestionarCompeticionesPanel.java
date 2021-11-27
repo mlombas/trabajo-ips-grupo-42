@@ -25,6 +25,7 @@ import util.exceptions.ModelException;
 import view.organizador.OrganizadorMain;
 import view.organizador.dialog.VerClasficacionDialog;
 import view.organizador.dialog.VerEstadoInscripcionDialog;
+import view.organizador.dialog.VerPlazosCancelacionDialog;
 import view.organizador.dialog.VerPlazosDialog;
 import view.organizador.dialog.VerProcesadoDialog;
 import view.organizador.util.AtrasOrganizadorButton;
@@ -55,6 +56,7 @@ public class GestionarCompeticionesPanel extends JPanel {
 	private JCheckBox chckbxClub;
 	private JCheckBox chckbxTiempo;
 	private JCheckBox chckbxDiferencia;
+	private JButton btnPlazosCancelacion;
 
 	public GestionarCompeticionesPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -231,8 +233,9 @@ public class GestionarCompeticionesPanel extends JPanel {
 			competicionManagementPane = new JPanel();
 			competicionManagementPane.setLayout(new GridLayout(2, 0, 0, 0));
 			competicionManagementPane.add(getBtnVerEstado());
-			competicionManagementPane.add(getBtnPlazos());
 			competicionManagementPane.add(getBtnGenerarDorsales());
+			competicionManagementPane.add(getBtnPlazos());
+			competicionManagementPane.add(getBtnPlazosCancelacion());
 		}
 		return competicionManagementPane;
 	}
@@ -418,5 +421,33 @@ public class GestionarCompeticionesPanel extends JPanel {
 			chckbxDiferencia = new JCheckBox("Diferencia");
 		}
 		return chckbxDiferencia;
+	}
+
+	private JButton getBtnPlazosCancelacion() {
+		if (btnPlazosCancelacion == null) {
+			btnPlazosCancelacion = new JButton("Ver Plazos de Cancelación");
+			btnPlazosCancelacion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					CompeticionDto competicion = new CompeticionDto();
+
+					try {
+						competicion.id = verCompeticionesPane.getCompeticionId();
+					} catch (ArrayIndexOutOfBoundsException aiobe) {
+						JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+						return;
+					}
+
+					showVerPlazosCancelacion(competicion);
+				}
+			});
+		}
+		return btnPlazosCancelacion;
+	}
+
+	protected void showVerPlazosCancelacion(CompeticionDto competicion) {
+		VerPlazosCancelacionDialog plazosDialog = new VerPlazosCancelacionDialog(competicion);
+		plazosDialog.setLocationRelativeTo(null);
+		plazosDialog.setModal(true);
+		plazosDialog.setVisible(true);
 	}
 }
