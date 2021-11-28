@@ -15,14 +15,51 @@ public class ClasificacionesToTable extends JTable {
 			boolean diferencia, int puntosCorte) {
 		setDefaultEditor(Object.class, null); // hacer que no sea editable
 
-		String[] columns = { "Posición", "Dorsal", "Nombre", "Categoría", "Sexo", "Club", "Tiempo", "Salida", "Llegada",
-				"Minutos por kilometro", "Diferencia" };
-		String[] columnNames = new String[columns.length + puntosCorte];
-		for (int i = 0; i < columns.length; i++) {
-			columnNames[i] = columns[i];
+		int ncolumns = 8;
+		int c = 0;
+		int m = 0;
+		int d = 0;
+		if (club) {
+			ncolumns++;
+			c = 1;
 		}
-		for (int i = columns.length; i < columnNames.length; i++) {
-			columnNames[i] = "Punto " + ((i - columns.length) + 1);
+		if (minsByKm) {
+			ncolumns++;
+			m = 1;
+		}
+		if (diferencia) {
+			ncolumns++;
+			d = 1;
+		}
+		ncolumns += puntosCorte;
+
+		String[] columnsPreClub = { "Posición", "Dorsal", "Nombre", "Categoría", "Sexo" };
+		String[] columnsPostClub = { "Tiempo", "Salida", "Llegada" };
+		String[] columnNames = new String[ncolumns];
+		int k = 0;
+		while (k < 5) {
+			columnNames[k] = columnsPreClub[k];
+			k++;
+		}
+		if (club) {
+			columnNames[k] = "Club";
+			k++;
+		}
+		for (int j = 0; j < 3; j++) {
+			columnNames[k] = columnsPostClub[j];
+			k++;
+		}
+		if (minsByKm) {
+			columnNames[k] = "Minutos/Kilometro";
+			k++;
+		}
+		if (diferencia) {
+			columnNames[k] = "Diferencia";
+			k++;
+		}
+		for (int i = 1; i <= puntosCorte; i++) {
+			columnNames[k] = "Punto " + i;
+			k++;
 		}
 
 		DefaultTableModel model = new DefaultTableModel(null, columnNames);
@@ -42,62 +79,62 @@ public class ClasificacionesToTable extends JTable {
 			if (!posicion.presentado) {
 				fila[0] = "---";
 				fila[1] = "NP";
-				fila[6] = "-:--";
-				fila[7] = "-:--";
-				fila[8] = "-:--";
+				fila[5 + c] = "-:--";
+				fila[6 + c] = "-:--";
+				fila[7 + c] = "-:--";
 				if (minsByKm) {
-					fila[9] = "-:--";
+					fila[8 + c] = "-:--";
 				}
 				if (diferencia) {
-					fila[10] = "-:--";
+					fila[8 + m + c] = "-:--";
 				}
-				for(int i=0;i<puntosCorte;i++) {
-					fila[11+i] = "-:--";
+				for (int i = 0; i < puntosCorte; i++) {
+					fila[8 + d + m + c + i] = "-:--";
 				}
 			} else {
 				if (posicion.dorsal == 0) {
 					fila[0] = "---";
 					fila[1] = "DNS";
-					fila[6] = "-:--";
-					fila[7] = "-:--";
-					fila[8] = "-:--";
+					fila[5 + c] = "-:--";
+					fila[6 + c] = "-:--";
+					fila[7 + c] = "-:--";
 					if (minsByKm) {
-						fila[9] = "-:--";
+						fila[8 + c] = "-:--";
 					}
 					if (diferencia) {
-						fila[10] = "-:--";
+						fila[8 + m + c] = "-:--";
 					}
-					for(int i=0;i<puntosCorte;i++) {
-						fila[11+i] = "-:--";
+					for (int i = 0; i < puntosCorte; i++) {
+						fila[8 + d + m + c + i] = "-:--";
 					}
 				} else {
 					fila[1] = posicion.dorsal;
-					fila[7] = posicion.formatTime(posicion.tiempoSalida);
+					fila[6 + c] = posicion.formatTime(posicion.tiempoSalida);
 					if (posicion.tiempoLlegada == 0) {
 						fila[0] = "---";
-						fila[6] = "-:--";
-						fila[8] = "DNF";
+						fila[5 + c] = "-:--";
+						fila[7 + c] = "DNF";
 						if (minsByKm) {
-							fila[9] = "-:--";
+							fila[8 + c] = "-:--";
 						}
 						if (diferencia) {
-							fila[10] = "-:--";
+							fila[8 + m + c] = "-:--";
 						}
-						for(int i=0;i<puntosCorte;i++) {
-							fila[11+i] = "-:--";
+						for (int i = 0; i < puntosCorte; i++) {
+							fila[8 + d + m + c] = "-:--";
 						}
 					} else {
 						fila[0] = posicion.posicion;
-						fila[6] = posicion.formatTime(posicion.tiempoLlegada - posicion.tiempoSalida);
-						fila[8] = posicion.formatTime(posicion.tiempoLlegada);
+						fila[5 + c] = posicion.formatTime(posicion.tiempoLlegada - posicion.tiempoSalida);
+						fila[7 + c] = posicion.formatTime(posicion.tiempoLlegada);
 						if (minsByKm) {
-							fila[9] = posicion.formatTime(posicion.minsByKm);
+							fila[8 + c] = posicion.formatTime(posicion.minsByKm);
 						}
 						if (diferencia) {
-							fila[10] = posicion.formatTime(posicion.diferenciaTiempo);
+							fila[8 + m + c] = posicion.formatTime(posicion.diferenciaTiempo);
 						}
-						for(int i=0;i<puntosCorte;i++) {
-							fila[11+i] = posicion.formatTime(posicion.puntosIntermedios[i]);
+						for (int i = 0; i < puntosCorte; i++) {
+							fila[8 + d + m + c + i] = posicion.formatTime(posicion.puntosIntermedios[i]);
 						}
 					}
 				}
