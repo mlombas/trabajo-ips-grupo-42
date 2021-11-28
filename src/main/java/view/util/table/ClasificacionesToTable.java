@@ -121,7 +121,7 @@ public class ClasificacionesToTable extends JTable {
 							fila[8 + m + c] = "-:--";
 						}
 						for (int i = 0; i < puntosCorte; i++) {
-							fila[8 + d + m + c] = "-:--";
+							fila[8 + d + m + c + i] = "-:--";
 						}
 					} else {
 						fila[0] = posicion.posicion;
