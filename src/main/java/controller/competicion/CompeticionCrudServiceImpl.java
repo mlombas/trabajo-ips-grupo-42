@@ -27,7 +27,6 @@ import model.competicion.commands.GetAllCategorias;
 import model.competicion.commands.GetAllCompeticiones;
 import model.competicion.commands.GetAllPlazos;
 import model.competicion.commands.GetAllPlazosCancelacion;
-import model.competicion.commands.GetNombresCategorias;
 import model.competicion.commands.GetClasificacion;
 import model.competicion.commands.GetClasificacionByCategoria;
 import model.competicion.commands.GetClasificacionByDorsal;
