@@ -25,17 +25,19 @@ public class CrearPlazosCancelacionPanel extends CrearCompeticionSubPanel {
 	private static final long serialVersionUID = 1L;
 
 	private JTable tabPlazos;
-
 	private JLabel lbFechaInicio;
 	private JTextField tfFechaInicio;
 	private JLabel lbFechaFin;
 	private JTextField tfFechaFin;
 	private JLabel lbPercent;
 	private JTextField tfPercent;
-
+	
+	CrearCompeticionPanel ccp;
+	
 	private CompeticionDto comp;
 
-	public CrearPlazosCancelacionPanel(CompeticionDto comp) {
+	public CrearPlazosCancelacionPanel(CrearCompeticionPanel ccp, CompeticionDto comp) {
+		this.ccp = ccp;
 		this.comp = comp;
 
 		// Añadimos los elementos al panel
@@ -96,6 +98,7 @@ public class CrearPlazosCancelacionPanel extends CrearCompeticionSubPanel {
 				tabPlazos = new PlazosCancelacionToTable(plazos);
 				getScrollPaneVisualizacion().setViewportView(tabPlazos);
 				this.revalidate();
+				ccp.setCancelacionesCreated(true);
 			} catch (ApplicationException e) {
 				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
 			} catch (RuntimeException e) {

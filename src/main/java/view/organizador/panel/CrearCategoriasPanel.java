@@ -44,9 +44,12 @@ public class CrearCategoriasPanel extends CrearCompeticionSubPanel {
 	private JRadioButton rdbtnMujer;
 	private JRadioButton rdbtnDiscapacitados;
 
+	CrearCompeticionPanel ccp;
+	
 	CompeticionCrudService ccs = new CompeticionCrudServiceImpl();
 
-	public CrearCategoriasPanel(CompeticionDto comp) {
+	public CrearCategoriasPanel(CrearCompeticionPanel ccp, CompeticionDto comp) {
+		this.ccp = ccp;
 		this.comp = comp;
 
 		// Añadimos los elementos al panel
@@ -89,6 +92,7 @@ public class CrearCategoriasPanel extends CrearCompeticionSubPanel {
 			this.tabCategorias = new CategoriasToTable(cats);
 			getScrollPaneVisualizacion().setViewportView(tabCategorias);
 			this.revalidate();
+			ccp.setCategoriasCreated(true);
 		} catch (ModelException ex) {
 			JOptionPane.showMessageDialog(null, ex.getMessage());
 		}

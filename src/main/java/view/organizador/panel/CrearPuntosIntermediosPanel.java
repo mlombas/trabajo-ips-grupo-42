@@ -61,6 +61,12 @@ public class CrearPuntosIntermediosPanel extends CrearCompeticionSubPanel {
 	private void añadirPuntoIntermedio() {
 		int puntoKilometrico = (int) getSpinnerPuntoIntermedio().getValue();
 		
+		// Comprobamos que no nos estemos pasando de largo al escribir el punto kilométrico
+		if (puntoKilometrico > competicion.distancia || puntoKilometrico == 0) {
+			showError("Estás introduciendo un punto no válido");
+			return;
+		}
+		
 		// Comprobamos que no haya sido introducido con anterioridad
 		puntosIntermedios.stream().forEach(x -> {
 			if (x.distanciaSalida == puntoKilometrico) {
@@ -80,6 +86,7 @@ public class CrearPuntosIntermediosPanel extends CrearCompeticionSubPanel {
 			ModelFactory.forCarreraCrudService().addPuntoIntermedio(puntoIntermedio);
 			puntosIntermedios.add(puntoIntermedio); // Añadimos el punto intermedio a la lista
 			cargarDatos();
+			crearCompeticionPanel.setPuntosIntermediosCreated(true);
 		} catch (ModelException e) {
 			showError(e.getMessage());
 		}
