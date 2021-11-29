@@ -95,4 +95,8 @@ public class CSVTable<Head, Value> implements Iterable<List<Value>> {
 		
 	}
 
+	public int getColumnIndex(Head head) {
+		return heads.indexOf(head);
+	}
+
 }
