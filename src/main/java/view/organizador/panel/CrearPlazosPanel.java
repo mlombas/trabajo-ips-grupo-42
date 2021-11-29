@@ -98,6 +98,7 @@ public class CrearPlazosPanel extends CrearCompeticionSubPanel {
 				tabPlazos = new PlazosToTable(plazos);
 				getScrollPaneVisualizacion().setViewportView(tabPlazos);
 				this.revalidate();
+				crearCompeticionPanel.setPlazosCreated(true);
 			} catch (ApplicationException e) {
 				showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
 			} catch (RuntimeException e) { 

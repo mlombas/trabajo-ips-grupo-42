@@ -78,4 +78,6 @@ public interface CompeticionCrudService {
 
 	List<PlazoCancelacionDto> addPlazoCancelacion(CompeticionDto comp, PlazoCancelacionDto plazo);
 
+	void deleteAllPlazosCancelaciones(String id) throws ModelException;
+
 }
