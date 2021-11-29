@@ -8,12 +8,12 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -37,16 +37,11 @@ public class FormularioInscripcionClubPanel extends JPanel {
 	private JPanel panelFormularioAtleta;
 	private JLabel lblNombre;
 	private JTextField textNombre;
-	private JLabel lblDni;
-	private JTextField textDni;
 	private JLabel lblEmail;
 	private JTextField textEmail;
 	private JLabel lblFechaNacimiento;
 	private JTextField textFechaNacimiento;
 	private JLabel lblSexo;
-	private ButtonGroup sexo = new ButtonGroup();
-	private JRadioButton rdbtnHombre;
-	private JRadioButton rdbtnMujer;
 	private JPanel panelBotones;
 	private JButton btnAñadir;
 	private JButton btnOK;
@@ -57,6 +52,7 @@ public class FormularioInscripcionClubPanel extends JPanel {
 	private CompeticionDto competicion;
 	
 	private String nombreClub;
+	private JComboBox<String> comboBoxSexo;
 
 	public FormularioInscripcionClubPanel() {
 		this.atletas = new ArrayList<>();
@@ -90,10 +86,8 @@ public class FormularioInscripcionClubPanel extends JPanel {
 	
 	private void resetForm() {
 		getTextNombre().setText("");
-		getTextDni().setText("");
 		getTextEmail().setText("");
 		getTextFechaNacimiento().setText("");
-		sexo.clearSelection();
 	}
 	
 	private JScrollPane getScrollPaneAtletas() {
@@ -101,6 +95,8 @@ public class FormularioInscripcionClubPanel extends JPanel {
 			scrollPaneAtletas = new JScrollPane();
 			atletas = new ArrayList<>();
 			table = new AtletasToTable(atletas);
+			table.setEnabled(false);
+			table.getColumnModel().removeColumn(table.getColumnModel().getColumn(2));
 			scrollPaneAtletas.setViewportView(table);
 		}
 		
@@ -112,18 +108,15 @@ public class FormularioInscripcionClubPanel extends JPanel {
 			panelFormularioAtleta = new JPanel();
 			panelFormularioAtleta.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), 
 					"Formulario de Inscripción a la Carrera", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-			panelFormularioAtleta.setLayout(new MigLayout("", "[grow,center][grow,center]", "[grow][][][][][][][][][][][grow]"));
-			panelFormularioAtleta.add(getLblNombre(), "cell 0 1 2 1,alignx left,growy");
-			panelFormularioAtleta.add(getTextNombre(), "cell 0 2 2 1,grow");
-			panelFormularioAtleta.add(getLblDni(), "cell 0 3 2 1,alignx left");
-			panelFormularioAtleta.add(getTextDni(), "cell 0 4 2 1,growx");
-			panelFormularioAtleta.add(getLblEmail(), "cell 0 5 2 1,alignx left");
-			panelFormularioAtleta.add(getTextEmail(), "cell 0 6 2 1,growx");
-			panelFormularioAtleta.add(getLblFechaNacimiento(), "cell 0 7,alignx left,aligny center");
-			panelFormularioAtleta.add(getTextFechaNacimiento(), "cell 0 8 2 1,grow");
-			panelFormularioAtleta.add(getLblSexo(), "cell 0 9 2 1,alignx center,aligny top");
-			panelFormularioAtleta.add(getRdbtnMujer(), "flowx,cell 0 10 2 1");
-			panelFormularioAtleta.add(getRdbtnHombre(), "cell 0 10 2 1,alignx right,aligny bottom");
+			panelFormularioAtleta.setLayout(new MigLayout("", "[grow,center]", "[grow][][][][][][][][]"));
+			panelFormularioAtleta.add(getLblNombre(), "cell 0 1,alignx left,growy");
+			panelFormularioAtleta.add(getTextNombre(), "cell 0 2,grow");
+			panelFormularioAtleta.add(getLblEmail(), "cell 0 3,alignx left");
+			panelFormularioAtleta.add(getTextEmail(), "cell 0 4,growx");
+			panelFormularioAtleta.add(getLblFechaNacimiento(), "cell 0 5,alignx left,aligny center");
+			panelFormularioAtleta.add(getTextFechaNacimiento(), "cell 0 6,grow");
+			panelFormularioAtleta.add(getLblSexo(), "cell 0 7,alignx left,aligny top");
+			panelFormularioAtleta.add(getComboBoxSexo(), "cell 0 8,growx");
 		}
 		return panelFormularioAtleta;
 	}
@@ -145,23 +138,6 @@ public class FormularioInscripcionClubPanel extends JPanel {
 			textNombre.setColumns(10);
 		}
 		return textNombre;
-	}
-	
-	private JLabel getLblDni() {
-		if (lblDni == null) {
-			lblDni = new JLabel("DNI:");
-			lblDni.setToolTipText("Inserte su DNI (99999999X)");
-			lblDni.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblDni.setDisplayedMnemonic('N');
-		}
-		return lblDni;
-	}
-	private JTextField getTextDni() {
-		if (textDni == null) {
-			textDni = new JTextField();
-			textDni.setColumns(10);
-		}
-		return textDni;
 	}
 	
 	private JLabel getLblEmail() {
@@ -204,30 +180,12 @@ public class FormularioInscripcionClubPanel extends JPanel {
 	private JLabel getLblSexo() {
 		if (lblSexo == null) {
 			lblSexo = new JLabel("Sexo:");
-			lblSexo.setHorizontalAlignment(SwingConstants.CENTER);
+			lblSexo.setHorizontalAlignment(SwingConstants.LEFT);
 			lblSexo.setToolTipText("");
 			lblSexo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			lblSexo.setDisplayedMnemonic('N');
 		}
 		return lblSexo;
-	}
-	
-	private JRadioButton getRdbtnHombre() {
-		if (rdbtnHombre == null) {
-			rdbtnHombre = new JRadioButton("Hombre");
-			rdbtnHombre.setToolTipText("H");
-			sexo.add(rdbtnHombre);
-		}
-		return rdbtnHombre;
-	}
-	
-	private JRadioButton getRdbtnMujer() {
-		if (rdbtnMujer == null) {
-			rdbtnMujer = new JRadioButton("Mujer");
-			rdbtnMujer.setToolTipText("M");
-			sexo.add(rdbtnMujer);
-		}
-		return rdbtnMujer;
 	}
 	
 	private JPanel getPanelBotones() {
@@ -260,20 +218,18 @@ public class FormularioInscripcionClubPanel extends JPanel {
 					
 					// Validamos el email
 					String email = getTextEmail().getText();
-					if(Validate.validateEmail(email))
+					if(Validate.validateEmail(email)) {
 						atleta.email = email;
-					else {
+						
+						if (atletas.contains(atleta)) {
+							atletas.remove(atleta); // eliminamos el atleta que acabamos de introducir
+							showError("Este atleta ya está en el lote");
+							resetForm();
+							return;
+						}
+					}else {
 						showError("Email no válido");
-						reset();
-						return;
-					} // Show warning
-					
-					// Validamos el dni
-					String dni = getTextDni().getText();
-					if(!dni.trim().isEmpty())
-						atleta.dni = dni;
-					else {
-						showError("DNI no válido");
+						resetForm();
 						return;
 					} // Show warning
 					
@@ -282,18 +238,15 @@ public class FormularioInscripcionClubPanel extends JPanel {
 					atleta.fechaNacimiento = Validate.validateFecha(fechaNacimiento);
 					if(atleta.fechaNacimiento == null) {
 						showError("Fecha no válida");
+						resetForm();
 						return;
 					} // Show warning
 					
 					// Validamos el sexo
-					if (getRdbtnHombre().isSelected())
+					if (getComboBoxSexo().getSelectedItem().toString().equals("Hombre"))
 						atleta.sexo = "H";
-					else if (getRdbtnMujer().isSelected())
+					else
 						atleta.sexo = "M";
-					else {
-						showError("Sexo no seleccionado");
-						return;
-					}
 					
 					// Establecemos el club
 					atleta.club = nombreClub;
@@ -339,4 +292,11 @@ public class FormularioInscripcionClubPanel extends JPanel {
 		return btnOK;
 	}
 
+	private JComboBox<String> getComboBoxSexo() {
+		if (comboBoxSexo == null) {
+			comboBoxSexo = new JComboBox<>();
+			comboBoxSexo.setModel(new DefaultComboBoxModel<String>(new String[] {"Hombre", "Mujer"}));
+		}
+		return comboBoxSexo;
+	}
 }

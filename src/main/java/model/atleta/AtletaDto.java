@@ -1,6 +1,7 @@
 package model.atleta;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class AtletaDto {
 
@@ -63,4 +64,21 @@ public class AtletaDto {
 		this.sexo = sexo;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(email);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AtletaDto other = (AtletaDto) obj;
+		return Objects.equals(email, other.email);
+	}
+	
 }

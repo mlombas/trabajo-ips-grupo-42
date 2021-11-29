@@ -33,7 +33,7 @@ create table Competicion (
 
 create table Atleta (
 	email varchar(255) primary key not null,
-	dni varchar(255) not null,
+	dni varchar(255),
 	nombre varchar(255) not null,
 	fechaNacimiento date not null, 
 	sexo varchar(255) not null,
