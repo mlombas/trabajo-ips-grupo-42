@@ -357,6 +357,10 @@ public class CrearCompeticionPanel extends JPanel {
 						JOptionPane.showMessageDialog(null, "Las plazas tiene que ser mayor que 0...");
 						return;
 					} // Show warning
+					if (plazas < dorsales) {
+						JOptionPane.showMessageDialog(null, "No pueden haber más dorsales reservados que plazas");
+						return;
+					} // Show warning
 					competicion.plazas = plazas;
 
 					// Validamos la fecha
