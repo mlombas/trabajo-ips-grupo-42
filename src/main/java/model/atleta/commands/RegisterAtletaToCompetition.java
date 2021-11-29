@@ -25,9 +25,10 @@ public class RegisterAtletaToCompetition {
 	private static final String NO_REINSCRIBIRSE = "select * from Inscripcion WHERE idCompeticion = ? and emailAtleta = ?";
 	private static final String PLAZO_INSCRIPCION = "select fecha from Competicion WHERE id = ?";
 	private static final String ADD_ATLETA = "insert into "
-						+ "Inscripcion(idCompeticion, emailAtleta, nombreAtleta, categoria, "
-								+ "fechaInscripcion, cuotaInscripcion, estadoInscripcion, fechaCambioEstado, nombreCompeticion, clubAtleta) "
-						+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+											+ "Inscripcion(idCompeticion, emailAtleta, nombreAtleta, categoria, "
+													+ "fechaInscripcion, cuotaInscripcion, estadoInscripcion, fechaCambioEstado, nombreCompeticion, clubAtleta) "
+											+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String UPDATE_ATLETA = "update Inscripcion set clubAtleta = ?, estadoInscripcion = ? where emailAtleta = ? and idCompeticion = ?";
 	private static final String GET_CATEGORIA = "select nombreCategoria "
 												+ "from Categoria "
 												+ "where edadMinima <= ? "
@@ -52,15 +53,22 @@ public class RegisterAtletaToCompetition {
 			c = db.getConnection();
 			
 			for (AtletaDto atleta : atletas) {
-				checkCanEnroll(atleta);
-				
-				pst = c.prepareStatement(ADD_ATLETA);
-				inscripcion = createInscripcion(atleta,
-						EstadoInscripcion.INSCRITO_COMO_CLUB);
-				createStatement(pst, inscripcion);
+				if (checkNoReinscripcion(atleta)) {
+					pst = c.prepareStatement(UPDATE_ATLETA);
+					inscripcion = createInscripcion(atleta,
+							EstadoInscripcion.INSCRITO_COMO_CLUB);
+					createStatementUpdate(pst, inscripcion);
+				}else {
+					checkPlazoAbierto();
+					checkPlazasLibres();
+					
+					pst = c.prepareStatement(ADD_ATLETA);
+					inscripcion = createInscripcion(atleta,
+							EstadoInscripcion.INSCRITO_COMO_CLUB);
+					createStatementAdd(pst, inscripcion);
+				}
 				
 				pst.executeUpdate();
-				
 				pst.close();
 			}
 			
@@ -88,7 +96,7 @@ public class RegisterAtletaToCompetition {
 			PreparedStatement pst = c.prepareStatement(ADD_ATLETA);
 			InscripcionDto inscripcion = createInscripcion(atleta, 
 					EstadoInscripcion.PRE_INSCRITO);
-			createStatement(pst, inscripcion);
+			createStatementAdd(pst, inscripcion);
 			
 			pst.executeUpdate();
 			
@@ -118,7 +126,7 @@ public class RegisterAtletaToCompetition {
 		return inscripcion;
 	}
 	
-	private void createStatement(PreparedStatement pst, InscripcionDto inscripcion) throws SQLException {
+	private void createStatementAdd(PreparedStatement pst, InscripcionDto inscripcion) throws SQLException {
 		pst.setString(1, inscripcion.idCompeticion);
 		pst.setString(2, inscripcion.emailAtleta);
 		pst.setString(3, inscripcion.nombreAtleta);
@@ -130,9 +138,16 @@ public class RegisterAtletaToCompetition {
 		pst.setString(9, inscripcion.nombreCompeticion);
 		pst.setString(10, inscripcion.clubAtleta);
 	}
+	
+	private void createStatementUpdate(PreparedStatement pst, InscripcionDto inscripcion) throws SQLException {
+		pst.setString(1, inscripcion.clubAtleta);
+		pst.setString(2, inscripcion.estadoInscripcion.toString());
+		pst.setString(3, inscripcion.emailAtleta);
+		pst.setString(4, inscripcion.idCompeticion);
+	}
 
 	private void checkCanEnroll(AtletaDto atleta) throws AtletaNoValidoException, ModelException {
-		checkNoReinscripcion(atleta);
+		if (checkNoReinscripcion(atleta)) throw new AtletaNoValidoException("Te estás intentando reinscribir");
 		checkPlazoAbierto();
 		checkPlazasLibres();
 	}
@@ -144,18 +159,19 @@ public class RegisterAtletaToCompetition {
 			throw new AtletaNoValidoException("No quedan plazas libres");
 	}
 
-	private void checkNoReinscripcion(AtletaDto atleta) throws AtletaNoValidoException, ModelException {
+	private boolean checkNoReinscripcion(AtletaDto atleta) throws ModelException {
 		try {
 			PreparedStatement pst = c.prepareStatement(NO_REINSCRIBIRSE);
 			pst.setString(1, competicion.id);
 			pst.setString(2, atleta.email);
 			ResultSet rs = pst.executeQuery();
 			
-			if(rs.next()) // Si ya se había registrado
-				throw new AtletaNoValidoException("Te estás intentando reinscribir");
+			boolean ans = rs.next(); // Si ya se había registrado
 			
 			rs.close();
 			pst.close();
+			
+			return ans;
 		} catch(SQLException e) {
 			throw new ModelException(e.getMessage());
 		}
