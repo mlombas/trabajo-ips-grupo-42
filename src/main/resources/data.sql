@@ -4,7 +4,7 @@ delete from Atleta;
 delete from Inscripcion;
 delete from Clasificacion;
 
-insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, fecha, plazas, estadoCarrera) values 
+insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, fecha, plazas, cuota, estadoCarrera) values 
 	('100','Carrera100','asfalto','2 km','2021-11-25',50,'inscripción'),
 	('101','Carrera101','montaña','2 km','2021-11-25',50,'inscripción'),
 	('102','Carrera102','asfalto','4 km','2021-11-25',50,'inscripción'),
