@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -48,11 +49,13 @@ public class FormularioInscripcionClubPanel extends JPanel {
 	
 	AtletasToTable table;
 	
+	private AtletaDto atleta;
 	private List<AtletaDto> atletas;
 	private CompeticionDto competicion;
 	
 	private String nombreClub;
 	private JComboBox<String> comboBoxSexo;
+	private JButton btnValidarCorreo;
 
 	public FormularioInscripcionClubPanel() {
 		this.atletas = new ArrayList<>();
@@ -85,9 +88,18 @@ public class FormularioInscripcionClubPanel extends JPanel {
 	}
 	
 	private void resetForm() {
-		getTextNombre().setText("");
+		this.atleta = new AtletaDto(); // reseteamos al atleta con el que estamos trabajando
+		
+		getTextNombre().setText(""); // reestablecemos todos los textos
 		getTextEmail().setText("");
 		getTextFechaNacimiento().setText("");
+		
+		getLblNombre().setVisible(false); // hacemos invisibles todos los campos adicionales del formulario
+		getTextNombre().setVisible(false);
+		getLblFechaNacimiento().setVisible(false);
+		getTextFechaNacimiento().setVisible(false);
+		getLblSexo().setVisible(false);
+		getComboBoxSexo().setVisible(false);
 	}
 	
 	private JScrollPane getScrollPaneAtletas() {
@@ -99,7 +111,6 @@ public class FormularioInscripcionClubPanel extends JPanel {
 			table.getColumnModel().removeColumn(table.getColumnModel().getColumn(2));
 			scrollPaneAtletas.setViewportView(table);
 		}
-		
 		return scrollPaneAtletas;
 	}
 	
@@ -108,36 +119,20 @@ public class FormularioInscripcionClubPanel extends JPanel {
 			panelFormularioAtleta = new JPanel();
 			panelFormularioAtleta.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), 
 					"Formulario de Inscripción a la Carrera", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-			panelFormularioAtleta.setLayout(new MigLayout("", "[grow,center]", "[grow][][][][][][][][]"));
-			panelFormularioAtleta.add(getLblNombre(), "cell 0 1,alignx left,growy");
-			panelFormularioAtleta.add(getTextNombre(), "cell 0 2,grow");
-			panelFormularioAtleta.add(getLblEmail(), "cell 0 3,alignx left");
-			panelFormularioAtleta.add(getTextEmail(), "cell 0 4,growx");
-			panelFormularioAtleta.add(getLblFechaNacimiento(), "cell 0 5,alignx left,aligny center");
-			panelFormularioAtleta.add(getTextFechaNacimiento(), "cell 0 6,grow");
-			panelFormularioAtleta.add(getLblSexo(), "cell 0 7,alignx left,aligny top");
-			panelFormularioAtleta.add(getComboBoxSexo(), "cell 0 8,growx");
+			
+			panelFormularioAtleta.setLayout(new MigLayout("", "[grow,center]", "[grow][][][][][][][][][][grow]"));
+			
+			panelFormularioAtleta.add(getLblEmail(), "cell 0 1,alignx left");
+			panelFormularioAtleta.add(getTextEmail(), "flowy,cell 0 2,growx");
+			panelFormularioAtleta.add(getBtnValidarCorreo(), "cell 0 3,growx");
+			panelFormularioAtleta.add(getLblNombre(), "cell 0 4,alignx left,growy");
+			panelFormularioAtleta.add(getTextNombre(), "cell 0 5,grow");
+			panelFormularioAtleta.add(getLblFechaNacimiento(), "cell 0 6,alignx left,aligny center");
+			panelFormularioAtleta.add(getTextFechaNacimiento(), "cell 0 7,grow");
+			panelFormularioAtleta.add(getLblSexo(), "cell 0 8,alignx left,aligny top");
+			panelFormularioAtleta.add(getComboBoxSexo(), "cell 0 9,growx");
 		}
 		return panelFormularioAtleta;
-	}
-	
-	private JLabel getLblNombre() {
-		if (lblNombre == null) {
-			lblNombre = new JLabel("Nombre:");
-			lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblNombre.setDisplayedMnemonic('N');
-			lblNombre.setToolTipText("Inserte su nombre (no apellidos)");
-			lblNombre.setLabelFor(getTextNombre());
-		}
-		return lblNombre;
-	}
-	
-	private JTextField getTextNombre() {
-		if (textNombre == null) {
-			textNombre = new JTextField();
-			textNombre.setColumns(10);
-		}
-		return textNombre;
 	}
 	
 	private JLabel getLblEmail() {
@@ -159,12 +154,95 @@ public class FormularioInscripcionClubPanel extends JPanel {
 		return textEmail;
 	}
 	
+	private JButton getBtnValidarCorreo() {
+		if (btnValidarCorreo == null) {
+			btnValidarCorreo = new JButton("Validar correo");
+			btnValidarCorreo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					atleta = new AtletaDto();
+					
+					// Validamos el email
+					String email = getTextEmail().getText();
+					if(Validate.validateEmail(email)) {
+						atleta.email = email;
+						
+						if (atletas.contains(atleta)) {
+							atletas.remove(atleta); // eliminamos el atleta que acabamos de introducir
+							showError("Este atleta ya está en el lote");
+							resetForm();
+							return;
+						}
+					}else {
+						showError("Email no válido");
+						resetForm();
+						return;
+					} // Show warning
+					
+					try {
+						Optional<AtletaDto> a = ModelFactory.forAtletaCrudService().findByAtletaEmail(atleta.email);
+						
+						if (a.isEmpty()) { // activamos todos los botones
+							getLblNombre().setVisible(true);
+							getTextNombre().setVisible(true);
+							getLblFechaNacimiento().setVisible(true);
+							getTextFechaNacimiento().setVisible(true);
+							getLblSexo().setVisible(true);
+							getComboBoxSexo().setVisible(true);
+							
+							// Establecemos el club
+							atleta.club = nombreClub;
+						} else { // lo añadimos directamente
+							atleta = a.get();
+							
+							// Establecemos el club
+							atleta.club = nombreClub;
+							
+							atletas.add(atleta);
+							table.addAtleta(atleta);
+							resetForm(); // reestablecemos el formulario para añadir más atletas
+						}
+					} catch(ModelException me) {
+						showError(me.getMessage());
+						resetForm();
+						return;
+					}
+
+				}
+			});
+			btnValidarCorreo.setToolTipText("Validamos el correo, en caso de que el atleta esté en el sistema: añádelo");
+		}
+		
+		return btnValidarCorreo;
+	}
+	
+	private JLabel getLblNombre() {
+		if (lblNombre == null) {
+			lblNombre = new JLabel("Nombre:");
+			lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblNombre.setDisplayedMnemonic('N');
+			lblNombre.setToolTipText("Inserte su nombre (no apellidos)");
+			lblNombre.setLabelFor(getTextNombre());
+			lblNombre.setVisible(false);
+		}
+		return lblNombre;
+	}
+	
+	private JTextField getTextNombre() {
+		if (textNombre == null) {
+			textNombre = new JTextField();
+			textNombre.setColumns(10);
+			textNombre.setVisible(false);
+		}
+		return textNombre;
+	}
+	
 	private JLabel getLblFechaNacimiento() {
 		if (lblFechaNacimiento == null) {
 			lblFechaNacimiento = new JLabel("Fecha de Nacimiento:");
 			lblFechaNacimiento.setToolTipText("Introduzca su fecha de nacimiento en el formato: DD/MM/AAAA");
 			lblFechaNacimiento.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			lblFechaNacimiento.setDisplayedMnemonic('N');
+			lblFechaNacimiento.setVisible(false);
 		}
 		return lblFechaNacimiento;
 	}
@@ -173,6 +251,7 @@ public class FormularioInscripcionClubPanel extends JPanel {
 		if (textFechaNacimiento == null) {
 			textFechaNacimiento = new JTextField();
 			textFechaNacimiento.setColumns(10);
+			textFechaNacimiento.setVisible(false);
 		}
 		return textFechaNacimiento;
 	}
@@ -184,8 +263,18 @@ public class FormularioInscripcionClubPanel extends JPanel {
 			lblSexo.setToolTipText("");
 			lblSexo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			lblSexo.setDisplayedMnemonic('N');
+			lblSexo.setVisible(false);
 		}
 		return lblSexo;
+	}
+	
+	private JComboBox<String> getComboBoxSexo() {
+		if (comboBoxSexo == null) {
+			comboBoxSexo = new JComboBox<>();
+			comboBoxSexo.setModel(new DefaultComboBoxModel<String>(new String[] {"Hombre", "Mujer"}));
+			comboBoxSexo.setVisible(false);
+		}
+		return comboBoxSexo;
 	}
 	
 	private JPanel getPanelBotones() {
@@ -205,30 +294,12 @@ public class FormularioInscripcionClubPanel extends JPanel {
 			
 			btnAñadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					AtletaDto atleta = new AtletaDto();
-					
 					// Validamos el nombre
 					String nombre = getTextNombre().getText();
 					if(!nombre.trim().isEmpty())
 						atleta.nombre = nombre;
 					else {
 						showError("Nombre no válido");
-						return;
-					} // Show warning
-					
-					// Validamos el email
-					String email = getTextEmail().getText();
-					if(Validate.validateEmail(email)) {
-						atleta.email = email;
-						
-						if (atletas.contains(atleta)) {
-							atletas.remove(atleta); // eliminamos el atleta que acabamos de introducir
-							showError("Este atleta ya está en el lote");
-							resetForm();
-							return;
-						}
-					}else {
-						showError("Email no válido");
 						resetForm();
 						return;
 					} // Show warning
@@ -247,9 +318,6 @@ public class FormularioInscripcionClubPanel extends JPanel {
 						atleta.sexo = "H";
 					else
 						atleta.sexo = "M";
-					
-					// Establecemos el club
-					atleta.club = nombreClub;
 					
 					// Añadimos el atleta a la tabla
 					atletas.add(atleta);
@@ -271,14 +339,15 @@ public class FormularioInscripcionClubPanel extends JPanel {
 					try {
 						// Registramos los atletas a la competición
 						ModelFactory.forAtletaCrudService()
-									.registerAtletasToCompetition(atletas, 
+									.registerAtletasToCompetition(atletas,
 											competicion);
 						
 						// Si todo va bien, añadimos los atletas que falten
-						try {
-							for (AtletaDto atleta : atletas)
+						for (AtletaDto atleta : atletas)
+							try {
 								ModelFactory.forAtletaCrudService().addAtleta(atleta);
-						} catch (ModelException me) { } // no hagas nada, sencillamente el atleta ya había sido añadido
+							} catch(ModelException me) { continue; }
+							
 						
 						// Volvemos al estado principal de la aplicación
 						reset();
@@ -292,11 +361,4 @@ public class FormularioInscripcionClubPanel extends JPanel {
 		return btnOK;
 	}
 
-	private JComboBox<String> getComboBoxSexo() {
-		if (comboBoxSexo == null) {
-			comboBoxSexo = new JComboBox<>();
-			comboBoxSexo.setModel(new DefaultComboBoxModel<String>(new String[] {"Hombre", "Mujer"}));
-		}
-		return comboBoxSexo;
-	}
 }

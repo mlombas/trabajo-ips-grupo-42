@@ -67,6 +67,7 @@ public class CrearCompeticionPanel extends JPanel {
 	private boolean isPlazosCreated = false;
 	private boolean isCategoriasCreated = false;
 	private boolean isPuntosIntermediosCreated = false;
+	private boolean isCancelacionesCreated = false;
 	private boolean isCompeticionSuccessfullyCreated = false;
 
 	/**
@@ -90,6 +91,8 @@ public class CrearCompeticionPanel extends JPanel {
 							ModelFactory.forCarreraCrudService().deleteAllCategorias(competicion.id);
 						if (isPuntosIntermediosCreated)
 							ModelFactory.forCarreraCrudService().deleteAllPuntosIntermedios(competicion.id);
+						if (isCancelacionesCreated)
+							ModelFactory.forCarreraCrudService().deleteAllPlazosCancelaciones(competicion.id);
 						if (ModelFactory.forCarreraCrudService().removeCarrera(competicion.id))
 							JOptionPane.showMessageDialog(null, "Hemos eliminado la carrera");
 					} catch (Exception me) {
@@ -121,18 +124,35 @@ public class CrearCompeticionPanel extends JPanel {
 		isPlazosCreated = false;
 		isPuntosIntermediosCreated = false;
 		isCategoriasCreated = false;
+		isCancelacionesCreated = false;
+		isCompeticionSuccessfullyCreated = false;
 	}
 
 	public void setPlazosCreated(boolean isPlazosCreated) {
 		this.isPlazosCreated = isPlazosCreated;
+		checkAllIsCreated();
 	}
 
 	public void setPuntosIntermediosCreated(boolean isPuntosIntermediosCreated) {
 		this.isPuntosIntermediosCreated = isPuntosIntermediosCreated;
+		checkAllIsCreated();
 	}
 	
 	public void setCategoriasCreated(boolean isCategoriasCreated) {
 		this.isCategoriasCreated = isCategoriasCreated;
+		checkAllIsCreated();
+	}
+	
+	public void setCancelacionesCreated(boolean isCancelacionesCreated) {
+		this.isCancelacionesCreated = isCancelacionesCreated;
+		checkAllIsCreated();
+	}
+
+	private void checkAllIsCreated() {
+		if (isPlazosCreated &&
+				isPuntosIntermediosCreated &&
+				isCategoriasCreated &&
+				isCancelacionesCreated) getBtnOk().setEnabled(true);
 	}
 
 	private JPanel getPanelFormulario() {
@@ -337,6 +357,10 @@ public class CrearCompeticionPanel extends JPanel {
 						JOptionPane.showMessageDialog(null, "Las plazas tiene que ser mayor que 0...");
 						return;
 					} // Show warning
+					if (plazas < dorsales) {
+						JOptionPane.showMessageDialog(null, "No pueden haber más dorsales reservados que plazas");
+						return;
+					} // Show warning
 					competicion.plazas = plazas;
 
 					// Validamos la fecha
@@ -366,8 +390,8 @@ public class CrearCompeticionPanel extends JPanel {
 							// Reseteamos los paneles
 							panelPlazos = new CrearPlazosPanel(ccp, competicion);
 							panelPuntosIntermedios = new CrearPuntosIntermediosPanel(ccp, competicion);
-							panelCategorias = new CrearCategoriasPanel(competicion);
-							panelCancelaciones = new CrearPlazosCancelacionPanel(competicion);
+							panelCategorias = new CrearCategoriasPanel(ccp, competicion);
+							panelCancelaciones = new CrearPlazosCancelacionPanel(ccp, competicion);
 							
 							getPanelCrearAdicional().add(panelPlazos);
 							getPanelCrearAdicional().add(panelPuntosIntermedios);
@@ -443,6 +467,9 @@ public class CrearCompeticionPanel extends JPanel {
 
 					JOptionPane.showMessageDialog(null, "Hemos añadido la carrera");
 					OrganizadorMain.getInstance().startPanel();
+					
+					// Reiniciamos los paneles adicionales
+					panelCrearAdicional = null;
 				}
 			});
 		}

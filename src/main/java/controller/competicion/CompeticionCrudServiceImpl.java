@@ -20,6 +20,7 @@ import model.competicion.commands.CargarTiempos;
 import model.competicion.commands.CheckPlazosByIdCompeticion;
 import model.competicion.commands.CountPuntosIntermedios;
 import model.competicion.commands.DeleteAllCategorias;
+import model.competicion.commands.DeleteAllPlazosCancelaciones;
 import model.competicion.commands.DeleteAllPuntosIntermedios;
 import model.competicion.commands.DeletePlazosByIdCompetición;
 import model.competicion.commands.GenerarDorsales;
@@ -204,6 +205,11 @@ public class CompeticionCrudServiceImpl implements CompeticionCrudService {
 	@Override
 	public List<PlazoCancelacionDto> addPlazoCancelacion(CompeticionDto comp, PlazoCancelacionDto plazo) {
 		return new AddPlazoCancelacion(comp,plazo).execute();
+	}
+
+	@Override
+	public void deleteAllPlazosCancelaciones(String id) throws ModelException {
+		new DeleteAllPlazosCancelaciones(id).execute();
 	}
 
 }
