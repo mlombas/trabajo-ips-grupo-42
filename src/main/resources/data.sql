@@ -4,7 +4,7 @@ delete from Atleta;
 delete from Inscripcion;
 delete from Clasificacion;
 
-insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, fecha, plazas, cuota, estadoCarrera) values 
+insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, fecha, plazas, estadoCarrera) values 
 	('100','Carrera100','asfalto','2 km','2021-11-25',50,'inscripción'),
 	('101','Carrera101','montaña','2 km','2021-11-25',50,'inscripción'),
 	('102','Carrera102','asfalto','4 km','2021-11-25',50,'inscripción'),
@@ -22,6 +22,16 @@ insert into Plazo(id, idCompeticion, fechaInicio, fechaFin, cuota) values
 	('Plazo1','105','2021-11-16','2021-11-20',30),
 	('Plazo1','106','2021-12-01','2021-12-10',30),
 	('Plazo1','107','2021-12-01','2021-12-10',30);
+	
+insert into PlazoCancelacion(id, idCompeticion, fechaInicio, fechaFin, porcentaje) values
+	('Plazo1','100','2020-11-16','2021-11-20',50),
+	('Plazo1','101','2021-11-16','2021-11-20',50),
+	('Plazo1','102','2021-11-16','2021-11-20',50),
+	('Plazo1','103','2021-11-16','2021-11-20',50),
+	('Plazo1','104','2021-11-16','2021-11-20',50),
+	('Plazo1','105','2021-11-16','2021-11-20',50),
+	('Plazo1','106','2021-12-01','2021-12-10',50),
+	('Plazo1','107','2021-12-01','2021-12-10',50);
 	
 insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, fecha, plazas, estadoCarrera, dorsalesReservados) values 
 	('107','Carrera107','asfalto','2 km','2021-12-13',80,'inscripcion_cerrada',20);
@@ -48,7 +58,7 @@ insert into Inscripcion(idCompeticion, emailAtleta, nombreAtleta, dniAtleta, nom
  			cuotaInscripcion, estadoInscripcion, fechaCambioEstado, dorsal) values
  			
  			
- 			('105','pedro@gmail.com','Pedro', 'dni','Carrera105','Juvenil H','2021-12-12',35,'PARTICIPADO','2021-12-25',330),
+ 			('105','pedro@gmail.com','Pedro', 'dni','Carrera105','Juvenil H','2021-11-17',35,'PARTICIPADO','2021-12-25',330),
  			('105','elena@gmail.com','Elena', 'dni','Carrera105','Juvenil M','2021-12-12',35,'PARTICIPADO','2021-12-25',331),
  			('105','elena2@gmail.com','Elena', 'dni','Carrera105','Juvenil M','2021-12-12',35,'PARTICIPADO','2021-12-25',335),
  			('105','juanjo@gmail.com','Juanjo', 'dni', 'Carrera105','Juvenil H','2021-12-10',35,'PARTICIPADO','2021-12-25',332),

@@ -123,6 +123,8 @@ public class VerInscripcionesPanel extends JPanel {
 				"CarrerasPopulares APP - Justificante",
 				JOptionPane.INFORMATION_MESSAGE
 				);
+		
+		buscarCompeticiones();
 	}
 	
 	private JButton getBtnCancelar() {
@@ -133,7 +135,7 @@ public class VerInscripcionesPanel extends JPanel {
 					try {
 						processCancel();
 					} catch (ModelException e1) {
-						JOptionPane.showMessageDialog(null, "Ocurrió un error");
+						JOptionPane.showMessageDialog(null, "Ocurrió un error: " + e1.getMessage());
 					}
 				}
 
