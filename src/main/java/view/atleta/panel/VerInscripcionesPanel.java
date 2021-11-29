@@ -16,10 +16,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumnModel;
 
-import controller.atleta.AtletaCrudServiceImpl;
+import model.ModelFactory;
 import model.atleta.AtletaDto;
 import model.inscripcion.InscripcionDto;
 import util.exceptions.ApplicationException;
+import util.exceptions.ModelException;
 import view.atleta.AtletaMain;
 import view.atleta.dialog.ComparacionClasificacionesDialog;
 import view.atleta.util.AtrasAtletaButton;
@@ -39,6 +40,7 @@ public class VerInscripcionesPanel extends JPanel {
 	private InscripcionesToTable inscripcionesTable;
 	private AtrasAtletaButton btnAtras;
 	private JButton btnClasificacion;
+	private JButton btnCancelar;
 	private List<InscripcionDto> inscripciones = new ArrayList<>();
 
 	/**
@@ -97,6 +99,51 @@ public class VerInscripcionesPanel extends JPanel {
 		return btnBuscarCompeticion;
 	}
 
+	private void processCancel() throws ModelException {
+		InscripcionDto inscripcion = new InscripcionDto();
+
+		try {
+			int index = inscripcionesTable.getSelectedRow();
+
+			inscripcion.idCompeticion = inscripcionesTable.getModel().getValueAt(index, 0).toString();
+			inscripcion.emailAtleta = inscripcionesTable.getModel().getValueAt(index, 3).toString();
+
+		} catch (ArrayIndexOutOfBoundsException aiobe) {
+			JOptionPane.showMessageDialog(null, "Seleccione una carrera...");
+			return;
+		}
+		
+		double devolver = ModelFactory.forAtletaCrudService().cancelInscripcion(
+				inscripcion.emailAtleta, inscripcion.idCompeticion
+				);
+		
+		JOptionPane.showMessageDialog(
+				this,
+				"Su inscripción ha sido cancelada con éxito. Se le devolverán " + devolver + "€",
+				"CarrerasPopulares APP - Justificante",
+				JOptionPane.INFORMATION_MESSAGE
+				);
+		
+		buscarCompeticiones();
+	}
+	
+	private JButton getBtnCancelar() {
+		if(btnCancelar == null) {
+			btnCancelar = new JButton("Cancelar inscripcion");
+			btnCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						processCancel();
+					} catch (ModelException e1) {
+						JOptionPane.showMessageDialog(null, "Ocurrió un error: " + e1.getMessage());
+					}
+				}
+
+			});
+		}
+		return btnCancelar;
+	}
+
 	private void buscarCompeticiones() {
 		if (!checkEmail()) {
 			showMessage("No hay ningún email con el que iniciar la búsqueda", "Informacion", JOptionPane.INFORMATION_MESSAGE);
@@ -107,7 +154,7 @@ public class VerInscripcionesPanel extends JPanel {
 				atleta.email = tfEmail.getText();
 				
 				// Obtenemos las inscripciones
-				inscripciones =  new AtletaCrudServiceImpl().getCompetionesInscritas(atleta);
+				inscripciones = ModelFactory.forAtletaCrudService().getCompetionesInscritas(atleta);
 				inscripcionesTable = new InscripcionesToTable(inscripciones);
 				
 				// Eliminamos columnas
@@ -158,8 +205,9 @@ public class VerInscripcionesPanel extends JPanel {
 	private JPanel getPnBotones() {
 		if (pnBotones == null) {
 			pnBotones = new JPanel();
-			pnBotones.setLayout(new GridLayout(0, 2, 0, 0));
+			pnBotones.setLayout(new GridLayout(0, 3, 0, 0));
 			pnBotones.add(getBtnClasificacion());
+			pnBotones.add(getBtnCancelar());
 			pnBotones.add(getBtnAtras());
 		}
 		return pnBotones;

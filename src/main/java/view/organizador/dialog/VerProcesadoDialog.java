@@ -100,7 +100,17 @@ public class VerProcesadoDialog extends JDialog {
 			try {
 				if(valid(email) && bank.isCodePending(code))
 					pay(email, code, amount, dateTime);
-				else invalid++;
+				else {
+					invalid++;
+					
+					if(!bank.isCodePending(code))
+						JOptionPane.showMessageDialog(
+								this,
+								"Atleta " + email + " repetido",
+								"CarrerasPopulares APP - Aviso",
+								JOptionPane.WARNING_MESSAGE
+								);
+				}
 			} catch(ModelException e) {
 				invalid++;
 			}

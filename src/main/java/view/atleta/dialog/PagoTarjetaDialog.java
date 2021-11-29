@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 
 import controller.atleta.AtletaCrudService;
 import controller.atleta.AtletaCrudServiceImpl;
+import model.ModelFactory;
 import model.atleta.TarjetaDto;
 import model.inscripcion.InscripcionDto;
 import util.Util;
@@ -86,7 +87,7 @@ public class PagoTarjetaDialog extends JDialog {
 				tarjeta.number = textFieldNumeroTarjeta.getText();
 				tarjeta.cvc = textFieldCVC.getText();
 				tarjeta.expiration = Util.isoStringToDate(textFieldFechaCaducidad.getText());
-				AtletaCrudService acs = new AtletaCrudServiceImpl();
+				AtletaCrudService acs = ModelFactory.forAtletaCrudService();
 				LocalDate date = acs.payWithTarjeta(inscripcion, tarjeta);
 				showMessage("El pago con los siguientes datos se ha confirmado:\nNombre: " + inscripcion.nombreAtleta + 
 							" \nCarrera: " + inscripcion.nombreCompeticion + 

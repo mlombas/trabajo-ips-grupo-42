@@ -23,6 +23,16 @@ insert into Plazo(id, idCompeticion, fechaInicio, fechaFin, cuota) values
 	('Plazo1','106','2021-12-01','2022-12-10',30),
 	('Plazo1','107','2021-12-01','2022-12-10',30);
 	
+insert into PlazoCancelacion(id, idCompeticion, fechaInicio, fechaFin, porcentaje) values
+	('Plazo1','100','2020-11-16','2021-11-20',50),
+	('Plazo1','101','2021-11-16','2021-11-20',50),
+	('Plazo1','102','2021-11-16','2021-11-20',50),
+	('Plazo1','103','2021-11-16','2021-11-20',50),
+	('Plazo1','104','2021-11-16','2021-11-20',50),
+	('Plazo1','105','2021-11-16','2021-11-20',50),
+	('Plazo1','106','2021-12-01','2021-12-10',50),
+	('Plazo1','107','2021-12-01','2021-12-10',50);
+	
 insert into Competicion(id, nombreCarrera, tipoCarrera, distancia, fecha, plazas, estadoCarrera, dorsalesReservados) values 
 	('107','Carrera107','asfalto','2 km','2021-12-13',80,'inscripcion_cerrada',20);
 	

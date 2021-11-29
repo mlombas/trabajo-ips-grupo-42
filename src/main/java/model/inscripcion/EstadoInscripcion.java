@@ -7,6 +7,7 @@ public enum EstadoInscripcion {
 	INSCRITO,
 	RECHAZADO,
 	PARTICIPADO, 
-	INSCRITO_COMO_CLUB;
+	INSCRITO_COMO_CLUB,
+	CANCELADO;
 	
 }
